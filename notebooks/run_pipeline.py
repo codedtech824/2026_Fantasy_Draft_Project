@@ -2,6 +2,14 @@
 
 # COMMAND ----------
 
+%pip install xgboost scikit-learn pyarrow requests
+
+# COMMAND ----------
+
+dbutils.library.restartPython()
+
+# COMMAND ----------
+
 # MAGIC %md
 # MAGIC # Run Pipeline — Full End-to-End
 # MAGIC Runs all 5 stages in sequence: Bronze → Silver → Gold → ML Prediction → Draft Board.
