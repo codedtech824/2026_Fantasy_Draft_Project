@@ -31,12 +31,26 @@ class NFLDrafter:
         preds = self._load_predictions()
         master = self._load_players_master()
 
-        if preds is None or master is None:
-            print("Missing predictions or player master data.")
+        if preds is None:
+            print("Missing predictions. Run the predictor first.")
             return
 
-        # Merge predictions with player positions
-        df = preds.merge(master, on='conformed_id')
+        # Merge predictions with player metadata
+        # Try players_master first; fall back to game_logs if too few matches
+        if master is not None:
+            df = preds.merge(master, on='conformed_id', how='left')
+        else:
+            df = preds.copy()
+
+        # Fall back to game_logs for player metadata when master match rate is low
+        if 'position' not in df.columns or df['position'].isna().sum() > len(df) * 0.5:
+            game_logs_path = os.path.join(self.silver_dir, "game_logs.parquet")
+            if os.path.exists(game_logs_path):
+                print("Low match rate with players_master — using game_logs for player metadata.")
+                logs = pd.read_parquet(game_logs_path)
+                meta_cols = [c for c in ['conformed_id', 'player_name', 'position', 'team'] if c in logs.columns]
+                player_meta = logs[meta_cols].drop_duplicates('conformed_id')
+                df = preds.merge(player_meta, on='conformed_id', how='left')
 
         # 1. Define Replacement Level (Baseline) per position
         baselines = {

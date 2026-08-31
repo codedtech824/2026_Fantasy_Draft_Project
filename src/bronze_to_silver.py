@@ -165,16 +165,18 @@ class BronzeToSilver:
                                 master = master.rename(columns={col: 'position'})
                                 break
 
-                        # Ensure conformed_id exists
-                        if 'id' in master.columns:
+                        # Build conformed_id to match process_stats() format: name_position
+                        if 'player_name' in master.columns and 'position' in master.columns:
+                            master['conformed_id'] = (
+                                master['player_name'].str.lower().str.strip() + "_" +
+                                master['position'].str.lower().str.strip()
+                            )
+                        elif 'player_name' in master.columns:
+                            master['conformed_id'] = master['player_name'].str.lower().str.strip()
+                        elif 'id' in master.columns:
                             master['conformed_id'] = master['id'].astype(str)
-                        elif 'playerId' in master.columns:
-                            master['conformed_id'] = master['playerId'].astype(str)
                         else:
-                            if 'player_name' in master.columns:
-                                master['conformed_id'] = master['player_name'].str.lower().str.strip()
-                            else:
-                                master['conformed_id'] = master.index.astype(str)
+                            master['conformed_id'] = master.index.astype(str)
 
                         # Convert lists to strings
                         for col in master.columns:
