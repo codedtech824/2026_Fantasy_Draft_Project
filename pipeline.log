@@ -1,0 +1,193 @@
+2026-08-31 08:50:42,771 - INFO - Starting NFL Prediction Engine Pipeline...
+2026-08-31 08:50:42,771 - INFO - ==============================================
+2026-08-31 08:50:42,771 - INFO - 
+[1/5] Ingesting Raw Data (Bronze Layer)...
+2026-08-31 08:50:45,136 - INFO - 
+[2/5] Cleansing & Conforming Data (Silver Layer)...
+2026-08-31 08:50:45,156 - ERROR - 
+FAILED: Pipeline Failed: unhashable type: 'list'
+Traceback (most recent call last):
+  File "C:\Users\Keith\nfl-prediction-engine\main.py", line 39, in run_full_pipeline
+    silver_transformer.run_pipeline()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Keith\nfl-prediction-engine\src\bronze_to_silver.py", line 124, in run_pipeline
+    stats_df = self.process_stats()
+  File "C:\Users\Keith\nfl-prediction-engine\src\bronze_to_silver.py", line 67, in process_stats
+    df = df.drop_duplicates()
+  File "C:\Users\Keith\fantasy-pipeline\venv\Lib\site-packages\pandas\core\frame.py", line 7953, in drop_duplicates
+    result = self[-self.duplicated(subset, keep=keep)]
+                   ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Keith\fantasy-pipeline\venv\Lib\site-packages\pandas\core\frame.py", line 8091, in duplicated
+    labels, shape = map(list, zip(*map(f, vals), strict=True))
+                              ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Keith\fantasy-pipeline\venv\Lib\site-packages\pandas\core\frame.py", line 8063, in f
+    labels, shape = algorithms.factorize(vals, size_hint=len(self))
+                    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Keith\fantasy-pipeline\venv\Lib\site-packages\pandas\core\algorithms.py", line 821, in factorize
+    codes, uniques = factorize_array(
+                     ~~~~~~~~~~~~~~~^
+        values,
+        ^^^^^^^
+        use_na_sentinel=use_na_sentinel,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        size_hint=size_hint,
+        ^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Keith\fantasy-pipeline\venv\Lib\site-packages\pandas\core\algorithms.py", line 637, in factorize_array
+    uniques, codes = table.factorize(
+                     ~~~~~~~~~~~~~~~^
+        values,
+        ^^^^^^^
+    ...<3 lines>...
+        ignore_na=use_na_sentinel,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "pandas/_libs/hashtable_class_helper.pxi", line 7873, in pandas._libs.hashtable.PyObjectHashTable.factorize
+  File "pandas/_libs/hashtable_class_helper.pxi", line 7783, in pandas._libs.hashtable.PyObjectHashTable._unique
+TypeError: unhashable type: 'list'
+2026-08-31 08:52:27,380 - INFO - Starting NFL Prediction Engine Pipeline...
+2026-08-31 08:52:27,380 - INFO - ==============================================
+2026-08-31 08:52:27,380 - INFO - 
+[1/5] Ingesting Raw Data (Bronze Layer)...
+2026-08-31 08:52:29,468 - INFO - 
+[2/5] Cleansing & Conforming Data (Silver Layer)...
+2026-08-31 08:52:29,713 - INFO - 
+[3/5] Engineering Predictive Features (Gold Layer)...
+2026-08-31 08:52:29,944 - ERROR - 
+FAILED: Pipeline Failed: 'season'
+Traceback (most recent call last):
+  File "C:\Users\Keith\fantasy-pipeline\venv\Lib\site-packages\pandas\core\indexes\base.py", line 3641, in get_loc
+    return self._engine.get_loc(casted_key)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "pandas/_libs/index.pyx", line 168, in pandas._libs.index.IndexEngine.get_loc
+  File "pandas/_libs/index.pyx", line 197, in pandas._libs.index.IndexEngine.get_loc
+  File "pandas/_libs/hashtable_class_helper.pxi", line 7668, in pandas._libs.hashtable.PyObjectHashTable.get_item
+  File "pandas/_libs/hashtable_class_helper.pxi", line 7676, in pandas._libs.hashtable.PyObjectHashTable.get_item
+KeyError: 'season'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Keith\nfl-prediction-engine\main.py", line 44, in run_full_pipeline
+    gold_transformer.run_pipeline()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Keith\nfl-prediction-engine\src\silver_to_gold.py", line 133, in run_pipeline
+    gold_df = self.apply_ewma(game_logs)
+  File "C:\Users\Keith\nfl-prediction-engine\src\silver_to_gold.py", line 30, in apply_ewma
+    df['season'] = pd.to_numeric(df['season'], errors='coerce')
+                                 ~~^^^^^^^^^^
+  File "C:\Users\Keith\fantasy-pipeline\venv\Lib\site-packages\pandas\core\frame.py", line 4378, in __getitem__
+    indexer = self.columns.get_loc(key)
+  File "C:\Users\Keith\fantasy-pipeline\venv\Lib\site-packages\pandas\core\indexes\base.py", line 3648, in get_loc
+    raise KeyError(key) from err
+KeyError: 'season'
+2026-08-31 08:55:13,613 - INFO - Starting NFL Prediction Engine Pipeline...
+2026-08-31 08:55:13,614 - INFO - ==============================================
+2026-08-31 08:55:13,614 - INFO - 
+[1/5] Ingesting Raw Data (Bronze Layer)...
+2026-08-31 08:55:15,944 - INFO - 
+[2/5] Cleansing & Conforming Data (Silver Layer)...
+2026-08-31 08:55:16,022 - INFO - 
+[3/5] Engineering Predictive Features (Gold Layer)...
+2026-08-31 08:55:16,056 - ERROR - 
+FAILED: Pipeline Failed: "['conformed_id'] not found in axis"
+Traceback (most recent call last):
+  File "C:\Users\Keith\nfl-prediction-engine\main.py", line 44, in run_full_pipeline
+    gold_transformer.run_pipeline()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Keith\nfl-prediction-engine\src\silver_to_gold.py", line 136, in run_pipeline
+    gold_df = self.apply_sos_normalization(gold_df)
+  File "C:\Users\Keith\nfl-prediction-engine\src\silver_to_gold.py", line 65, in apply_sos_normalization
+    stat_cols = df.select_dtypes(include=[np.number]).columns.drop(['conformed_id'])
+  File "C:\Users\Keith\fantasy-pipeline\venv\Lib\site-packages\pandas\core\indexes\base.py", line 7268, in drop
+    raise KeyError(f"{labels[mask].tolist()} not found in axis")
+KeyError: "['conformed_id'] not found in axis"
+2026-08-31 09:03:33,367 - INFO - Starting NFL Prediction Engine Pipeline...
+2026-08-31 09:03:33,368 - INFO - ==============================================
+2026-08-31 09:03:33,368 - INFO - 
+[1/5] Ingesting Raw Data (Bronze Layer)...
+2026-08-31 09:03:36,763 - INFO - 
+[2/5] Cleansing & Conforming Data (Silver Layer)...
+2026-08-31 09:03:36,908 - INFO - 
+[3/5] Engineering Predictive Features (Gold Layer)...
+2026-08-31 09:03:37,016 - INFO - 
+[4/5] Running ML Prediction Model...
+2026-08-31 09:03:37,410 - INFO - 
+[5/5] Generating Final Draft Board...
+2026-08-31 09:03:37,415 - ERROR - 
+FAILED: Pipeline Failed: 'conformed_id'
+Traceback (most recent call last):
+  File "C:\Users\Keith\nfl-prediction-engine\main.py", line 54, in run_full_pipeline
+    drafter.calculate_vbd()
+    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Keith\nfl-prediction-engine\src\drafter.py", line 39, in calculate_vbd
+    df = preds.merge(master, on='conformed_id')
+  File "C:\Users\Keith\fantasy-pipeline\venv\Lib\site-packages\pandas\core\frame.py", line 12900, in merge
+    return merge(
+        self,
+    ...<10 lines>...
+        validate=validate,
+    )
+  File "C:\Users\Keith\fantasy-pipeline\venv\Lib\site-packages\pandas\core\reshape\merge.py", line 385, in merge
+    op = _MergeOperation(
+        left_df,
+    ...<10 lines>...
+        validate=validate,
+    )
+  File "C:\Users\Keith\fantasy-pipeline\venv\Lib\site-packages\pandas\core\reshape\merge.py", line 1018, in __init__
+    ) = self._get_merge_keys()
+        ~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Keith\fantasy-pipeline\venv\Lib\site-packages\pandas\core\reshape\merge.py", line 1620, in _get_merge_keys
+    right_keys.append(right._get_label_or_level_values(rk))
+                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^
+  File "C:\Users\Keith\fantasy-pipeline\venv\Lib\site-packages\pandas\core\generic.py", line 1776, in _get_label_or_level_values
+    raise KeyError(key)
+KeyError: 'conformed_id'
+2026-08-31 09:05:45,512 - INFO - Starting NFL Prediction Engine Pipeline...
+2026-08-31 09:05:45,513 - INFO - ==============================================
+2026-08-31 09:05:45,513 - INFO - 
+[1/5] Ingesting Raw Data (Bronze Layer)...
+2026-08-31 09:05:47,857 - INFO - 
+[2/5] Cleansing & Conforming Data (Silver Layer)...
+2026-08-31 09:05:47,932 - INFO - 
+[3/5] Engineering Predictive Features (Gold Layer)...
+2026-08-31 09:05:47,972 - INFO - 
+[4/5] Running ML Prediction Model...
+2026-08-31 09:05:48,269 - INFO - 
+[5/5] Generating Final Draft Board...
+2026-08-31 09:05:48,292 - ERROR - 
+FAILED: Pipeline Failed: "['player_name'] not in index"
+Traceback (most recent call last):
+  File "C:\Users\Keith\nfl-prediction-engine\main.py", line 54, in run_full_pipeline
+    drafter.calculate_vbd()
+    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Keith\nfl-prediction-engine\src\drafter.py", line 80, in calculate_vbd
+    print(draft_board[['player_name', 'position', 'ml_projected_points', 'final_draft_value']].head(10))
+          ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Keith\fantasy-pipeline\venv\Lib\site-packages\pandas\core\frame.py", line 4384, in __getitem__
+    indexer = self.columns._get_indexer_strict(key, "columns")[1]
+              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^
+  File "C:\Users\Keith\fantasy-pipeline\venv\Lib\site-packages\pandas\core\indexes\base.py", line 6302, in _get_indexer_strict
+    self._raise_if_missing(keyarr, indexer, axis_name)
+    ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Keith\fantasy-pipeline\venv\Lib\site-packages\pandas\core\indexes\base.py", line 6355, in _raise_if_missing
+    raise KeyError(f"{not_found} not in index")
+KeyError: "['player_name'] not in index"
+2026-08-31 09:07:49,132 - INFO - Starting NFL Prediction Engine Pipeline...
+2026-08-31 09:07:49,132 - INFO - ==============================================
+2026-08-31 09:07:49,132 - INFO - 
+[1/5] Ingesting Raw Data (Bronze Layer)...
+2026-08-31 09:07:51,488 - INFO - 
+[2/5] Cleansing & Conforming Data (Silver Layer)...
+2026-08-31 09:07:51,573 - INFO - 
+[3/5] Engineering Predictive Features (Gold Layer)...
+2026-08-31 09:07:51,617 - INFO - 
+[4/5] Running ML Prediction Model...
+2026-08-31 09:07:51,908 - INFO - 
+[5/5] Generating Final Draft Board...
+2026-08-31 09:07:51,937 - INFO - 
+==============================================
+2026-08-31 09:07:51,937 - INFO - SUCCESS: Pipeline Complete! Your 2026 Draft Board is ready.
+2026-08-31 09:07:51,937 - INFO - Location: data/processed/final_draft_board.parquet
