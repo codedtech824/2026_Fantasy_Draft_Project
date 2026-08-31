@@ -46,8 +46,13 @@ print("Directories ready. Starting full pipeline...\n")
 
 from src.fetcher import NFLDataFetcher
 
+_BRONZE = "/tmp/nfl-prediction-engine/data/bronze"
+_SILVER = "/tmp/nfl-prediction-engine/data/silver"
+_GOLD   = "/tmp/nfl-prediction-engine/data/gold"
+_PROC   = "/tmp/nfl-prediction-engine/data/processed"
+
 t0 = time.time()
-NFLDataFetcher().run_all()
+NFLDataFetcher(base_dir=_BRONZE).run_all()
 print(f"Bronze complete ({time.time()-t0:.1f}s)")
 
 # COMMAND ----------
@@ -60,7 +65,7 @@ print(f"Bronze complete ({time.time()-t0:.1f}s)")
 from src.bronze_to_silver import BronzeToSilver
 
 t0 = time.time()
-BronzeToSilver().run_pipeline()
+BronzeToSilver(bronze_dir=_BRONZE, silver_dir=_SILVER).run_pipeline()
 print(f"Silver complete ({time.time()-t0:.1f}s)")
 
 # COMMAND ----------
@@ -73,7 +78,7 @@ print(f"Silver complete ({time.time()-t0:.1f}s)")
 from src.silver_to_gold import SilverToGold
 
 t0 = time.time()
-SilverToGold().run_pipeline()
+SilverToGold(silver_dir=_SILVER, gold_dir=_GOLD).run_pipeline()
 print(f"Gold complete ({time.time()-t0:.1f}s)")
 
 # COMMAND ----------
@@ -89,7 +94,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import mean_absolute_error
 import pandas as pd
 
-gold = pd.read_parquet("/tmp/nfl-prediction-engine/data/gold/player_features_2026.parquet")
+gold = pd.read_parquet(f"{_GOLD}/player_features_2026.parquet")
 X = gold.drop(columns=["final_2026_projection", "conformed_id"], errors="ignore").fillna(0)
 y = gold["final_2026_projection"]
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
@@ -105,7 +110,7 @@ with mlflow.start_run(run_name="xgboost_pipeline_run"):
     mlflow.xgboost.log_model(model, "xgboost_model")
 
 results = pd.DataFrame({"conformed_id": gold["conformed_id"], "ml_projected_points": model.predict(X)})
-results.to_parquet("/tmp/nfl-prediction-engine/data/processed/final_predictions.parquet", index=False)
+results.to_parquet(f"{_PROC}/final_predictions.parquet", index=False)
 print(f"Prediction complete. MAE: {mae:.4f} ({time.time()-t0:.1f}s)")
 
 # COMMAND ----------
@@ -118,7 +123,7 @@ print(f"Prediction complete. MAE: {mae:.4f} ({time.time()-t0:.1f}s)")
 from src.drafter import NFLDrafter
 
 t0 = time.time()
-NFLDrafter().calculate_vbd()
+NFLDrafter(processed_dir=_PROC, silver_dir=_SILVER).calculate_vbd()
 print(f"Draft board complete ({time.time()-t0:.1f}s)")
 
 # COMMAND ----------

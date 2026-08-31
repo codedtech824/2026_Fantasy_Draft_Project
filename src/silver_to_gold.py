@@ -3,15 +3,16 @@ import pandas as pd
 import numpy as np
 import glob
 
+_PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
 class SilverToGold:
     """
     Transforms cleaned Silver data into a predictive Gold feature set.
     Implements: EWMA, SOS Normalization, Injury Risk, and Matchup Analysis.
     """
-    def __init__(self, silver_dir="/tmp/nfl-prediction-engine/data/silver",
-                 gold_dir="/tmp/nfl-prediction-engine/data/gold"):
-        self.silver_dir = silver_dir
-        self.gold_dir = gold_dir
+    def __init__(self, silver_dir=None, gold_dir=None):
+        self.silver_dir = silver_dir or os.path.join(_PROJECT_ROOT, "data", "silver")
+        self.gold_dir = gold_dir or os.path.join(_PROJECT_ROOT, "data", "gold")
         os.makedirs(self.gold_dir, exist_ok=True)
 
     def _load_silver(self, filename):

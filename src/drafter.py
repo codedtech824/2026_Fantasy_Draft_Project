@@ -2,14 +2,15 @@ import os
 import pandas as pd
 import numpy as np
 
+_PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
 class NFLDrafter:
     """
     Implements Value Based Drafting (VBD) and Scarcity Analysis.
     """
-    def __init__(self, processed_dir="/tmp/nfl-prediction-engine/data/processed",
-                 silver_dir="/tmp/nfl-prediction-engine/data/silver"):
-        self.processed_dir = processed_dir
-        self.silver_dir = silver_dir
+    def __init__(self, processed_dir=None, silver_dir=None):
+        self.processed_dir = processed_dir or os.path.join(_PROJECT_ROOT, "data", "processed")
+        self.silver_dir = silver_dir or os.path.join(_PROJECT_ROOT, "data", "silver")
 
     def _load_predictions(self):
         path = os.path.join(self.processed_dir, "final_predictions.parquet")

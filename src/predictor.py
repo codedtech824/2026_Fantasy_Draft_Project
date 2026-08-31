@@ -5,14 +5,15 @@ from xgboost import XGBRegressor
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import mean_absolute_error
 
+_PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
 class NFLPredictor:
     """
     Uses Machine Learning to convert Gold features into finalized 2026 projections.
     """
-    def __init__(self, gold_dir="/tmp/nfl-prediction-engine/data/gold",
-                 processed_dir="/tmp/nfl-prediction-engine/data/processed"):
-        self.gold_dir = gold_dir
-        self.processed_dir = processed_dir
+    def __init__(self, gold_dir=None, processed_dir=None):
+        self.gold_dir = gold_dir or os.path.join(_PROJECT_ROOT, "data", "gold")
+        self.processed_dir = processed_dir or os.path.join(_PROJECT_ROOT, "data", "processed")
         os.makedirs(self.processed_dir, exist_ok=True)
 
     def _load_gold(self):

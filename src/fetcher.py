@@ -4,12 +4,14 @@ import pandas as pd
 import json
 from datetime import datetime
 
+_PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
 class NFLDataFetcher:
     """
     Handles the ingestion of raw NFL data from verified APIs into the Bronze layer.
     """
-    def __init__(self, base_dir="/tmp/nfl-prediction-engine/data/bronze"):
-        self.base_dir = base_dir
+    def __init__(self, base_dir=None):
+        self.base_dir = base_dir or os.path.join(_PROJECT_ROOT, "data", "bronze")
         self.session = requests.Session()
         # Common headers to avoid 403s and 406s
         self.session.headers.update({

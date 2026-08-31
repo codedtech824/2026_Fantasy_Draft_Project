@@ -1,0 +1,21 @@
+# Data files — never commit raw data or model artifacts
+data/bronze/
+data/silver/
+data/gold/
+data/processed/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+env/
+
+# Logs
+pipeline.log
+*.log
+
+# OS
+.DS_Store
+Thumbs.db

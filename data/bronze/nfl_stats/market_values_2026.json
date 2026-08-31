@@ -10,9 +10,9 @@
             "numTeams": 12,
             "ppr": 1
         },
-        "lastRefreshed": "2026-08-30T10:30:54.151Z",
-        "playerCount": 606,
-        "version": 109
+        "lastRefreshed": "2026-08-31T16:31:04.617Z",
+        "playerCount": 602,
+        "version": 110
     },
     "data": [
         {
@@ -156,21 +156,21 @@
             "positionRank": 7
         },
         {
-            "sleeperPlayerId": "4866",
+            "sleeperPlayerId": "7525",
             "value": 32.64,
             "rawValue": 3264,
             "overallRank": 21,
+            "positionRank": 12
+        },
+        {
+            "sleeperPlayerId": "4866",
+            "value": 31.55,
+            "rawValue": 3155,
+            "overallRank": 22,
             "positionRank": 8
         },
         {
             "sleeperPlayerId": "11632",
-            "value": 31.55,
-            "rawValue": 3155,
-            "overallRank": 22,
-            "positionRank": 12
-        },
-        {
-            "sleeperPlayerId": "7525",
             "value": 30.53,
             "rawValue": 3053,
             "overallRank": 23,
@@ -212,14 +212,14 @@
             "positionRank": 11
         },
         {
-            "sleeperPlayerId": "8146",
+            "sleeperPlayerId": "9997",
             "value": 25.56,
             "rawValue": 2556,
             "overallRank": 29,
             "positionRank": 15
         },
         {
-            "sleeperPlayerId": "9997",
+            "sleeperPlayerId": "8146",
             "value": 24.88,
             "rawValue": 2488,
             "overallRank": 30,
@@ -254,14 +254,14 @@
             "positionRank": 3
         },
         {
-            "sleeperPlayerId": "12526",
+            "sleeperPlayerId": "6801",
             "value": 21.95,
             "rawValue": 2195,
             "overallRank": 35,
             "positionRank": 19
         },
         {
-            "sleeperPlayerId": "6801",
+            "sleeperPlayerId": "12526",
             "value": 21.45,
             "rawValue": 2145,
             "overallRank": 36,
@@ -289,21 +289,21 @@
             "positionRank": 13
         },
         {
-            "sleeperPlayerId": "12514",
+            "sleeperPlayerId": "13287",
             "value": 19.63,
             "rawValue": 1963,
             "overallRank": 40,
+            "positionRank": 14
+        },
+        {
+            "sleeperPlayerId": "12514",
+            "value": 19.22,
+            "rawValue": 1922,
+            "overallRank": 41,
             "positionRank": 21
         },
         {
             "sleeperPlayerId": "8150",
-            "value": 19.22,
-            "rawValue": 1922,
-            "overallRank": 41,
-            "positionRank": 14
-        },
-        {
-            "sleeperPlayerId": "13287",
             "value": 18.83,
             "rawValue": 1883,
             "overallRank": 42,
@@ -324,18 +324,18 @@
             "positionRank": 4
         },
         {
-            "sleeperPlayerId": "12519",
+            "sleeperPlayerId": "7543",
             "value": 17.74,
             "rawValue": 1774,
             "overallRank": 45,
-            "positionRank": 22
+            "positionRank": 17
         },
         {
-            "sleeperPlayerId": "7543",
+            "sleeperPlayerId": "12519",
             "value": 17.41,
             "rawValue": 1741,
             "overallRank": 46,
-            "positionRank": 17
+            "positionRank": 22
         },
         {
             "sleeperPlayerId": "5927",
@@ -345,32 +345,32 @@
             "positionRank": 23
         },
         {
-            "sleeperPlayerId": "5850",
+            "sleeperPlayerId": "2133",
             "value": 16.77,
             "rawValue": 1677,
             "overallRank": 48,
-            "positionRank": 18
-        },
-        {
-            "sleeperPlayerId": "2133",
-            "value": 16.47,
-            "rawValue": 1647,
-            "overallRank": 49,
             "positionRank": 24
         },
         {
             "sleeperPlayerId": "4983",
-            "value": 16.18,
-            "rawValue": 1618,
-            "overallRank": 50,
+            "value": 16.47,
+            "rawValue": 1647,
+            "overallRank": 49,
             "positionRank": 25
         },
         {
             "sleeperPlayerId": "11566",
+            "value": 16.18,
+            "rawValue": 1618,
+            "overallRank": 50,
+            "positionRank": 5
+        },
+        {
+            "sleeperPlayerId": "6790",
             "value": 15.9,
             "rawValue": 1590,
             "overallRank": 51,
-            "positionRank": 5
+            "positionRank": 18
         },
         {
             "sleeperPlayerId": "12518",
@@ -387,32 +387,32 @@
             "positionRank": 26
         },
         {
-            "sleeperPlayerId": "6790",
+            "sleeperPlayerId": "8167",
             "value": 15.11,
             "rawValue": 1511,
             "overallRank": 54,
-            "positionRank": 19
-        },
-        {
-            "sleeperPlayerId": "8167",
-            "value": 14.87,
-            "rawValue": 1487,
-            "overallRank": 55,
             "positionRank": 27
         },
         {
-            "sleeperPlayerId": "2216",
+            "sleeperPlayerId": "11584",
+            "value": 14.87,
+            "rawValue": 1487,
+            "overallRank": 55,
+            "positionRank": 19
+        },
+        {
+            "sleeperPlayerId": "12481",
             "value": 14.63,
             "rawValue": 1463,
             "overallRank": 56,
-            "positionRank": 28
+            "positionRank": 20
         },
         {
             "sleeperPlayerId": "11620",
             "value": 14.4,
             "rawValue": 1440,
             "overallRank": 57,
-            "positionRank": 29
+            "positionRank": 28
         },
         {
             "sleeperPlayerId": "6904",
@@ -422,39 +422,39 @@
             "positionRank": 6
         },
         {
-            "sleeperPlayerId": "12481",
+            "sleeperPlayerId": "2216",
             "value": 13.96,
             "rawValue": 1396,
             "overallRank": 59,
-            "positionRank": 20
+            "positionRank": 29
         },
         {
-            "sleeperPlayerId": "11584",
+            "sleeperPlayerId": "12512",
             "value": 13.75,
             "rawValue": 1375,
             "overallRank": 60,
             "positionRank": 21
         },
         {
-            "sleeperPlayerId": "12512",
+            "sleeperPlayerId": "5892",
             "value": 13.54,
             "rawValue": 1354,
             "overallRank": 61,
             "positionRank": 22
         },
         {
-            "sleeperPlayerId": "5892",
+            "sleeperPlayerId": "9487",
             "value": 13.34,
             "rawValue": 1334,
             "overallRank": 62,
-            "positionRank": 23
+            "positionRank": 30
         },
         {
-            "sleeperPlayerId": "9487",
+            "sleeperPlayerId": "12490",
             "value": 13.15,
             "rawValue": 1315,
             "overallRank": 63,
-            "positionRank": 30
+            "positionRank": 23
         },
         {
             "sleeperPlayerId": "11560",
@@ -464,102 +464,102 @@
             "positionRank": 7
         },
         {
-            "sleeperPlayerId": "12490",
+            "sleeperPlayerId": "13279",
             "value": 12.78,
             "rawValue": 1278,
             "overallRank": 65,
-            "positionRank": 24
-        },
-        {
-            "sleeperPlayerId": "13279",
-            "value": 12.6,
-            "rawValue": 1260,
-            "overallRank": 66,
             "positionRank": 31
         },
         {
             "sleeperPlayerId": "11628",
-            "value": 12.43,
-            "rawValue": 1243,
-            "overallRank": 67,
+            "value": 12.6,
+            "rawValue": 1260,
+            "overallRank": 66,
             "positionRank": 32
         },
         {
-            "sleeperPlayerId": "12529",
-            "value": 12.26,
-            "rawValue": 1226,
-            "overallRank": 68,
-            "positionRank": 25
+            "sleeperPlayerId": "13286",
+            "value": 12.43,
+            "rawValue": 1243,
+            "overallRank": 67,
+            "positionRank": 24
         },
         {
             "sleeperPlayerId": "6797",
-            "value": 12.1,
-            "rawValue": 1210,
-            "overallRank": 69,
+            "value": 12.26,
+            "rawValue": 1226,
+            "overallRank": 68,
             "positionRank": 8
         },
         {
-            "sleeperPlayerId": "13286",
-            "value": 11.94,
-            "rawValue": 1194,
-            "overallRank": 70,
-            "positionRank": 26
+            "sleeperPlayerId": "12529",
+            "value": 12.1,
+            "rawValue": 1210,
+            "overallRank": 69,
+            "positionRank": 25
         },
         {
             "sleeperPlayerId": "12506",
-            "value": 11.78,
-            "rawValue": 1178,
-            "overallRank": 71,
+            "value": 11.94,
+            "rawValue": 1194,
+            "overallRank": 70,
             "positionRank": 5
         },
         {
             "sleeperPlayerId": "4037",
-            "value": 11.63,
-            "rawValue": 1163,
-            "overallRank": 72,
+            "value": 11.78,
+            "rawValue": 1178,
+            "overallRank": 71,
             "positionRank": 33
         },
         {
             "sleeperPlayerId": "7611",
+            "value": 11.63,
+            "rawValue": 1163,
+            "overallRank": 72,
+            "positionRank": 26
+        },
+        {
+            "sleeperPlayerId": "8228",
             "value": 11.48,
             "rawValue": 1148,
             "overallRank": 73,
             "positionRank": 27
         },
         {
-            "sleeperPlayerId": "8228",
+            "sleeperPlayerId": "3294",
             "value": 11.34,
             "rawValue": 1134,
             "overallRank": 74,
-            "positionRank": 28
-        },
-        {
-            "sleeperPlayerId": "3294",
-            "value": 11.2,
-            "rawValue": 1120,
-            "overallRank": 75,
             "positionRank": 9
         },
         {
             "sleeperPlayerId": "7553",
-            "value": 11.06,
-            "rawValue": 1106,
-            "overallRank": 76,
+            "value": 11.2,
+            "rawValue": 1120,
+            "overallRank": 75,
             "positionRank": 6
         },
         {
             "sleeperPlayerId": "7523",
-            "value": 10.92,
-            "rawValue": 1092,
-            "overallRank": 77,
+            "value": 11.06,
+            "rawValue": 1106,
+            "overallRank": 76,
             "positionRank": 10
         },
         {
             "sleeperPlayerId": "5846",
+            "value": 10.92,
+            "rawValue": 1092,
+            "overallRank": 77,
+            "positionRank": 34
+        },
+        {
+            "sleeperPlayerId": "9484",
             "value": 10.79,
             "rawValue": 1079,
             "overallRank": 78,
-            "positionRank": 34
+            "positionRank": 7
         },
         {
             "sleeperPlayerId": "11631",
@@ -576,53 +576,53 @@
             "positionRank": 36
         },
         {
-            "sleeperPlayerId": "9484",
+            "sleeperPlayerId": "5045",
             "value": 10.42,
             "rawValue": 1042,
             "overallRank": 81,
-            "positionRank": 7
-        },
-        {
-            "sleeperPlayerId": "5045",
-            "value": 10.3,
-            "rawValue": 1030,
-            "overallRank": 82,
             "positionRank": 37
         },
         {
             "sleeperPlayerId": "5967",
-            "value": 10.18,
-            "rawValue": 1018,
-            "overallRank": 83,
-            "positionRank": 29
+            "value": 10.3,
+            "rawValue": 1030,
+            "overallRank": 82,
+            "positionRank": 28
         },
         {
             "sleeperPlayerId": "10859",
-            "value": 10.07,
-            "rawValue": 1007,
-            "overallRank": 84,
+            "value": 10.18,
+            "rawValue": 1018,
+            "overallRank": 83,
             "positionRank": 8
         },
         {
             "sleeperPlayerId": "8126",
+            "value": 10.07,
+            "rawValue": 1007,
+            "overallRank": 84,
+            "positionRank": 38
+        },
+        {
+            "sleeperPlayerId": "9500",
             "value": 9.96,
             "rawValue": 996,
             "overallRank": 85,
-            "positionRank": 38
+            "positionRank": 39
         },
         {
             "sleeperPlayerId": "7021",
             "value": 9.85,
             "rawValue": 985,
             "overallRank": 86,
-            "positionRank": 30
+            "positionRank": 29
         },
         {
-            "sleeperPlayerId": "9500",
+            "sleeperPlayerId": "11583",
             "value": 9.74,
             "rawValue": 974,
             "overallRank": 87,
-            "positionRank": 39
+            "positionRank": 30
         },
         {
             "sleeperPlayerId": "10232",
@@ -632,81 +632,81 @@
             "positionRank": 40
         },
         {
-            "sleeperPlayerId": "11583",
+            "sleeperPlayerId": "9754",
             "value": 9.53,
             "rawValue": 953,
             "overallRank": 89,
-            "positionRank": 31
+            "positionRank": 41
         },
         {
-            "sleeperPlayerId": "9754",
+            "sleeperPlayerId": "2449",
             "value": 9.43,
             "rawValue": 943,
             "overallRank": 90,
-            "positionRank": 41
+            "positionRank": 42
         },
         {
             "sleeperPlayerId": "12489",
             "value": 9.33,
             "rawValue": 933,
             "overallRank": 91,
-            "positionRank": 32
-        },
-        {
-            "sleeperPlayerId": "2449",
-            "value": 9.24,
-            "rawValue": 924,
-            "overallRank": 92,
-            "positionRank": 42
+            "positionRank": 31
         },
         {
             "sleeperPlayerId": "8183",
-            "value": 9.14,
-            "rawValue": 914,
-            "overallRank": 93,
+            "value": 9.24,
+            "rawValue": 924,
+            "overallRank": 92,
             "positionRank": 11
         },
         {
-            "sleeperPlayerId": "12508",
-            "value": 9.05,
-            "rawValue": 905,
-            "overallRank": 94,
+            "sleeperPlayerId": "11563",
+            "value": 9.14,
+            "rawValue": 914,
+            "overallRank": 93,
             "positionRank": 12
         },
         {
-            "sleeperPlayerId": "11563",
+            "sleeperPlayerId": "1466",
+            "value": 9.05,
+            "rawValue": 905,
+            "overallRank": 94,
+            "positionRank": 9
+        },
+        {
+            "sleeperPlayerId": "12508",
             "value": 8.96,
             "rawValue": 896,
             "overallRank": 95,
             "positionRank": 13
         },
         {
-            "sleeperPlayerId": "1466",
+            "sleeperPlayerId": "11581",
             "value": 8.87,
             "rawValue": 887,
             "overallRank": 96,
-            "positionRank": 9
+            "positionRank": 32
         },
         {
-            "sleeperPlayerId": "4217",
+            "sleeperPlayerId": "7567",
             "value": 8.78,
             "rawValue": 878,
             "overallRank": 97,
-            "positionRank": 10
+            "positionRank": 33
         },
         {
             "sleeperPlayerId": "7594",
             "value": 8.7,
             "rawValue": 870,
             "overallRank": 98,
-            "positionRank": 33
+            "positionRank": 34
         },
         {
-            "sleeperPlayerId": "7567",
+            "sleeperPlayerId": "4217",
             "value": 8.61,
             "rawValue": 861,
             "overallRank": 99,
-            "positionRank": 34
+            "positionRank": 10
         },
         {
             "sleeperPlayerId": "8142",
@@ -730,18 +730,18 @@
             "positionRank": 14
         },
         {
-            "sleeperPlayerId": "10222",
+            "sleeperPlayerId": "421",
             "value": 8.29,
             "rawValue": 829,
             "overallRank": 103,
-            "positionRank": 44
+            "positionRank": 15
         },
         {
-            "sleeperPlayerId": "421",
+            "sleeperPlayerId": "10222",
             "value": 8.21,
             "rawValue": 821,
             "overallRank": 104,
-            "positionRank": 15
+            "positionRank": 44
         },
         {
             "sleeperPlayerId": "5947",
@@ -751,18 +751,18 @@
             "positionRank": 45
         },
         {
-            "sleeperPlayerId": "9756",
+            "sleeperPlayerId": "3163",
             "value": 8.06,
             "rawValue": 806,
             "overallRank": 106,
-            "positionRank": 46
+            "positionRank": 16
         },
         {
-            "sleeperPlayerId": "3163",
+            "sleeperPlayerId": "9756",
             "value": 7.99,
             "rawValue": 799,
             "overallRank": 107,
-            "positionRank": 16
+            "positionRank": 46
         },
         {
             "sleeperPlayerId": "13294",
@@ -793,18 +793,18 @@
             "positionRank": 37
         },
         {
-            "sleeperPlayerId": "5849",
+            "sleeperPlayerId": "12533",
             "value": 7.65,
             "rawValue": 765,
             "overallRank": 112,
-            "positionRank": 17
+            "positionRank": 38
         },
         {
-            "sleeperPlayerId": "12533",
+            "sleeperPlayerId": "5849",
             "value": 7.58,
             "rawValue": 758,
             "overallRank": 113,
-            "positionRank": 38
+            "positionRank": 17
         },
         {
             "sleeperPlayerId": "8408",
@@ -821,32 +821,32 @@
             "positionRank": 48
         },
         {
-            "sleeperPlayerId": "4199",
+            "sleeperPlayerId": "8110",
             "value": 7.39,
             "rawValue": 739,
             "overallRank": 116,
-            "positionRank": 40
-        },
-        {
-            "sleeperPlayerId": "8110",
-            "value": 7.33,
-            "rawValue": 733,
-            "overallRank": 117,
             "positionRank": 12
         },
         {
-            "sleeperPlayerId": "12534",
+            "sleeperPlayerId": "4199",
+            "value": 7.33,
+            "rawValue": 733,
+            "overallRank": 117,
+            "positionRank": 40
+        },
+        {
+            "sleeperPlayerId": "6804",
             "value": 7.27,
             "rawValue": 727,
             "overallRank": 118,
-            "positionRank": 41
+            "positionRank": 18
         },
         {
             "sleeperPlayerId": "4892",
             "value": 7.21,
             "rawValue": 721,
             "overallRank": 119,
-            "positionRank": 18
+            "positionRank": 19
         },
         {
             "sleeperPlayerId": "5022",
@@ -856,11 +856,11 @@
             "positionRank": 13
         },
         {
-            "sleeperPlayerId": "6804",
+            "sleeperPlayerId": "12534",
             "value": 7.09,
             "rawValue": 709,
             "overallRank": 121,
-            "positionRank": 19
+            "positionRank": 41
         },
         {
             "sleeperPlayerId": "8131",
@@ -905,18 +905,18 @@
             "positionRank": 52
         },
         {
-            "sleeperPlayerId": "8161",
+            "sleeperPlayerId": "11624",
             "value": 6.71,
             "rawValue": 671,
             "overallRank": 128,
-            "positionRank": 21
+            "positionRank": 53
         },
         {
-            "sleeperPlayerId": "11624",
+            "sleeperPlayerId": "8161",
             "value": 6.66,
             "rawValue": 666,
             "overallRank": 129,
-            "positionRank": 53
+            "positionRank": 21
         },
         {
             "sleeperPlayerId": "7002",
@@ -926,39 +926,39 @@
             "positionRank": 15
         },
         {
-            "sleeperPlayerId": "13417",
+            "sleeperPlayerId": "5850",
             "value": 6.56,
             "rawValue": 656,
             "overallRank": 131,
+            "positionRank": 42
+        },
+        {
+            "sleeperPlayerId": "13417",
+            "value": 6.52,
+            "rawValue": 652,
+            "overallRank": 132,
             "positionRank": 54
         },
         {
             "sleeperPlayerId": "5012",
-            "value": 6.52,
-            "rawValue": 652,
-            "overallRank": 132,
-            "positionRank": 16
-        },
-        {
-            "sleeperPlayerId": "13281",
             "value": 6.47,
             "rawValue": 647,
             "overallRank": 133,
-            "positionRank": 55
+            "positionRank": 16
         },
         {
             "sleeperPlayerId": "12474",
             "value": 6.42,
             "rawValue": 642,
             "overallRank": 134,
-            "positionRank": 42
+            "positionRank": 43
         },
         {
-            "sleeperPlayerId": "8132",
+            "sleeperPlayerId": "13281",
             "value": 6.37,
             "rawValue": 637,
             "overallRank": 135,
-            "positionRank": 43
+            "positionRank": 55
         },
         {
             "sleeperPlayerId": "9508",
@@ -968,18 +968,18 @@
             "positionRank": 44
         },
         {
-            "sleeperPlayerId": "10219",
+            "sleeperPlayerId": "4943",
             "value": 6.28,
             "rawValue": 628,
             "overallRank": 137,
-            "positionRank": 45
+            "positionRank": 22
         },
         {
-            "sleeperPlayerId": "4943",
+            "sleeperPlayerId": "8132",
             "value": 6.24,
             "rawValue": 624,
             "overallRank": 138,
-            "positionRank": 22
+            "positionRank": 45
         },
         {
             "sleeperPlayerId": "5872",
@@ -989,25 +989,25 @@
             "positionRank": 56
         },
         {
-            "sleeperPlayerId": "9758",
+            "sleeperPlayerId": "10219",
             "value": 6.15,
             "rawValue": 615,
             "overallRank": 140,
+            "positionRank": 46
+        },
+        {
+            "sleeperPlayerId": "9758",
+            "value": 6.11,
+            "rawValue": 611,
+            "overallRank": 141,
             "positionRank": 23
         },
         {
             "sleeperPlayerId": "5870",
-            "value": 6.11,
-            "rawValue": 611,
-            "overallRank": 141,
-            "positionRank": 24
-        },
-        {
-            "sleeperPlayerId": "12469",
             "value": 6.06,
             "rawValue": 606,
             "overallRank": 142,
-            "positionRank": 46
+            "positionRank": 24
         },
         {
             "sleeperPlayerId": "8676",
@@ -1017,18 +1017,18 @@
             "positionRank": 57
         },
         {
-            "sleeperPlayerId": "9511",
+            "sleeperPlayerId": "12469",
             "value": 5.98,
             "rawValue": 598,
             "overallRank": 144,
             "positionRank": 47
         },
         {
-            "sleeperPlayerId": "13346",
+            "sleeperPlayerId": "9511",
             "value": 5.94,
             "rawValue": 594,
             "overallRank": 145,
-            "positionRank": 58
+            "positionRank": 48
         },
         {
             "sleeperPlayerId": "HOU",
@@ -1042,42 +1042,42 @@
             "value": 5.86,
             "rawValue": 586,
             "overallRank": 147,
-            "positionRank": 48
-        },
-        {
-            "sleeperPlayerId": "12522",
-            "value": 5.82,
-            "rawValue": 582,
-            "overallRank": 148,
-            "positionRank": 25
-        },
-        {
-            "sleeperPlayerId": "13345",
-            "value": 5.78,
-            "rawValue": 578,
-            "overallRank": 149,
             "positionRank": 49
         },
         {
-            "sleeperPlayerId": "9480",
+            "sleeperPlayerId": "13345",
+            "value": 5.82,
+            "rawValue": 582,
+            "overallRank": 148,
+            "positionRank": 50
+        },
+        {
+            "sleeperPlayerId": "13346",
+            "value": 5.78,
+            "rawValue": 578,
+            "overallRank": 149,
+            "positionRank": 58
+        },
+        {
+            "sleeperPlayerId": "12522",
             "value": 5.75,
             "rawValue": 575,
             "overallRank": 150,
-            "positionRank": 17
+            "positionRank": 25
         },
         {
-            "sleeperPlayerId": "8210",
+            "sleeperPlayerId": "13305",
             "value": 5.71,
             "rawValue": 571,
             "overallRank": 151,
-            "positionRank": 18
+            "positionRank": 51
         },
         {
-            "sleeperPlayerId": "5001",
+            "sleeperPlayerId": "8210",
             "value": 5.67,
             "rawValue": 567,
             "overallRank": 152,
-            "positionRank": 19
+            "positionRank": 17
         },
         {
             "sleeperPlayerId": "10213",
@@ -1087,60 +1087,60 @@
             "positionRank": 59
         },
         {
-            "sleeperPlayerId": "DEN",
+            "sleeperPlayerId": "5001",
             "value": 5.6,
             "rawValue": 560,
             "overallRank": 154,
-            "positionRank": 2
+            "positionRank": 18
         },
         {
-            "sleeperPlayerId": "13305",
+            "sleeperPlayerId": "9480",
             "value": 5.56,
             "rawValue": 556,
             "overallRank": 155,
-            "positionRank": 50
+            "positionRank": 19
         },
         {
-            "sleeperPlayerId": "11655",
+            "sleeperPlayerId": "DEN",
             "value": 5.53,
             "rawValue": 553,
             "overallRank": 156,
-            "positionRank": 51
+            "positionRank": 2
         },
         {
-            "sleeperPlayerId": "8205",
+            "sleeperPlayerId": "3214",
             "value": 5.49,
             "rawValue": 549,
             "overallRank": 157,
-            "positionRank": 52
+            "positionRank": 20
         },
         {
             "sleeperPlayerId": "4035",
             "value": 5.46,
             "rawValue": 546,
             "overallRank": 158,
-            "positionRank": 53
-        },
-        {
-            "sleeperPlayerId": "3214",
-            "value": 5.42,
-            "rawValue": 542,
-            "overallRank": 159,
-            "positionRank": 20
+            "positionRank": 52
         },
         {
             "sleeperPlayerId": "LAR",
-            "value": 5.39,
-            "rawValue": 539,
-            "overallRank": 160,
+            "value": 5.42,
+            "rawValue": 542,
+            "overallRank": 159,
             "positionRank": 3
         },
         {
-            "sleeperPlayerId": "11625",
+            "sleeperPlayerId": "8205",
+            "value": 5.39,
+            "rawValue": 539,
+            "overallRank": 160,
+            "positionRank": 53
+        },
+        {
+            "sleeperPlayerId": "11655",
             "value": 5.36,
             "rawValue": 536,
             "overallRank": 161,
-            "positionRank": 60
+            "positionRank": 54
         },
         {
             "sleeperPlayerId": "SEA",
@@ -1154,91 +1154,91 @@
             "value": 5.29,
             "rawValue": 529,
             "overallRank": 163,
-            "positionRank": 61
+            "positionRank": 60
         },
         {
             "sleeperPlayerId": "7049",
             "value": 5.26,
             "rawValue": 526,
             "overallRank": 164,
+            "positionRank": 61
+        },
+        {
+            "sleeperPlayerId": "11625",
+            "value": 5.23,
+            "rawValue": 523,
+            "overallRank": 165,
             "positionRank": 62
         },
         {
             "sleeperPlayerId": "11618",
-            "value": 5.23,
-            "rawValue": 523,
-            "overallRank": 165,
+            "value": 5.2,
+            "rawValue": 520,
+            "overallRank": 166,
             "positionRank": 63
         },
         {
             "sleeperPlayerId": "9225",
-            "value": 5.2,
-            "rawValue": 520,
-            "overallRank": 166,
-            "positionRank": 54
-        },
-        {
-            "sleeperPlayerId": "9228",
             "value": 5.17,
             "rawValue": 517,
             "overallRank": 167,
-            "positionRank": 26
-        },
-        {
-            "sleeperPlayerId": "9504",
-            "value": 5.14,
-            "rawValue": 514,
-            "overallRank": 168,
-            "positionRank": 64
-        },
-        {
-            "sleeperPlayerId": "PHI",
-            "value": 5.11,
-            "rawValue": 511,
-            "overallRank": 169,
-            "positionRank": 5
-        },
-        {
-            "sleeperPlayerId": "11581",
-            "value": 5.08,
-            "rawValue": 508,
-            "overallRank": 170,
             "positionRank": 55
         },
         {
+            "sleeperPlayerId": "9228",
+            "value": 5.14,
+            "rawValue": 514,
+            "overallRank": 168,
+            "positionRank": 26
+        },
+        {
             "sleeperPlayerId": "11576",
-            "value": 5.05,
-            "rawValue": 505,
-            "overallRank": 171,
+            "value": 5.11,
+            "rawValue": 511,
+            "overallRank": 169,
             "positionRank": 56
         },
         {
-            "sleeperPlayerId": "12509",
+            "sleeperPlayerId": "PHI",
+            "value": 5.08,
+            "rawValue": 508,
+            "overallRank": 170,
+            "positionRank": 5
+        },
+        {
+            "sleeperPlayerId": "9504",
+            "value": 5.05,
+            "rawValue": 505,
+            "overallRank": 171,
+            "positionRank": 64
+        },
+        {
+            "sleeperPlayerId": "8154",
             "value": 5.02,
             "rawValue": 502,
             "overallRank": 172,
-            "positionRank": 65
+            "positionRank": 57
         },
         {
-            "sleeperPlayerId": "13276",
+            "sleeperPlayerId": "12509",
             "value": 4.99,
             "rawValue": 499,
             "overallRank": 173,
-            "positionRank": 66
+            "positionRank": 65
         },
         {
             "sleeperPlayerId": "11783",
             "value": 4.96,
             "rawValue": 496,
             "overallRank": 174,
-            "positionRank": 67
+            "positionRank": 66
         },
         {
-            "sleeperPlayerId": "8154",
+            "sleeperPlayerId": "13276",
             "value": 4.93,
             "rawValue": 493,
             "overallRank": 175,
-            "positionRank": 57
+            "positionRank": 67
         },
         {
             "sleeperPlayerId": "11533",
@@ -1248,25 +1248,25 @@
             "positionRank": 1
         },
         {
-            "sleeperPlayerId": "9486",
+            "sleeperPlayerId": "MIN",
             "value": 4.88,
             "rawValue": 488,
             "overallRank": 177,
-            "positionRank": 68
-        },
-        {
-            "sleeperPlayerId": "MIN",
-            "value": 4.85,
-            "rawValue": 485,
-            "overallRank": 178,
             "positionRank": 6
         },
         {
             "sleeperPlayerId": "PIT",
+            "value": 4.85,
+            "rawValue": 485,
+            "overallRank": 178,
+            "positionRank": 7
+        },
+        {
+            "sleeperPlayerId": "9486",
             "value": 4.82,
             "rawValue": 482,
             "overallRank": 179,
-            "positionRank": 7
+            "positionRank": 68
         },
         {
             "sleeperPlayerId": "NE",
@@ -1283,32 +1283,32 @@
             "positionRank": 9
         },
         {
-            "sleeperPlayerId": "13337",
+            "sleeperPlayerId": "12492",
             "value": 4.74,
             "rawValue": 474,
             "overallRank": 182,
-            "positionRank": 58
-        },
-        {
-            "sleeperPlayerId": "12492",
-            "value": 4.72,
-            "rawValue": 472,
-            "overallRank": 183,
             "positionRank": 69
         },
         {
             "sleeperPlayerId": "12530",
-            "value": 4.69,
-            "rawValue": 469,
-            "overallRank": 184,
+            "value": 4.72,
+            "rawValue": 472,
+            "overallRank": 183,
             "positionRank": 70
         },
         {
             "sleeperPlayerId": "5844",
+            "value": 4.69,
+            "rawValue": 469,
+            "overallRank": 184,
+            "positionRank": 21
+        },
+        {
+            "sleeperPlayerId": "8180",
             "value": 4.67,
             "rawValue": 467,
             "overallRank": 185,
-            "positionRank": 21
+            "positionRank": 71
         },
         {
             "sleeperPlayerId": "3451",
@@ -1318,53 +1318,53 @@
             "positionRank": 2
         },
         {
-            "sleeperPlayerId": "11610",
+            "sleeperPlayerId": "1479",
             "value": 4.62,
             "rawValue": 462,
             "overallRank": 187,
-            "positionRank": 71
-        },
-        {
-            "sleeperPlayerId": "LAC",
-            "value": 4.59,
-            "rawValue": 459,
-            "overallRank": 188,
-            "positionRank": 10
-        },
-        {
-            "sleeperPlayerId": "8180",
-            "value": 4.57,
-            "rawValue": 457,
-            "overallRank": 189,
             "positionRank": 72
         },
         {
-            "sleeperPlayerId": "1479",
+            "sleeperPlayerId": "11575",
+            "value": 4.59,
+            "rawValue": 459,
+            "overallRank": 188,
+            "positionRank": 58
+        },
+        {
+            "sleeperPlayerId": "LAC",
+            "value": 4.57,
+            "rawValue": 457,
+            "overallRank": 189,
+            "positionRank": 10
+        },
+        {
+            "sleeperPlayerId": "11610",
             "value": 4.54,
             "rawValue": 454,
             "overallRank": 190,
             "positionRank": 73
         },
         {
-            "sleeperPlayerId": "8259",
+            "sleeperPlayerId": "13337",
             "value": 4.52,
             "rawValue": 452,
             "overallRank": 191,
-            "positionRank": 3
-        },
-        {
-            "sleeperPlayerId": "11575",
-            "value": 4.5,
-            "rawValue": 450,
-            "overallRank": 192,
             "positionRank": 59
         },
         {
             "sleeperPlayerId": "3257",
+            "value": 4.5,
+            "rawValue": 450,
+            "overallRank": 192,
+            "positionRank": 27
+        },
+        {
+            "sleeperPlayerId": "8259",
             "value": 4.47,
             "rawValue": 447,
             "overallRank": 193,
-            "positionRank": 27
+            "positionRank": 3
         },
         {
             "sleeperPlayerId": "BAL",
@@ -1402,11 +1402,11 @@
             "positionRank": 60
         },
         {
-            "sleeperPlayerId": "4981",
+            "sleeperPlayerId": "12487",
             "value": 4.34,
             "rawValue": 434,
             "overallRank": 199,
-            "positionRank": 75
+            "positionRank": 22
         },
         {
             "sleeperPlayerId": "GB",
@@ -1416,25 +1416,25 @@
             "positionRank": 12
         },
         {
-            "sleeperPlayerId": "9506",
+            "sleeperPlayerId": "4981",
             "value": 4.29,
             "rawValue": 429,
             "overallRank": 201,
-            "positionRank": 61
-        },
-        {
-            "sleeperPlayerId": "12487",
-            "value": 4.27,
-            "rawValue": 427,
-            "overallRank": 202,
-            "positionRank": 22
+            "positionRank": 75
         },
         {
             "sleeperPlayerId": "13296",
+            "value": 4.27,
+            "rawValue": 427,
+            "overallRank": 202,
+            "positionRank": 76
+        },
+        {
+            "sleeperPlayerId": "9506",
             "value": 4.25,
             "rawValue": 425,
             "overallRank": 203,
-            "positionRank": 76
+            "positionRank": 61
         },
         {
             "sleeperPlayerId": "5189",
@@ -1444,7 +1444,7 @@
             "positionRank": 6
         },
         {
-            "sleeperPlayerId": "11603",
+            "sleeperPlayerId": "8172",
             "value": 4.21,
             "rawValue": 421,
             "overallRank": 205,
@@ -1465,123 +1465,123 @@
             "positionRank": 13
         },
         {
-            "sleeperPlayerId": "4137",
+            "sleeperPlayerId": "11603",
             "value": 4.15,
             "rawValue": 415,
             "overallRank": 208,
-            "positionRank": 62
-        },
-        {
-            "sleeperPlayerId": "8172",
-            "value": 4.13,
-            "rawValue": 413,
-            "overallRank": 209,
             "positionRank": 24
         },
         {
             "sleeperPlayerId": "12493",
-            "value": 4.11,
-            "rawValue": 411,
-            "overallRank": 210,
+            "value": 4.13,
+            "rawValue": 413,
+            "overallRank": 209,
             "positionRank": 25
         },
         {
-            "sleeperPlayerId": "9502",
-            "value": 4.09,
-            "rawValue": 409,
-            "overallRank": 211,
-            "positionRank": 77
-        },
-        {
-            "sleeperPlayerId": "2020",
-            "value": 4.07,
-            "rawValue": 407,
-            "overallRank": 212,
+            "sleeperPlayerId": "7839",
+            "value": 4.11,
+            "rawValue": 411,
+            "overallRank": 210,
             "positionRank": 8
         },
         {
-            "sleeperPlayerId": "7839",
-            "value": 4.05,
-            "rawValue": 405,
-            "overallRank": 213,
+            "sleeperPlayerId": "2020",
+            "value": 4.09,
+            "rawValue": 409,
+            "overallRank": 211,
             "positionRank": 9
         },
         {
             "sleeperPlayerId": "96",
-            "value": 4.03,
-            "rawValue": 403,
-            "overallRank": 214,
+            "value": 4.07,
+            "rawValue": 407,
+            "overallRank": 212,
             "positionRank": 28
         },
         {
             "sleeperPlayerId": "11627",
+            "value": 4.05,
+            "rawValue": 405,
+            "overallRank": 213,
+            "positionRank": 77
+        },
+        {
+            "sleeperPlayerId": "4137",
+            "value": 4.03,
+            "rawValue": 403,
+            "overallRank": 214,
+            "positionRank": 62
+        },
+        {
+            "sleeperPlayerId": "9502",
             "value": 4.01,
             "rawValue": 401,
             "overallRank": 215,
             "positionRank": 78
         },
         {
-            "sleeperPlayerId": "13288",
+            "sleeperPlayerId": "12535",
             "value": 3.99,
             "rawValue": 399,
             "overallRank": 216,
-            "positionRank": 63
-        },
-        {
-            "sleeperPlayerId": "12535",
-            "value": 3.98,
-            "rawValue": 398,
-            "overallRank": 217,
             "positionRank": 79
         },
         {
-            "sleeperPlayerId": "13293",
-            "value": 3.96,
-            "rawValue": 396,
-            "overallRank": 218,
-            "positionRank": 80
-        },
-        {
-            "sleeperPlayerId": "CLE",
-            "value": 3.94,
-            "rawValue": 394,
-            "overallRank": 219,
+            "sleeperPlayerId": "DET",
+            "value": 3.98,
+            "rawValue": 398,
+            "overallRank": 217,
             "positionRank": 14
         },
         {
-            "sleeperPlayerId": "7090",
-            "value": 3.92,
-            "rawValue": 392,
-            "overallRank": 220,
-            "positionRank": 81
+            "sleeperPlayerId": "13288",
+            "value": 3.96,
+            "rawValue": 396,
+            "overallRank": 218,
+            "positionRank": 63
         },
         {
-            "sleeperPlayerId": "DET",
-            "value": 3.9,
-            "rawValue": 390,
-            "overallRank": 221,
-            "positionRank": 15
-        },
-        {
-            "sleeperPlayerId": "13413",
-            "value": 3.89,
-            "rawValue": 389,
-            "overallRank": 222,
-            "positionRank": 82
+            "sleeperPlayerId": "13293",
+            "value": 3.94,
+            "rawValue": 394,
+            "overallRank": 219,
+            "positionRank": 80
         },
         {
             "sleeperPlayerId": "11539",
-            "value": 3.87,
-            "rawValue": 387,
-            "overallRank": 223,
+            "value": 3.92,
+            "rawValue": 392,
+            "overallRank": 220,
             "positionRank": 10
         },
         {
+            "sleeperPlayerId": "7090",
+            "value": 3.9,
+            "rawValue": 390,
+            "overallRank": 221,
+            "positionRank": 81
+        },
+        {
+            "sleeperPlayerId": "CLE",
+            "value": 3.89,
+            "rawValue": 389,
+            "overallRank": 222,
+            "positionRank": 15
+        },
+        {
             "sleeperPlayerId": "12502",
+            "value": 3.87,
+            "rawValue": 387,
+            "overallRank": 223,
+            "positionRank": 26
+        },
+        {
+            "sleeperPlayerId": "13413",
             "value": 3.85,
             "rawValue": 385,
             "overallRank": 224,
-            "positionRank": 26
+            "positionRank": 82
         },
         {
             "sleeperPlayerId": "12713",
@@ -1605,11 +1605,11 @@
             "positionRank": 27
         },
         {
-            "sleeperPlayerId": "1373",
+            "sleeperPlayerId": "7571",
             "value": 3.78,
             "rawValue": 378,
             "overallRank": 228,
-            "positionRank": 29
+            "positionRank": 84
         },
         {
             "sleeperPlayerId": "6650",
@@ -1619,88 +1619,88 @@
             "positionRank": 12
         },
         {
-            "sleeperPlayerId": "WAS",
+            "sleeperPlayerId": "1373",
             "value": 3.75,
             "rawValue": 375,
             "overallRank": 230,
-            "positionRank": 16
+            "positionRank": 29
         },
         {
-            "sleeperPlayerId": "7571",
+            "sleeperPlayerId": "WAS",
             "value": 3.73,
             "rawValue": 373,
             "overallRank": 231,
-            "positionRank": 84
-        },
-        {
-            "sleeperPlayerId": "12015",
-            "value": 3.72,
-            "rawValue": 372,
-            "overallRank": 232,
-            "positionRank": 13
+            "positionRank": 16
         },
         {
             "sleeperPlayerId": "BUF",
-            "value": 3.7,
-            "rawValue": 370,
-            "overallRank": 233,
+            "value": 3.72,
+            "rawValue": 372,
+            "overallRank": 232,
             "positionRank": 17
         },
         {
-            "sleeperPlayerId": "12457",
+            "sleeperPlayerId": "12015",
+            "value": 3.7,
+            "rawValue": 370,
+            "overallRank": 233,
+            "positionRank": 13
+        },
+        {
+            "sleeperPlayerId": "11435",
             "value": 3.68,
             "rawValue": 368,
             "overallRank": 234,
             "positionRank": 64
         },
         {
-            "sleeperPlayerId": "11435",
+            "sleeperPlayerId": "13285",
             "value": 3.67,
             "rawValue": 367,
             "overallRank": 235,
-            "positionRank": 65
-        },
-        {
-            "sleeperPlayerId": "13285",
-            "value": 3.65,
-            "rawValue": 365,
-            "overallRank": 236,
             "positionRank": 85
         },
         {
-            "sleeperPlayerId": "13405",
-            "value": 3.64,
-            "rawValue": 364,
-            "overallRank": 237,
-            "positionRank": 66
-        },
-        {
-            "sleeperPlayerId": "1433",
-            "value": 3.62,
-            "rawValue": 362,
-            "overallRank": 238,
-            "positionRank": 14
-        },
-        {
             "sleeperPlayerId": "13301",
-            "value": 3.61,
-            "rawValue": 361,
-            "overallRank": 239,
+            "value": 3.65,
+            "rawValue": 365,
+            "overallRank": 236,
             "positionRank": 86
         },
         {
-            "sleeperPlayerId": "5995",
-            "value": 3.59,
-            "rawValue": 359,
-            "overallRank": 240,
-            "positionRank": 67
+            "sleeperPlayerId": "1433",
+            "value": 3.64,
+            "rawValue": 364,
+            "overallRank": 237,
+            "positionRank": 14
+        },
+        {
+            "sleeperPlayerId": "13405",
+            "value": 3.62,
+            "rawValue": 362,
+            "overallRank": 238,
+            "positionRank": 65
         },
         {
             "sleeperPlayerId": "13274",
+            "value": 3.61,
+            "rawValue": 361,
+            "overallRank": 239,
+            "positionRank": 87
+        },
+        {
+            "sleeperPlayerId": "12504",
+            "value": 3.59,
+            "rawValue": 359,
+            "overallRank": 240,
+            "positionRank": 66
+        },
+        {
+            "sleeperPlayerId": "13414",
             "value": 3.58,
             "rawValue": 358,
             "overallRank": 241,
-            "positionRank": 87
+            "positionRank": 67
         },
         {
             "sleeperPlayerId": "13320",
@@ -1710,7 +1710,7 @@
             "positionRank": 88
         },
         {
-            "sleeperPlayerId": "11643",
+            "sleeperPlayerId": "5995",
             "value": 3.55,
             "rawValue": 355,
             "overallRank": 243,
@@ -1724,207 +1724,207 @@
             "positionRank": 28
         },
         {
-            "sleeperPlayerId": "13311",
+            "sleeperPlayerId": "11643",
             "value": 3.52,
             "rawValue": 352,
             "overallRank": 245,
-            "positionRank": 89
-        },
-        {
-            "sleeperPlayerId": "8111",
-            "value": 3.5,
-            "rawValue": 350,
-            "overallRank": 246,
-            "positionRank": 29
-        },
-        {
-            "sleeperPlayerId": "13414",
-            "value": 3.49,
-            "rawValue": 349,
-            "overallRank": 247,
             "positionRank": 69
         },
         {
-            "sleeperPlayerId": "12483",
-            "value": 3.47,
-            "rawValue": 347,
-            "overallRank": 248,
-            "positionRank": 90
+            "sleeperPlayerId": "13311",
+            "value": 3.5,
+            "rawValue": 350,
+            "overallRank": 246,
+            "positionRank": 89
         },
         {
-            "sleeperPlayerId": "12185",
-            "value": 3.46,
-            "rawValue": 346,
-            "overallRank": 249,
+            "sleeperPlayerId": "13066",
+            "value": 3.49,
+            "rawValue": 349,
+            "overallRank": 247,
             "positionRank": 15
         },
         {
-            "sleeperPlayerId": "4227",
+            "sleeperPlayerId": "DAL",
+            "value": 3.47,
+            "rawValue": 347,
+            "overallRank": 248,
+            "positionRank": 18
+        },
+        {
+            "sleeperPlayerId": "8111",
+            "value": 3.46,
+            "rawValue": 346,
+            "overallRank": 249,
+            "positionRank": 29
+        },
+        {
+            "sleeperPlayerId": "1945",
             "value": 3.45,
             "rawValue": 345,
             "overallRank": 250,
             "positionRank": 16
         },
         {
-            "sleeperPlayerId": "13317",
+            "sleeperPlayerId": "12483",
             "value": 3.43,
             "rawValue": 343,
             "overallRank": 251,
-            "positionRank": 91
+            "positionRank": 90
         },
         {
-            "sleeperPlayerId": "1945",
+            "sleeperPlayerId": "12185",
             "value": 3.42,
             "rawValue": 342,
             "overallRank": 252,
             "positionRank": 17
         },
         {
-            "sleeperPlayerId": "12048",
+            "sleeperPlayerId": "12457",
             "value": 3.41,
             "rawValue": 341,
             "overallRank": 253,
             "positionRank": 70
         },
         {
-            "sleeperPlayerId": "12540",
+            "sleeperPlayerId": "4227",
             "value": 3.39,
             "rawValue": 339,
             "overallRank": 254,
-            "positionRank": 92
-        },
-        {
-            "sleeperPlayerId": "11834",
-            "value": 3.38,
-            "rawValue": 338,
-            "overallRank": 255,
-            "positionRank": 93
-        },
-        {
-            "sleeperPlayerId": "11637",
-            "value": 3.36,
-            "rawValue": 336,
-            "overallRank": 256,
-            "positionRank": 94
+            "positionRank": 18
         },
         {
             "sleeperPlayerId": "7528",
-            "value": 3.35,
-            "rawValue": 335,
-            "overallRank": 257,
+            "value": 3.38,
+            "rawValue": 338,
+            "overallRank": 255,
             "positionRank": 71
         },
         {
-            "sleeperPlayerId": "10937",
-            "value": 3.34,
-            "rawValue": 334,
-            "overallRank": 258,
-            "positionRank": 18
-        },
-        {
-            "sleeperPlayerId": "DAL",
-            "value": 3.33,
-            "rawValue": 333,
-            "overallRank": 259,
-            "positionRank": 18
-        },
-        {
-            "sleeperPlayerId": "12495",
-            "value": 3.31,
-            "rawValue": 331,
-            "overallRank": 260,
+            "sleeperPlayerId": "12048",
+            "value": 3.36,
+            "rawValue": 336,
+            "overallRank": 256,
             "positionRank": 72
         },
         {
-            "sleeperPlayerId": "CIN",
+            "sleeperPlayerId": "13317",
+            "value": 3.35,
+            "rawValue": 335,
+            "overallRank": 257,
+            "positionRank": 91
+        },
+        {
+            "sleeperPlayerId": "12540",
+            "value": 3.34,
+            "rawValue": 334,
+            "overallRank": 258,
+            "positionRank": 92
+        },
+        {
+            "sleeperPlayerId": "11637",
+            "value": 3.33,
+            "rawValue": 333,
+            "overallRank": 259,
+            "positionRank": 93
+        },
+        {
+            "sleeperPlayerId": "11834",
+            "value": 3.31,
+            "rawValue": 331,
+            "overallRank": 260,
+            "positionRank": 94
+        },
+        {
+            "sleeperPlayerId": "10937",
             "value": 3.3,
             "rawValue": 330,
             "overallRank": 261,
             "positionRank": 19
         },
         {
-            "sleeperPlayerId": "13066",
+            "sleeperPlayerId": "CIN",
             "value": 3.29,
             "rawValue": 329,
             "overallRank": 262,
             "positionRank": 19
         },
         {
-            "sleeperPlayerId": "4033",
+            "sleeperPlayerId": "12499",
             "value": 3.27,
             "rawValue": 327,
             "overallRank": 263,
-            "positionRank": 30
+            "positionRank": 95
         },
         {
-            "sleeperPlayerId": "LV",
+            "sleeperPlayerId": "5095",
             "value": 3.26,
             "rawValue": 326,
             "overallRank": 264,
             "positionRank": 20
         },
         {
-            "sleeperPlayerId": "13347",
+            "sleeperPlayerId": "4033",
             "value": 3.25,
             "rawValue": 325,
             "overallRank": 265,
-            "positionRank": 73
-        },
-        {
-            "sleeperPlayerId": "12499",
-            "value": 3.24,
-            "rawValue": 324,
-            "overallRank": 266,
-            "positionRank": 95
+            "positionRank": 30
         },
         {
             "sleeperPlayerId": "11792",
+            "value": 3.24,
+            "rawValue": 324,
+            "overallRank": 266,
+            "positionRank": 21
+        },
+        {
+            "sleeperPlayerId": "13347",
             "value": 3.22,
             "rawValue": 322,
             "overallRank": 267,
-            "positionRank": 20
+            "positionRank": 73
         },
         {
-            "sleeperPlayerId": "TEN",
+            "sleeperPlayerId": "12495",
             "value": 3.21,
             "rawValue": 321,
             "overallRank": 268,
-            "positionRank": 21
-        },
-        {
-            "sleeperPlayerId": "12961",
-            "value": 3.2,
-            "rawValue": 320,
-            "overallRank": 269,
-            "positionRank": 21
-        },
-        {
-            "sleeperPlayerId": "4066",
-            "value": 3.19,
-            "rawValue": 319,
-            "overallRank": 270,
-            "positionRank": 31
-        },
-        {
-            "sleeperPlayerId": "11571",
-            "value": 3.18,
-            "rawValue": 318,
-            "overallRank": 271,
             "positionRank": 74
         },
         {
-            "sleeperPlayerId": "5095",
+            "sleeperPlayerId": "4066",
+            "value": 3.2,
+            "rawValue": 320,
+            "overallRank": 269,
+            "positionRank": 31
+        },
+        {
+            "sleeperPlayerId": "TEN",
+            "value": 3.19,
+            "rawValue": 319,
+            "overallRank": 270,
+            "positionRank": 20
+        },
+        {
+            "sleeperPlayerId": "12961",
+            "value": 3.18,
+            "rawValue": 318,
+            "overallRank": 271,
+            "positionRank": 22
+        },
+        {
+            "sleeperPlayerId": "11571",
             "value": 3.16,
             "rawValue": 316,
             "overallRank": 272,
-            "positionRank": 22
+            "positionRank": 75
         },
         {
             "sleeperPlayerId": "6039",
             "value": 3.15,
             "rawValue": 315,
             "overallRank": 273,
-            "positionRank": 75
+            "positionRank": 76
         },
         {
             "sleeperPlayerId": "13269",
@@ -1934,32 +1934,32 @@
             "positionRank": 30
         },
         {
-            "sleeperPlayerId": "NYG",
+            "sleeperPlayerId": "13545",
             "value": 3.13,
             "rawValue": 313,
             "overallRank": 275,
-            "positionRank": 22
+            "positionRank": 23
         },
         {
-            "sleeperPlayerId": "12497",
+            "sleeperPlayerId": "8800",
             "value": 3.12,
             "rawValue": 312,
             "overallRank": 276,
-            "positionRank": 96
+            "positionRank": 77
         },
         {
             "sleeperPlayerId": "SF",
             "value": 3.11,
             "rawValue": 311,
             "overallRank": 277,
-            "positionRank": 23
+            "positionRank": 21
         },
         {
-            "sleeperPlayerId": "11058",
+            "sleeperPlayerId": "12497",
             "value": 3.1,
             "rawValue": 310,
             "overallRank": 278,
-            "positionRank": 23
+            "positionRank": 96
         },
         {
             "sleeperPlayerId": "6528",
@@ -1973,98 +1973,98 @@
             "value": 3.07,
             "rawValue": 307,
             "overallRank": 280,
-            "positionRank": 76
+            "positionRank": 78
         },
         {
             "sleeperPlayerId": "NO",
             "value": 3.06,
             "rawValue": 306,
             "overallRank": 281,
-            "positionRank": 24
+            "positionRank": 22
         },
         {
-            "sleeperPlayerId": "12467",
+            "sleeperPlayerId": "12476",
             "value": 3.05,
             "rawValue": 305,
             "overallRank": 282,
-            "positionRank": 77
-        },
-        {
-            "sleeperPlayerId": "13545",
-            "value": 3.04,
-            "rawValue": 304,
-            "overallRank": 283,
-            "positionRank": 25
-        },
-        {
-            "sleeperPlayerId": "13268",
-            "value": 3.03,
-            "rawValue": 303,
-            "overallRank": 284,
-            "positionRank": 97
+            "positionRank": 79
         },
         {
             "sleeperPlayerId": "4147",
-            "value": 3.02,
-            "rawValue": 302,
-            "overallRank": 285,
-            "positionRank": 78
+            "value": 3.04,
+            "rawValue": 304,
+            "overallRank": 283,
+            "positionRank": 80
+        },
+        {
+            "sleeperPlayerId": "11058",
+            "value": 3.03,
+            "rawValue": 303,
+            "overallRank": 284,
+            "positionRank": 25
         },
         {
             "sleeperPlayerId": "11626",
+            "value": 3.02,
+            "rawValue": 302,
+            "overallRank": 285,
+            "positionRank": 97
+        },
+        {
+            "sleeperPlayerId": "8188",
             "value": 3.01,
             "rawValue": 301,
             "overallRank": 286,
             "positionRank": 98
         },
         {
-            "sleeperPlayerId": "3678",
+            "sleeperPlayerId": "11370",
             "value": 3,
             "rawValue": 300,
             "overallRank": 287,
-            "positionRank": 26
+            "positionRank": 81
         },
         {
-            "sleeperPlayerId": "8188",
+            "sleeperPlayerId": "12467",
             "value": 2.99,
             "rawValue": 299,
             "overallRank": 288,
-            "positionRank": 99
+            "positionRank": 82
         },
         {
             "sleeperPlayerId": "CHI",
             "value": 2.98,
             "rawValue": 298,
             "overallRank": 289,
-            "positionRank": 25
+            "positionRank": 23
         },
         {
-            "sleeperPlayerId": "6149",
+            "sleeperPlayerId": "13268",
             "value": 2.97,
             "rawValue": 297,
             "overallRank": 290,
-            "positionRank": 100
+            "positionRank": 99
         },
         {
-            "sleeperPlayerId": "4950",
+            "sleeperPlayerId": "3678",
             "value": 2.95,
             "rawValue": 295,
             "overallRank": 291,
-            "positionRank": 101
+            "positionRank": 26
         },
         {
-            "sleeperPlayerId": "2505",
+            "sleeperPlayerId": "4950",
             "value": 2.94,
             "rawValue": 294,
             "overallRank": 292,
-            "positionRank": 32
+            "positionRank": 100
         },
         {
-            "sleeperPlayerId": "6865",
+            "sleeperPlayerId": "6149",
             "value": 2.93,
             "rawValue": 293,
             "overallRank": 293,
-            "positionRank": 33
+            "positionRank": 101
         },
         {
             "sleeperPlayerId": "9494",
@@ -2074,172 +2074,172 @@
             "positionRank": 102
         },
         {
-            "sleeperPlayerId": "12476",
+            "sleeperPlayerId": "2505",
             "value": 2.91,
             "rawValue": 291,
             "overallRank": 295,
-            "positionRank": 79
+            "positionRank": 32
         },
         {
-            "sleeperPlayerId": "ATL",
+            "sleeperPlayerId": "6865",
             "value": 2.9,
             "rawValue": 290,
             "overallRank": 296,
-            "positionRank": 26
+            "positionRank": 33
         },
         {
-            "sleeperPlayerId": "8800",
+            "sleeperPlayerId": "ATL",
             "value": 2.89,
             "rawValue": 289,
             "overallRank": 297,
-            "positionRank": 80
+            "positionRank": 24
         },
         {
-            "sleeperPlayerId": "11370",
+            "sleeperPlayerId": "NYG",
             "value": 2.88,
             "rawValue": 288,
             "overallRank": 298,
-            "positionRank": 81
-        },
-        {
-            "sleeperPlayerId": "6109",
-            "value": 2.87,
-            "rawValue": 287,
-            "overallRank": 299,
-            "positionRank": 1
+            "positionRank": 25
         },
         {
             "sleeperPlayerId": "6803",
-            "value": 2.86,
-            "rawValue": 286,
-            "overallRank": 300,
+            "value": 2.87,
+            "rawValue": 287,
+            "overallRank": 299,
             "positionRank": 103
         },
         {
-            "sleeperPlayerId": "12471",
-            "value": 2.85,
-            "rawValue": 285,
-            "overallRank": 301,
-            "positionRank": 82
+            "sleeperPlayerId": "6109",
+            "value": 2.86,
+            "rawValue": 286,
+            "overallRank": 300,
+            "positionRank": 1
         },
         {
             "sleeperPlayerId": "12547",
             "value": 2.85,
             "rawValue": 285,
-            "overallRank": 302,
+            "overallRank": 301,
             "positionRank": 104
         },
         {
-            "sleeperPlayerId": "13424",
+            "sleeperPlayerId": "10226",
+            "value": 2.85,
+            "rawValue": 285,
+            "overallRank": 302,
+            "positionRank": 105
+        },
+        {
+            "sleeperPlayerId": "11237",
             "value": 2.84,
             "rawValue": 284,
             "overallRank": 303,
             "positionRank": 83
         },
         {
-            "sleeperPlayerId": "4993",
+            "sleeperPlayerId": "9501",
             "value": 2.83,
             "rawValue": 283,
             "overallRank": 304,
-            "positionRank": 34
+            "positionRank": 106
         },
         {
-            "sleeperPlayerId": "12498",
+            "sleeperPlayerId": "12471",
             "value": 2.82,
             "rawValue": 282,
             "overallRank": 305,
-            "positionRank": 35
+            "positionRank": 84
         },
         {
-            "sleeperPlayerId": "IND",
+            "sleeperPlayerId": "12498",
             "value": 2.81,
             "rawValue": 281,
             "overallRank": 306,
-            "positionRank": 27
+            "positionRank": 34
         },
         {
-            "sleeperPlayerId": "6768",
+            "sleeperPlayerId": "7042",
             "value": 2.8,
             "rawValue": 280,
             "overallRank": 307,
-            "positionRank": 31
+            "positionRank": 27
         },
         {
             "sleeperPlayerId": "NYJ",
             "value": 2.79,
             "rawValue": 279,
             "overallRank": 308,
-            "positionRank": 28
+            "positionRank": 26
         },
         {
-            "sleeperPlayerId": "9501",
+            "sleeperPlayerId": "LV",
             "value": 2.78,
             "rawValue": 278,
             "overallRank": 309,
-            "positionRank": 105
-        },
-        {
-            "sleeperPlayerId": "12787",
-            "value": 2.77,
-            "rawValue": 277,
-            "overallRank": 310,
-            "positionRank": 84
-        },
-        {
-            "sleeperPlayerId": "7042",
-            "value": 2.76,
-            "rawValue": 276,
-            "overallRank": 311,
             "positionRank": 27
         },
         {
-            "sleeperPlayerId": "10226",
+            "sleeperPlayerId": "13424",
+            "value": 2.77,
+            "rawValue": 277,
+            "overallRank": 310,
+            "positionRank": 85
+        },
+        {
+            "sleeperPlayerId": "4993",
+            "value": 2.76,
+            "rawValue": 276,
+            "overallRank": 311,
+            "positionRank": 35
+        },
+        {
+            "sleeperPlayerId": "6768",
             "value": 2.75,
             "rawValue": 275,
             "overallRank": 312,
-            "positionRank": 106
+            "positionRank": 31
         },
         {
-            "sleeperPlayerId": "8119",
+            "sleeperPlayerId": "3321",
             "value": 2.74,
             "rawValue": 274,
             "overallRank": 313,
             "positionRank": 107
         },
         {
-            "sleeperPlayerId": "11589",
+            "sleeperPlayerId": "IND",
             "value": 2.73,
             "rawValue": 273,
             "overallRank": 314,
-            "positionRank": 85
-        },
-        {
-            "sleeperPlayerId": "3321",
-            "value": 2.73,
-            "rawValue": 273,
-            "overallRank": 315,
-            "positionRank": 108
-        },
-        {
-            "sleeperPlayerId": "9757",
-            "value": 2.72,
-            "rawValue": 272,
-            "overallRank": 316,
-            "positionRank": 86
-        },
-        {
-            "sleeperPlayerId": "11653",
-            "value": 2.71,
-            "rawValue": 271,
-            "overallRank": 317,
             "positionRank": 28
         },
         {
+            "sleeperPlayerId": "9757",
+            "value": 2.73,
+            "rawValue": 273,
+            "overallRank": 315,
+            "positionRank": 86
+        },
+        {
+            "sleeperPlayerId": "8119",
+            "value": 2.72,
+            "rawValue": 272,
+            "overallRank": 316,
+            "positionRank": 108
+        },
+        {
             "sleeperPlayerId": "8127",
+            "value": 2.71,
+            "rawValue": 271,
+            "overallRank": 317,
+            "positionRank": 36
+        },
+        {
+            "sleeperPlayerId": "11653",
             "value": 2.7,
             "rawValue": 270,
             "overallRank": 318,
-            "positionRank": 36
+            "positionRank": 28
         },
         {
             "sleeperPlayerId": "4177",
@@ -2263,42 +2263,42 @@
             "positionRank": 29
         },
         {
-            "sleeperPlayerId": "12455",
+            "sleeperPlayerId": "11597",
             "value": 2.67,
             "rawValue": 267,
             "overallRank": 322,
-            "positionRank": 87
-        },
-        {
-            "sleeperPlayerId": "11597",
-            "value": 2.66,
-            "rawValue": 266,
-            "overallRank": 323,
             "positionRank": 37
         },
         {
             "sleeperPlayerId": "11559",
-            "value": 2.65,
-            "rawValue": 265,
-            "overallRank": 324,
+            "value": 2.66,
+            "rawValue": 266,
+            "overallRank": 323,
             "positionRank": 32
         },
         {
-            "sleeperPlayerId": "10218",
+            "sleeperPlayerId": "11589",
+            "value": 2.65,
+            "rawValue": 265,
+            "overallRank": 324,
+            "positionRank": 87
+        },
+        {
+            "sleeperPlayerId": "12455",
             "value": 2.64,
             "rawValue": 264,
             "overallRank": 325,
-            "positionRank": 110
+            "positionRank": 88
         },
         {
-            "sleeperPlayerId": "ARI",
+            "sleeperPlayerId": "12787",
             "value": 2.63,
             "rawValue": 263,
             "overallRank": 326,
-            "positionRank": 30
+            "positionRank": 89
         },
         {
-            "sleeperPlayerId": "10955",
+            "sleeperPlayerId": "ARI",
             "value": 2.62,
             "rawValue": 262,
             "overallRank": 327,
@@ -2309,112 +2309,112 @@
             "value": 2.62,
             "rawValue": 262,
             "overallRank": 328,
-            "positionRank": 31
+            "positionRank": 30
         },
         {
-            "sleeperPlayerId": "CAR",
+            "sleeperPlayerId": "10955",
             "value": 2.61,
             "rawValue": 261,
             "overallRank": 329,
             "positionRank": 31
         },
         {
-            "sleeperPlayerId": "13302",
+            "sleeperPlayerId": "10218",
             "value": 2.6,
             "rawValue": 260,
             "overallRank": 330,
-            "positionRank": 88
-        },
-        {
-            "sleeperPlayerId": "13349",
-            "value": 2.59,
-            "rawValue": 259,
-            "overallRank": 331,
-            "positionRank": 38
-        },
-        {
-            "sleeperPlayerId": "11199",
-            "value": 2.58,
-            "rawValue": 258,
-            "overallRank": 332,
-            "positionRank": 89
-        },
-        {
-            "sleeperPlayerId": "5848",
-            "value": 2.58,
-            "rawValue": 258,
-            "overallRank": 333,
-            "positionRank": 111
-        },
-        {
-            "sleeperPlayerId": "13968",
-            "value": 2.57,
-            "rawValue": 257,
-            "overallRank": 334,
-            "positionRank": 32
+            "positionRank": 110
         },
         {
             "sleeperPlayerId": "8117",
+            "value": 2.59,
+            "rawValue": 259,
+            "overallRank": 331,
+            "positionRank": 111
+        },
+        {
+            "sleeperPlayerId": "13349",
+            "value": 2.58,
+            "rawValue": 258,
+            "overallRank": 332,
+            "positionRank": 38
+        },
+        {
+            "sleeperPlayerId": "13968",
+            "value": 2.58,
+            "rawValue": 258,
+            "overallRank": 333,
+            "positionRank": 32
+        },
+        {
+            "sleeperPlayerId": "11199",
+            "value": 2.57,
+            "rawValue": 257,
+            "overallRank": 334,
+            "positionRank": 90
+        },
+        {
+            "sleeperPlayerId": "5848",
             "value": 2.56,
             "rawValue": 256,
             "overallRank": 335,
             "positionRank": 112
         },
         {
-            "sleeperPlayerId": "13420",
+            "sleeperPlayerId": "1166",
             "value": 2.55,
             "rawValue": 255,
             "overallRank": 336,
-            "positionRank": 113
+            "positionRank": 33
         },
         {
             "sleeperPlayerId": "4017",
             "value": 2.54,
             "rawValue": 254,
             "overallRank": 337,
-            "positionRank": 33
-        },
-        {
-            "sleeperPlayerId": "1166",
-            "value": 2.54,
-            "rawValue": 254,
-            "overallRank": 338,
             "positionRank": 34
         },
         {
             "sleeperPlayerId": "12503",
+            "value": 2.54,
+            "rawValue": 254,
+            "overallRank": 338,
+            "positionRank": 113
+        },
+        {
+            "sleeperPlayerId": "13302",
             "value": 2.53,
             "rawValue": 253,
             "overallRank": 339,
-            "positionRank": 114
+            "positionRank": 91
         },
         {
-            "sleeperPlayerId": "8698",
+            "sleeperPlayerId": "13420",
             "value": 2.52,
             "rawValue": 252,
             "overallRank": 340,
+            "positionRank": 114
+        },
+        {
+            "sleeperPlayerId": "CAR",
+            "value": 2.51,
+            "rawValue": 251,
+            "overallRank": 341,
+            "positionRank": 31
+        },
+        {
+            "sleeperPlayerId": "8698",
+            "value": 2.51,
+            "rawValue": 251,
+            "overallRank": 342,
             "positionRank": 39
         },
         {
             "sleeperPlayerId": "4454",
-            "value": 2.51,
-            "rawValue": 251,
-            "overallRank": 341,
-            "positionRank": 115
-        },
-        {
-            "sleeperPlayerId": "12504",
-            "value": 2.51,
-            "rawValue": 251,
-            "overallRank": 342,
-            "positionRank": 90
-        },
-        {
-            "sleeperPlayerId": "1379",
             "value": 2.5,
             "rawValue": 250,
             "overallRank": 343,
-            "positionRank": 2
+            "positionRank": 115
         },
         {
             "sleeperPlayerId": "9479",
@@ -2424,67 +2424,67 @@
             "positionRank": 40
         },
         {
-            "sleeperPlayerId": "6130",
+            "sleeperPlayerId": "11439",
             "value": 2.48,
             "rawValue": 248,
             "overallRank": 345,
-            "positionRank": 91
-        },
-        {
-            "sleeperPlayerId": "13402",
-            "value": 2.48,
-            "rawValue": 248,
-            "overallRank": 346,
-            "positionRank": 116
-        },
-        {
-            "sleeperPlayerId": "11439",
-            "value": 2.47,
-            "rawValue": 247,
-            "overallRank": 347,
             "positionRank": 92
         },
         {
-            "sleeperPlayerId": "8208",
-            "value": 2.46,
-            "rawValue": 246,
-            "overallRank": 348,
+            "sleeperPlayerId": "6130",
+            "value": 2.48,
+            "rawValue": 248,
+            "overallRank": 346,
             "positionRank": 93
         },
         {
-            "sleeperPlayerId": "4353",
-            "value": 2.45,
-            "rawValue": 245,
-            "overallRank": 349,
-            "positionRank": 3
-        },
-        {
-            "sleeperPlayerId": "8122",
-            "value": 2.45,
-            "rawValue": 245,
-            "overallRank": 350,
-            "positionRank": 94
-        },
-        {
             "sleeperPlayerId": "4195",
-            "value": 2.44,
-            "rawValue": 244,
-            "overallRank": 351,
+            "value": 2.47,
+            "rawValue": 247,
+            "overallRank": 347,
             "positionRank": 33
         },
         {
-            "sleeperPlayerId": "11569",
-            "value": 2.43,
-            "rawValue": 243,
-            "overallRank": 352,
+            "sleeperPlayerId": "12491",
+            "value": 2.46,
+            "rawValue": 246,
+            "overallRank": 348,
+            "positionRank": 94
+        },
+        {
+            "sleeperPlayerId": "11630",
+            "value": 2.45,
+            "rawValue": 245,
+            "overallRank": 349,
+            "positionRank": 116
+        },
+        {
+            "sleeperPlayerId": "8208",
+            "value": 2.45,
+            "rawValue": 245,
+            "overallRank": 350,
             "positionRank": 95
         },
         {
-            "sleeperPlayerId": "13353",
+            "sleeperPlayerId": "13402",
+            "value": 2.44,
+            "rawValue": 244,
+            "overallRank": 351,
+            "positionRank": 117
+        },
+        {
+            "sleeperPlayerId": "11651",
+            "value": 2.43,
+            "rawValue": 243,
+            "overallRank": 352,
+            "positionRank": 96
+        },
+        {
+            "sleeperPlayerId": "12543",
             "value": 2.43,
             "rawValue": 243,
             "overallRank": 353,
-            "positionRank": 117
+            "positionRank": 97
         },
         {
             "sleeperPlayerId": "9482",
@@ -2494,392 +2494,392 @@
             "positionRank": 41
         },
         {
-            "sleeperPlayerId": "13416",
+            "sleeperPlayerId": "13353",
             "value": 2.41,
             "rawValue": 241,
             "overallRank": 355,
-            "positionRank": 96
+            "positionRank": 118
         },
         {
-            "sleeperPlayerId": "12524",
+            "sleeperPlayerId": "11569",
             "value": 2.41,
             "rawValue": 241,
             "overallRank": 356,
-            "positionRank": 35
-        },
-        {
-            "sleeperPlayerId": "8143",
-            "value": 2.4,
-            "rawValue": 240,
-            "overallRank": 357,
-            "positionRank": 97
+            "positionRank": 98
         },
         {
             "sleeperPlayerId": "11608",
-            "value": 2.39,
-            "rawValue": 239,
-            "overallRank": 358,
-            "positionRank": 118
+            "value": 2.4,
+            "rawValue": 240,
+            "overallRank": 357,
+            "positionRank": 119
         },
         {
             "sleeperPlayerId": "5119",
             "value": 2.39,
             "rawValue": 239,
-            "overallRank": 359,
+            "overallRank": 358,
             "positionRank": 34
         },
         {
-            "sleeperPlayerId": "12543",
+            "sleeperPlayerId": "8122",
+            "value": 2.39,
+            "rawValue": 239,
+            "overallRank": 359,
+            "positionRank": 99
+        },
+        {
+            "sleeperPlayerId": "8143",
             "value": 2.38,
             "rawValue": 238,
             "overallRank": 360,
-            "positionRank": 98
+            "positionRank": 100
         },
         {
-            "sleeperPlayerId": "12521",
+            "sleeperPlayerId": "11579",
             "value": 2.37,
             "rawValue": 237,
             "overallRank": 361,
-            "positionRank": 42
+            "positionRank": 101
         },
         {
-            "sleeperPlayerId": "11651",
+            "sleeperPlayerId": "12524",
             "value": 2.36,
             "rawValue": 236,
             "overallRank": 362,
-            "positionRank": 99
+            "positionRank": 35
         },
         {
             "sleeperPlayerId": "7670",
             "value": 2.36,
             "rawValue": 236,
             "overallRank": 363,
-            "positionRank": 119
-        },
-        {
-            "sleeperPlayerId": "12531",
-            "value": 2.35,
-            "rawValue": 235,
-            "overallRank": 364,
-            "positionRank": 100
-        },
-        {
-            "sleeperPlayerId": "11630",
-            "value": 2.34,
-            "rawValue": 234,
-            "overallRank": 365,
             "positionRank": 120
         },
         {
-            "sleeperPlayerId": "13516",
+            "sleeperPlayerId": "12860",
+            "value": 2.35,
+            "rawValue": 235,
+            "overallRank": 364,
+            "positionRank": 121
+        },
+        {
+            "sleeperPlayerId": "12521",
+            "value": 2.34,
+            "rawValue": 234,
+            "overallRank": 365,
+            "positionRank": 42
+        },
+        {
+            "sleeperPlayerId": "12531",
             "value": 2.34,
             "rawValue": 234,
             "overallRank": 366,
+            "positionRank": 102
+        },
+        {
+            "sleeperPlayerId": "13516",
+            "value": 2.33,
+            "rawValue": 233,
+            "overallRank": 367,
             "positionRank": 43
         },
         {
             "sleeperPlayerId": "4018",
             "value": 2.33,
             "rawValue": 233,
-            "overallRank": 367,
-            "positionRank": 101
-        },
-        {
-            "sleeperPlayerId": "11579",
-            "value": 2.33,
-            "rawValue": 233,
             "overallRank": 368,
-            "positionRank": 102
+            "positionRank": 103
         },
         {
-            "sleeperPlayerId": "12718",
+            "sleeperPlayerId": "13264",
             "value": 2.32,
             "rawValue": 232,
             "overallRank": 369,
-            "positionRank": 121
+            "positionRank": 122
+        },
+        {
+            "sleeperPlayerId": "12718",
+            "value": 2.31,
+            "rawValue": 231,
+            "overallRank": 370,
+            "positionRank": 123
         },
         {
             "sleeperPlayerId": "13319",
             "value": 2.31,
             "rawValue": 231,
-            "overallRank": 370,
+            "overallRank": 371,
             "positionRank": 44
         },
         {
-            "sleeperPlayerId": "11577",
-            "value": 2.31,
-            "rawValue": 231,
-            "overallRank": 371,
-            "positionRank": 103
-        },
-        {
-            "sleeperPlayerId": "13423",
+            "sleeperPlayerId": "1379",
             "value": 2.3,
             "rawValue": 230,
             "overallRank": 372,
+            "positionRank": 2
+        },
+        {
+            "sleeperPlayerId": "11577",
+            "value": 2.29,
+            "rawValue": 229,
+            "overallRank": 373,
             "positionRank": 104
         },
         {
             "sleeperPlayerId": "8917",
             "value": 2.29,
             "rawValue": 229,
-            "overallRank": 373,
-            "positionRank": 122
+            "overallRank": 374,
+            "positionRank": 124
         },
         {
             "sleeperPlayerId": "4098",
-            "value": 2.29,
-            "rawValue": 229,
-            "overallRank": 374,
+            "value": 2.28,
+            "rawValue": 228,
+            "overallRank": 375,
             "positionRank": 105
         },
         {
             "sleeperPlayerId": "6271",
-            "value": 2.28,
-            "rawValue": 228,
-            "overallRank": 375,
-            "positionRank": 123
-        },
-        {
-            "sleeperPlayerId": "13533",
             "value": 2.27,
             "rawValue": 227,
             "overallRank": 376,
-            "positionRank": 124
-        },
-        {
-            "sleeperPlayerId": "12485",
-            "value": 2.27,
-            "rawValue": 227,
-            "overallRank": 377,
             "positionRank": 125
         },
         {
-            "sleeperPlayerId": "12505",
+            "sleeperPlayerId": "11510",
+            "value": 2.27,
+            "rawValue": 227,
+            "overallRank": 377,
+            "positionRank": 3
+        },
+        {
+            "sleeperPlayerId": "13423",
             "value": 2.26,
             "rawValue": 226,
             "overallRank": 378,
-            "positionRank": 126
+            "positionRank": 106
         },
         {
-            "sleeperPlayerId": "11592",
+            "sleeperPlayerId": "10444",
             "value": 2.26,
             "rawValue": 226,
             "overallRank": 379,
-            "positionRank": 45
+            "positionRank": 126
         },
         {
-            "sleeperPlayerId": "2374",
+            "sleeperPlayerId": "8135",
             "value": 2.25,
             "rawValue": 225,
             "overallRank": 380,
             "positionRank": 127
         },
         {
-            "sleeperPlayerId": "7204",
+            "sleeperPlayerId": "12505",
             "value": 2.24,
             "rawValue": 224,
             "overallRank": 381,
-            "positionRank": 106
-        },
-        {
-            "sleeperPlayerId": "8025",
-            "value": 2.24,
-            "rawValue": 224,
-            "overallRank": 382,
-            "positionRank": 4
-        },
-        {
-            "sleeperPlayerId": "13380",
-            "value": 2.23,
-            "rawValue": 223,
-            "overallRank": 383,
             "positionRank": 128
         },
         {
-            "sleeperPlayerId": "13421",
-            "value": 2.23,
-            "rawValue": 223,
-            "overallRank": 384,
-            "positionRank": 46
-        },
-        {
-            "sleeperPlayerId": "MIA",
-            "value": 2.22,
-            "rawValue": 222,
-            "overallRank": 385,
-            "positionRank": 32
-        },
-        {
-            "sleeperPlayerId": "12634",
-            "value": 2.21,
-            "rawValue": 221,
-            "overallRank": 386,
+            "sleeperPlayerId": "13533",
+            "value": 2.24,
+            "rawValue": 224,
+            "overallRank": 382,
             "positionRank": 129
         },
         {
-            "sleeperPlayerId": "8135",
+            "sleeperPlayerId": "2374",
+            "value": 2.23,
+            "rawValue": 223,
+            "overallRank": 383,
+            "positionRank": 130
+        },
+        {
+            "sleeperPlayerId": "6427",
+            "value": 2.23,
+            "rawValue": 223,
+            "overallRank": 384,
+            "positionRank": 131
+        },
+        {
+            "sleeperPlayerId": "7204",
+            "value": 2.22,
+            "rawValue": 222,
+            "overallRank": 385,
+            "positionRank": 107
+        },
+        {
+            "sleeperPlayerId": "8025",
+            "value": 2.21,
+            "rawValue": 221,
+            "overallRank": 386,
+            "positionRank": 4
+        },
+        {
+            "sleeperPlayerId": "11592",
             "value": 2.21,
             "rawValue": 221,
             "overallRank": 387,
-            "positionRank": 130
+            "positionRank": 45
+        },
+        {
+            "sleeperPlayerId": "12485",
+            "value": 2.2,
+            "rawValue": 220,
+            "overallRank": 388,
+            "positionRank": 132
         },
         {
             "sleeperPlayerId": "11650",
             "value": 2.2,
             "rawValue": 220,
-            "overallRank": 388,
-            "positionRank": 131
-        },
-        {
-            "sleeperPlayerId": "10444",
-            "value": 2.2,
-            "rawValue": 220,
             "overallRank": 389,
-            "positionRank": 132
-        },
-        {
-            "sleeperPlayerId": "6826",
-            "value": 2.19,
-            "rawValue": 219,
-            "overallRank": 390,
-            "positionRank": 47
-        },
-        {
-            "sleeperPlayerId": "6853",
-            "value": 2.19,
-            "rawValue": 219,
-            "overallRank": 391,
             "positionRank": 133
         },
         {
             "sleeperPlayerId": "13329",
-            "value": 2.18,
-            "rawValue": 218,
-            "overallRank": 392,
+            "value": 2.19,
+            "rawValue": 219,
+            "overallRank": 390,
             "positionRank": 134
         },
         {
-            "sleeperPlayerId": "6427",
-            "value": 2.17,
-            "rawValue": 217,
-            "overallRank": 393,
+            "sleeperPlayerId": "12634",
+            "value": 2.19,
+            "rawValue": 219,
+            "overallRank": 391,
             "positionRank": 135
         },
         {
-            "sleeperPlayerId": "13272",
-            "value": 2.17,
-            "rawValue": 217,
-            "overallRank": 394,
-            "positionRank": 36
-        },
-        {
-            "sleeperPlayerId": "3271",
-            "value": 2.16,
-            "rawValue": 216,
-            "overallRank": 395,
-            "positionRank": 48
-        },
-        {
-            "sleeperPlayerId": "11510",
-            "value": 2.16,
-            "rawValue": 216,
-            "overallRank": 396,
-            "positionRank": 5
-        },
-        {
-            "sleeperPlayerId": "13477",
-            "value": 2.15,
-            "rawValue": 215,
-            "overallRank": 397,
+            "sleeperPlayerId": "13380",
+            "value": 2.18,
+            "rawValue": 218,
+            "overallRank": 392,
             "positionRank": 136
         },
         {
-            "sleeperPlayerId": "3634",
+            "sleeperPlayerId": "13421",
+            "value": 2.17,
+            "rawValue": 217,
+            "overallRank": 393,
+            "positionRank": 46
+        },
+        {
+            "sleeperPlayerId": "6826",
+            "value": 2.17,
+            "rawValue": 217,
+            "overallRank": 394,
+            "positionRank": 47
+        },
+        {
+            "sleeperPlayerId": "8147",
+            "value": 2.16,
+            "rawValue": 216,
+            "overallRank": 395,
+            "positionRank": 137
+        },
+        {
+            "sleeperPlayerId": "11574",
+            "value": 2.16,
+            "rawValue": 216,
+            "overallRank": 396,
+            "positionRank": 108
+        },
+        {
+            "sleeperPlayerId": "6853",
+            "value": 2.15,
+            "rawValue": 215,
+            "overallRank": 397,
+            "positionRank": 138
+        },
+        {
+            "sleeperPlayerId": "13272",
             "value": 2.15,
             "rawValue": 215,
             "overallRank": 398,
-            "positionRank": 137
+            "positionRank": 36
         },
         {
             "sleeperPlayerId": "10235",
             "value": 2.14,
             "rawValue": 214,
             "overallRank": 399,
-            "positionRank": 107
-        },
-        {
-            "sleeperPlayerId": "7607",
-            "value": 2.13,
-            "rawValue": 213,
-            "overallRank": 400,
-            "positionRank": 108
-        },
-        {
-            "sleeperPlayerId": "13278",
-            "value": 2.13,
-            "rawValue": 213,
-            "overallRank": 401,
-            "positionRank": 49
-        },
-        {
-            "sleeperPlayerId": "7828",
-            "value": 2.12,
-            "rawValue": 212,
-            "overallRank": 402,
-            "positionRank": 50
-        },
-        {
-            "sleeperPlayerId": "12472",
-            "value": 2.12,
-            "rawValue": 212,
-            "overallRank": 403,
             "positionRank": 109
         },
         {
-            "sleeperPlayerId": "13348",
-            "value": 2.11,
-            "rawValue": 211,
-            "overallRank": 404,
-            "positionRank": 110
-        },
-        {
             "sleeperPlayerId": "3286",
-            "value": 2.11,
-            "rawValue": 211,
-            "overallRank": 405,
-            "positionRank": 138
-        },
-        {
-            "sleeperPlayerId": "12496",
-            "value": 2.1,
-            "rawValue": 210,
-            "overallRank": 406,
+            "value": 2.13,
+            "rawValue": 213,
+            "overallRank": 400,
             "positionRank": 139
         },
         {
-            "sleeperPlayerId": "11565",
-            "value": 2.1,
-            "rawValue": 210,
-            "overallRank": 407,
-            "positionRank": 37
-        },
-        {
-            "sleeperPlayerId": "11068",
-            "value": 2.09,
-            "rawValue": 209,
-            "overallRank": 408,
+            "sleeperPlayerId": "3634",
+            "value": 2.13,
+            "rawValue": 213,
+            "overallRank": 401,
             "positionRank": 140
         },
         {
-            "sleeperPlayerId": "8147",
-            "value": 2.09,
-            "rawValue": 209,
-            "overallRank": 409,
+            "sleeperPlayerId": "MIA",
+            "value": 2.12,
+            "rawValue": 212,
+            "overallRank": 402,
+            "positionRank": 32
+        },
+        {
+            "sleeperPlayerId": "3271",
+            "value": 2.12,
+            "rawValue": 212,
+            "overallRank": 403,
+            "positionRank": 48
+        },
+        {
+            "sleeperPlayerId": "2078",
+            "value": 2.11,
+            "rawValue": 211,
+            "overallRank": 404,
             "positionRank": 141
         },
         {
-            "sleeperPlayerId": "11729",
+            "sleeperPlayerId": "7607",
+            "value": 2.11,
+            "rawValue": 211,
+            "overallRank": 405,
+            "positionRank": 110
+        },
+        {
+            "sleeperPlayerId": "11629",
+            "value": 2.1,
+            "rawValue": 210,
+            "overallRank": 406,
+            "positionRank": 142
+        },
+        {
+            "sleeperPlayerId": "13477",
+            "value": 2.1,
+            "rawValue": 210,
+            "overallRank": 407,
+            "positionRank": 143
+        },
+        {
+            "sleeperPlayerId": "7828",
+            "value": 2.09,
+            "rawValue": 209,
+            "overallRank": 408,
+            "positionRank": 49
+        },
+        {
+            "sleeperPlayerId": "13278",
+            "value": 2.09,
+            "rawValue": 209,
+            "overallRank": 409,
+            "positionRank": 50
+        },
+        {
+            "sleeperPlayerId": "13348",
             "value": 2.08,
             "rawValue": 208,
             "overallRank": 410,
@@ -2893,228 +2893,228 @@
             "positionRank": 51
         },
         {
-            "sleeperPlayerId": "11588",
+            "sleeperPlayerId": "12541",
             "value": 2.07,
             "rawValue": 207,
             "overallRank": 412,
-            "positionRank": 112
+            "positionRank": 144
         },
         {
-            "sleeperPlayerId": "12171",
+            "sleeperPlayerId": "4144",
             "value": 2.07,
             "rawValue": 207,
             "overallRank": 413,
-            "positionRank": 113
+            "positionRank": 52
         },
         {
             "sleeperPlayerId": "11600",
             "value": 2.06,
             "rawValue": 206,
             "overallRank": 414,
-            "positionRank": 52
+            "positionRank": 53
         },
         {
-            "sleeperPlayerId": "13338",
+            "sleeperPlayerId": "11565",
             "value": 2.06,
             "rawValue": 206,
             "overallRank": 415,
-            "positionRank": 142
+            "positionRank": 37
         },
         {
-            "sleeperPlayerId": "7596",
+            "sleeperPlayerId": "4353",
             "value": 2.05,
             "rawValue": 205,
             "overallRank": 416,
-            "positionRank": 143
-        },
-        {
-            "sleeperPlayerId": "12541",
-            "value": 2.05,
-            "rawValue": 205,
-            "overallRank": 417,
-            "positionRank": 144
+            "positionRank": 5
         },
         {
             "sleeperPlayerId": "9510",
+            "value": 2.05,
+            "rawValue": 205,
+            "overallRank": 417,
+            "positionRank": 112
+        },
+        {
+            "sleeperPlayerId": "12171",
             "value": 2.04,
             "rawValue": 204,
             "overallRank": 418,
-            "positionRank": 114
+            "positionRank": 113
         },
         {
-            "sleeperPlayerId": "12738",
+            "sleeperPlayerId": "12472",
             "value": 2.04,
             "rawValue": 204,
             "overallRank": 419,
-            "positionRank": 115
+            "positionRank": 114
         },
         {
-            "sleeperPlayerId": "7496",
+            "sleeperPlayerId": "8207",
             "value": 2.03,
             "rawValue": 203,
             "overallRank": 420,
-            "positionRank": 145
+            "positionRank": 115
         },
         {
-            "sleeperPlayerId": "11570",
+            "sleeperPlayerId": "13338",
             "value": 2.03,
             "rawValue": 203,
             "overallRank": 421,
-            "positionRank": 116
+            "positionRank": 145
         },
         {
-            "sleeperPlayerId": "7608",
+            "sleeperPlayerId": "11588",
             "value": 2.02,
             "rawValue": 202,
             "overallRank": 422,
-            "positionRank": 117
+            "positionRank": 116
         },
         {
-            "sleeperPlayerId": "13289",
+            "sleeperPlayerId": "13411",
             "value": 2.02,
             "rawValue": 202,
             "overallRank": 423,
-            "positionRank": 38
-        },
-        {
-            "sleeperPlayerId": "7527",
-            "value": 2.01,
-            "rawValue": 201,
-            "overallRank": 424,
-            "positionRank": 39
-        },
-        {
-            "sleeperPlayerId": "13270",
-            "value": 2.01,
-            "rawValue": 201,
-            "overallRank": 425,
             "positionRank": 146
         },
         {
-            "sleeperPlayerId": "2078",
+            "sleeperPlayerId": "12738",
+            "value": 2.01,
+            "rawValue": 201,
+            "overallRank": 424,
+            "positionRank": 117
+        },
+        {
+            "sleeperPlayerId": "11570",
+            "value": 2.01,
+            "rawValue": 201,
+            "overallRank": 425,
+            "positionRank": 118
+        },
+        {
+            "sleeperPlayerId": "13270",
             "value": 2,
             "rawValue": 200,
             "overallRank": 426,
             "positionRank": 147
         },
         {
-            "sleeperPlayerId": "11629",
+            "sleeperPlayerId": "11299",
             "value": 2,
             "rawValue": 200,
             "overallRank": 427,
-            "positionRank": 148
+            "positionRank": 119
         },
         {
-            "sleeperPlayerId": "1426",
+            "sleeperPlayerId": "11729",
             "value": 1.99,
             "rawValue": 199,
             "overallRank": 428,
-            "positionRank": 149
+            "positionRank": 120
         },
         {
             "sleeperPlayerId": "12482",
             "value": 1.99,
             "rawValue": 199,
             "overallRank": 429,
-            "positionRank": 150
+            "positionRank": 148
         },
         {
-            "sleeperPlayerId": "13411",
+            "sleeperPlayerId": "7527",
             "value": 1.98,
             "rawValue": 198,
             "overallRank": 430,
-            "positionRank": 151
-        },
-        {
-            "sleeperPlayerId": "11237",
-            "value": 1.98,
-            "rawValue": 198,
-            "overallRank": 431,
-            "positionRank": 118
-        },
-        {
-            "sleeperPlayerId": "8207",
-            "value": 1.97,
-            "rawValue": 197,
-            "overallRank": 432,
-            "positionRank": 119
-        },
-        {
-            "sleeperPlayerId": "7562",
-            "value": 1.97,
-            "rawValue": 197,
-            "overallRank": 433,
-            "positionRank": 152
-        },
-        {
-            "sleeperPlayerId": "4144",
-            "value": 1.96,
-            "rawValue": 196,
-            "overallRank": 434,
-            "positionRank": 53
+            "positionRank": 38
         },
         {
             "sleeperPlayerId": "8195",
-            "value": 1.96,
-            "rawValue": 196,
-            "overallRank": 435,
-            "positionRank": 120
-        },
-        {
-            "sleeperPlayerId": "7521",
-            "value": 1.95,
-            "rawValue": 195,
-            "overallRank": 436,
-            "positionRank": 153
-        },
-        {
-            "sleeperPlayerId": "13400",
-            "value": 1.95,
-            "rawValue": 195,
-            "overallRank": 437,
-            "positionRank": 54
-        },
-        {
-            "sleeperPlayerId": "11574",
-            "value": 1.94,
-            "rawValue": 194,
-            "overallRank": 438,
+            "value": 1.98,
+            "rawValue": 198,
+            "overallRank": 431,
             "positionRank": 121
         },
         {
-            "sleeperPlayerId": "13333",
-            "value": 1.94,
-            "rawValue": 194,
-            "overallRank": 439,
-            "positionRank": 154
-        },
-        {
-            "sleeperPlayerId": "13403",
-            "value": 1.94,
-            "rawValue": 194,
-            "overallRank": 440,
-            "positionRank": 122
-        },
-        {
             "sleeperPlayerId": "7716",
-            "value": 1.93,
-            "rawValue": 193,
-            "overallRank": 441,
-            "positionRank": 55
+            "value": 1.97,
+            "rawValue": 197,
+            "overallRank": 432,
+            "positionRank": 54
+        },
+        {
+            "sleeperPlayerId": "1426",
+            "value": 1.97,
+            "rawValue": 197,
+            "overallRank": 433,
+            "positionRank": 149
         },
         {
             "sleeperPlayerId": "12480",
-            "value": 1.93,
-            "rawValue": 193,
-            "overallRank": 442,
+            "value": 1.96,
+            "rawValue": 196,
+            "overallRank": 434,
+            "positionRank": 55
+        },
+        {
+            "sleeperPlayerId": "7496",
+            "value": 1.96,
+            "rawValue": 196,
+            "overallRank": 435,
+            "positionRank": 150
+        },
+        {
+            "sleeperPlayerId": "12412",
+            "value": 1.95,
+            "rawValue": 195,
+            "overallRank": 436,
+            "positionRank": 122
+        },
+        {
+            "sleeperPlayerId": "13333",
+            "value": 1.95,
+            "rawValue": 195,
+            "overallRank": 437,
+            "positionRank": 151
+        },
+        {
+            "sleeperPlayerId": "1339",
+            "value": 1.94,
+            "rawValue": 194,
+            "overallRank": 438,
             "positionRank": 56
         },
         {
+            "sleeperPlayerId": "7521",
+            "value": 1.94,
+            "rawValue": 194,
+            "overallRank": 439,
+            "positionRank": 152
+        },
+        {
+            "sleeperPlayerId": "7562",
+            "value": 1.94,
+            "rawValue": 194,
+            "overallRank": 440,
+            "positionRank": 153
+        },
+        {
+            "sleeperPlayerId": "13403",
+            "value": 1.93,
+            "rawValue": 193,
+            "overallRank": 441,
+            "positionRank": 123
+        },
+        {
             "sleeperPlayerId": "6111",
+            "value": 1.93,
+            "rawValue": 193,
+            "overallRank": 442,
+            "positionRank": 39
+        },
+        {
+            "sleeperPlayerId": "7596",
             "value": 1.92,
             "rawValue": 192,
             "overallRank": 443,
-            "positionRank": 40
+            "positionRank": 154
         },
         {
             "sleeperPlayerId": "13079",
@@ -3124,417 +3124,417 @@
             "positionRank": 155
         },
         {
-            "sleeperPlayerId": "8202",
+            "sleeperPlayerId": "7591",
             "value": 1.91,
             "rawValue": 191,
             "overallRank": 445,
+            "positionRank": 40
+        },
+        {
+            "sleeperPlayerId": "8202",
+            "value": 1.91,
+            "rawValue": 191,
+            "overallRank": 446,
             "positionRank": 156
         },
         {
             "sleeperPlayerId": "13275",
-            "value": 1.91,
-            "rawValue": 191,
-            "overallRank": 446,
-            "positionRank": 41
-        },
-        {
-            "sleeperPlayerId": "7587",
             "value": 1.9,
             "rawValue": 190,
             "overallRank": 447,
-            "positionRank": 157
+            "positionRank": 41
         },
         {
-            "sleeperPlayerId": "7591",
+            "sleeperPlayerId": "9229",
             "value": 1.9,
             "rawValue": 190,
             "overallRank": 448,
             "positionRank": 42
         },
         {
-            "sleeperPlayerId": "6011",
+            "sleeperPlayerId": "7608",
             "value": 1.9,
             "rawValue": 190,
             "overallRank": 449,
-            "positionRank": 43
+            "positionRank": 124
         },
         {
-            "sleeperPlayerId": "12520",
+            "sleeperPlayerId": "12641",
             "value": 1.89,
             "rawValue": 189,
             "overallRank": 450,
-            "positionRank": 158
+            "positionRank": 157
         },
         {
-            "sleeperPlayerId": "5857",
+            "sleeperPlayerId": "12500",
             "value": 1.89,
             "rawValue": 189,
             "overallRank": 451,
-            "positionRank": 57
+            "positionRank": 43
         },
         {
-            "sleeperPlayerId": "11299",
+            "sleeperPlayerId": "11623",
             "value": 1.88,
             "rawValue": 188,
             "overallRank": 452,
-            "positionRank": 123
+            "positionRank": 158
         },
         {
-            "sleeperPlayerId": "9229",
+            "sleeperPlayerId": "12520",
             "value": 1.88,
             "rawValue": 188,
             "overallRank": 453,
-            "positionRank": 44
+            "positionRank": 159
         },
         {
-            "sleeperPlayerId": "2306",
+            "sleeperPlayerId": "13400",
             "value": 1.87,
             "rawValue": 187,
             "overallRank": 454,
-            "positionRank": 45
+            "positionRank": 57
         },
         {
             "sleeperPlayerId": "11616",
             "value": 1.87,
             "rawValue": 187,
             "overallRank": 455,
-            "positionRank": 159
+            "positionRank": 160
         },
         {
-            "sleeperPlayerId": "12412",
+            "sleeperPlayerId": "11068",
             "value": 1.87,
             "rawValue": 187,
             "overallRank": 456,
-            "positionRank": 124
-        },
-        {
-            "sleeperPlayerId": "11623",
-            "value": 1.86,
-            "rawValue": 186,
-            "overallRank": 457,
-            "positionRank": 160
+            "positionRank": 161
         },
         {
             "sleeperPlayerId": "13434",
             "value": 1.86,
             "rawValue": 186,
-            "overallRank": 458,
+            "overallRank": 457,
             "positionRank": 58
         },
         {
-            "sleeperPlayerId": "4219",
-            "value": 1.85,
-            "rawValue": 185,
-            "overallRank": 459,
-            "positionRank": 125
-        },
-        {
-            "sleeperPlayerId": "13418",
-            "value": 1.85,
-            "rawValue": 185,
-            "overallRank": 460,
-            "positionRank": 126
+            "sleeperPlayerId": "2306",
+            "value": 1.86,
+            "rawValue": 186,
+            "overallRank": 458,
+            "positionRank": 44
         },
         {
             "sleeperPlayerId": "19",
             "value": 1.85,
             "rawValue": 185,
-            "overallRank": 461,
-            "positionRank": 46
-        },
-        {
-            "sleeperPlayerId": "13303",
-            "value": 1.84,
-            "rawValue": 184,
-            "overallRank": 462,
-            "positionRank": 47
-        },
-        {
-            "sleeperPlayerId": "12641",
-            "value": 1.84,
-            "rawValue": 184,
-            "overallRank": 463,
-            "positionRank": 161
+            "overallRank": 459,
+            "positionRank": 45
         },
         {
             "sleeperPlayerId": "7694",
-            "value": 1.83,
-            "rawValue": 183,
-            "overallRank": 464,
+            "value": 1.85,
+            "rawValue": 185,
+            "overallRank": 460,
             "positionRank": 59
         },
         {
-            "sleeperPlayerId": "11596",
-            "value": 1.83,
-            "rawValue": 183,
-            "overallRank": 465,
+            "sleeperPlayerId": "7587",
+            "value": 1.85,
+            "rawValue": 185,
+            "overallRank": 461,
+            "positionRank": 162
+        },
+        {
+            "sleeperPlayerId": "4219",
+            "value": 1.84,
+            "rawValue": 184,
+            "overallRank": 462,
+            "positionRank": 125
+        },
+        {
+            "sleeperPlayerId": "5857",
+            "value": 1.84,
+            "rawValue": 184,
+            "overallRank": 463,
             "positionRank": 60
         },
         {
-            "sleeperPlayerId": "8129",
+            "sleeperPlayerId": "6011",
+            "value": 1.83,
+            "rawValue": 183,
+            "overallRank": 464,
+            "positionRank": 46
+        },
+        {
+            "sleeperPlayerId": "12496",
+            "value": 1.83,
+            "rawValue": 183,
+            "overallRank": 465,
+            "positionRank": 163
+        },
+        {
+            "sleeperPlayerId": "13833",
             "value": 1.82,
             "rawValue": 182,
             "overallRank": 466,
-            "positionRank": 127
+            "positionRank": 35
         },
         {
-            "sleeperPlayerId": "13307",
+            "sleeperPlayerId": "11596",
             "value": 1.82,
             "rawValue": 182,
             "overallRank": 467,
             "positionRank": 61
         },
         {
-            "sleeperPlayerId": "13833",
+            "sleeperPlayerId": "9481",
             "value": 1.82,
             "rawValue": 182,
             "overallRank": 468,
-            "positionRank": 35
+            "positionRank": 62
+        },
+        {
+            "sleeperPlayerId": "13307",
+            "value": 1.81,
+            "rawValue": 181,
+            "overallRank": 469,
+            "positionRank": 63
         },
         {
             "sleeperPlayerId": "2307",
             "value": 1.81,
             "rawValue": 181,
-            "overallRank": 469,
-            "positionRank": 48
-        },
-        {
-            "sleeperPlayerId": "12500",
-            "value": 1.81,
-            "rawValue": 181,
             "overallRank": 470,
-            "positionRank": 49
+            "positionRank": 47
         },
         {
             "sleeperPlayerId": "11599",
             "value": 1.8,
             "rawValue": 180,
             "overallRank": 471,
-            "positionRank": 62
-        },
-        {
-            "sleeperPlayerId": "9481",
-            "value": 1.8,
-            "rawValue": 180,
-            "overallRank": 472,
-            "positionRank": 63
+            "positionRank": 64
         },
         {
             "sleeperPlayerId": "4351",
             "value": 1.8,
             "rawValue": 180,
+            "overallRank": 472,
+            "positionRank": 164
+        },
+        {
+            "sleeperPlayerId": "13394",
+            "value": 1.8,
+            "rawValue": 180,
             "overallRank": 473,
-            "positionRank": 162
+            "positionRank": 165
         },
         {
             "sleeperPlayerId": "3202",
             "value": 1.79,
             "rawValue": 179,
             "overallRank": 474,
-            "positionRank": 64
+            "positionRank": 65
         },
         {
             "sleeperPlayerId": "7720",
             "value": 1.79,
             "rawValue": 179,
             "overallRank": 475,
-            "positionRank": 128
+            "positionRank": 126
         },
         {
-            "sleeperPlayerId": "13297",
+            "sleeperPlayerId": "8129",
             "value": 1.79,
             "rawValue": 179,
             "overallRank": 476,
-            "positionRank": 163
+            "positionRank": 127
         },
         {
-            "sleeperPlayerId": "11557",
+            "sleeperPlayerId": "13297",
             "value": 1.78,
             "rawValue": 178,
             "overallRank": 477,
-            "positionRank": 50
-        },
-        {
-            "sleeperPlayerId": "13324",
-            "value": 1.78,
-            "rawValue": 178,
-            "overallRank": 478,
-            "positionRank": 65
+            "positionRank": 166
         },
         {
             "sleeperPlayerId": "5970",
+            "value": 1.78,
+            "rawValue": 178,
+            "overallRank": 478,
+            "positionRank": 167
+        },
+        {
+            "sleeperPlayerId": "13324",
             "value": 1.77,
             "rawValue": 177,
             "overallRank": 479,
-            "positionRank": 164
-        },
-        {
-            "sleeperPlayerId": "10231",
-            "value": 1.77,
-            "rawValue": 177,
-            "overallRank": 480,
             "positionRank": 66
         },
         {
-            "sleeperPlayerId": "6945",
+            "sleeperPlayerId": "12470",
+            "value": 1.77,
+            "rawValue": 177,
+            "overallRank": 480,
+            "positionRank": 48
+        },
+        {
+            "sleeperPlayerId": "11573",
             "value": 1.77,
             "rawValue": 177,
             "overallRank": 481,
-            "positionRank": 129
+            "positionRank": 128
+        },
+        {
+            "sleeperPlayerId": "13303",
+            "value": 1.76,
+            "rawValue": 176,
+            "overallRank": 482,
+            "positionRank": 49
+        },
+        {
+            "sleeperPlayerId": "10231",
+            "value": 1.76,
+            "rawValue": 176,
+            "overallRank": 483,
+            "positionRank": 67
         },
         {
             "sleeperPlayerId": "5086",
             "value": 1.76,
             "rawValue": 176,
-            "overallRank": 482,
-            "positionRank": 165
-        },
-        {
-            "sleeperPlayerId": "12470",
-            "value": 1.76,
-            "rawValue": 176,
-            "overallRank": 483,
-            "positionRank": 51
-        },
-        {
-            "sleeperPlayerId": "8225",
-            "value": 1.76,
-            "rawValue": 176,
             "overallRank": 484,
-            "positionRank": 67
+            "positionRank": 168
         },
         {
-            "sleeperPlayerId": "13437",
+            "sleeperPlayerId": "6945",
             "value": 1.75,
             "rawValue": 175,
             "overallRank": 485,
-            "positionRank": 130
-        },
-        {
-            "sleeperPlayerId": "827",
-            "value": 1.75,
-            "rawValue": 175,
-            "overallRank": 486,
-            "positionRank": 52
+            "positionRank": 129
         },
         {
             "sleeperPlayerId": "4663",
+            "value": 1.75,
+            "rawValue": 175,
+            "overallRank": 486,
+            "positionRank": 130
+        },
+        {
+            "sleeperPlayerId": "8225",
             "value": 1.74,
             "rawValue": 174,
             "overallRank": 487,
-            "positionRank": 131
+            "positionRank": 68
+        },
+        {
+            "sleeperPlayerId": "11557",
+            "value": 1.74,
+            "rawValue": 174,
+            "overallRank": 488,
+            "positionRank": 50
         },
         {
             "sleeperPlayerId": "13595",
             "value": 1.74,
             "rawValue": 174,
-            "overallRank": 488,
-            "positionRank": 132
-        },
-        {
-            "sleeperPlayerId": "5973",
-            "value": 1.74,
-            "rawValue": 174,
             "overallRank": 489,
-            "positionRank": 68
-        },
-        {
-            "sleeperPlayerId": "2471",
-            "value": 1.73,
-            "rawValue": 173,
-            "overallRank": 490,
-            "positionRank": 6
+            "positionRank": 131
         },
         {
             "sleeperPlayerId": "5008",
             "value": 1.73,
             "rawValue": 173,
-            "overallRank": 491,
+            "overallRank": 490,
             "positionRank": 69
         },
         {
-            "sleeperPlayerId": "6798",
+            "sleeperPlayerId": "5973",
             "value": 1.73,
             "rawValue": 173,
-            "overallRank": 492,
-            "positionRank": 166
-        },
-        {
-            "sleeperPlayerId": "12473",
-            "value": 1.72,
-            "rawValue": 172,
-            "overallRank": 493,
+            "overallRank": 491,
             "positionRank": 70
         },
         {
-            "sleeperPlayerId": "12523",
+            "sleeperPlayerId": "2471",
+            "value": 1.73,
+            "rawValue": 173,
+            "overallRank": 492,
+            "positionRank": 6
+        },
+        {
+            "sleeperPlayerId": "11168",
+            "value": 1.72,
+            "rawValue": 172,
+            "overallRank": 493,
+            "positionRank": 169
+        },
+        {
+            "sleeperPlayerId": "13322",
             "value": 1.72,
             "rawValue": 172,
             "overallRank": 494,
-            "positionRank": 167
+            "positionRank": 71
         },
         {
-            "sleeperPlayerId": "11573",
+            "sleeperPlayerId": "12523",
             "value": 1.71,
             "rawValue": 171,
             "overallRank": 495,
-            "positionRank": 133
+            "positionRank": 170
+        },
+        {
+            "sleeperPlayerId": "12462",
+            "value": 1.71,
+            "rawValue": 171,
+            "overallRank": 496,
+            "positionRank": 132
         },
         {
             "sleeperPlayerId": "11256",
             "value": 1.71,
             "rawValue": 171,
-            "overallRank": 496,
-            "positionRank": 53
-        },
-        {
-            "sleeperPlayerId": "6001",
-            "value": 1.71,
-            "rawValue": 171,
             "overallRank": 497,
-            "positionRank": 71
+            "positionRank": 51
         },
         {
-            "sleeperPlayerId": "1339",
+            "sleeperPlayerId": "827",
             "value": 1.7,
             "rawValue": 170,
             "overallRank": 498,
-            "positionRank": 72
+            "positionRank": 52
         },
         {
-            "sleeperPlayerId": "13322",
+            "sleeperPlayerId": "6001",
             "value": 1.7,
             "rawValue": 170,
             "overallRank": 499,
-            "positionRank": 73
+            "positionRank": 72
         },
         {
-            "sleeperPlayerId": "12462",
+            "sleeperPlayerId": "12473",
             "value": 1.7,
             "rawValue": 170,
             "overallRank": 500,
-            "positionRank": 134
+            "positionRank": 73
         },
         {
-            "sleeperPlayerId": "11168",
+            "sleeperPlayerId": "6798",
             "value": 1.69,
             "rawValue": 169,
             "overallRank": 501,
-            "positionRank": 168
-        },
-        {
-            "sleeperPlayerId": "12670",
-            "value": 1.69,
-            "rawValue": 169,
-            "overallRank": 502,
-            "positionRank": 169
+            "positionRank": 171
         },
         {
             "sleeperPlayerId": "12658",
             "value": 1.69,
             "rawValue": 169,
-            "overallRank": 503,
+            "overallRank": 502,
             "positionRank": 74
+        },
+        {
+            "sleeperPlayerId": "12670",
+            "value": 1.69,
+            "rawValue": 169,
+            "overallRank": 503,
+            "positionRank": 172
         },
         {
             "sleeperPlayerId": "5133",
@@ -3544,717 +3544,689 @@
             "positionRank": 75
         },
         {
-            "sleeperPlayerId": "13408",
+            "sleeperPlayerId": "13437",
             "value": 1.68,
             "rawValue": 168,
             "overallRank": 505,
-            "positionRank": 76
+            "positionRank": 133
         },
         {
-            "sleeperPlayerId": "10871",
+            "sleeperPlayerId": "13408",
             "value": 1.68,
             "rawValue": 168,
             "overallRank": 506,
-            "positionRank": 77
+            "positionRank": 76
         },
         {
             "sleeperPlayerId": "7537",
             "value": 1.67,
             "rawValue": 167,
             "overallRank": 507,
+            "positionRank": 134
+        },
+        {
+            "sleeperPlayerId": "7585",
+            "value": 1.67,
+            "rawValue": 167,
+            "overallRank": 508,
+            "positionRank": 53
+        },
+        {
+            "sleeperPlayerId": "10871",
+            "value": 1.67,
+            "rawValue": 167,
+            "overallRank": 509,
+            "positionRank": 77
+        },
+        {
+            "sleeperPlayerId": "13419",
+            "value": 1.66,
+            "rawValue": 166,
+            "overallRank": 510,
             "positionRank": 135
         },
         {
             "sleeperPlayerId": "13299",
-            "value": 1.67,
-            "rawValue": 167,
-            "overallRank": 508,
+            "value": 1.66,
+            "rawValue": 166,
+            "overallRank": 511,
             "positionRank": 78
-        },
-        {
-            "sleeperPlayerId": "13394",
-            "value": 1.67,
-            "rawValue": 167,
-            "overallRank": 509,
-            "positionRank": 170
         },
         {
             "sleeperPlayerId": "8145",
             "value": 1.66,
             "rawValue": 166,
-            "overallRank": 510,
+            "overallRank": 512,
             "positionRank": 79
         },
         {
             "sleeperPlayerId": "5409",
-            "value": 1.66,
-            "rawValue": 166,
-            "overallRank": 511,
-            "positionRank": 80
-        },
-        {
-            "sleeperPlayerId": "8223",
-            "value": 1.66,
-            "rawValue": 166,
-            "overallRank": 512,
-            "positionRank": 171
-        },
-        {
-            "sleeperPlayerId": "6869",
             "value": 1.65,
             "rawValue": 165,
             "overallRank": 513,
-            "positionRank": 81
-        },
-        {
-            "sleeperPlayerId": "13419",
-            "value": 1.65,
-            "rawValue": 165,
-            "overallRank": 514,
-            "positionRank": 136
+            "positionRank": 80
         },
         {
             "sleeperPlayerId": "7610",
             "value": 1.65,
             "rawValue": 165,
-            "overallRank": 515,
+            "overallRank": 514,
             "positionRank": 54
+        },
+        {
+            "sleeperPlayerId": "8223",
+            "value": 1.65,
+            "rawValue": 165,
+            "overallRank": 515,
+            "positionRank": 173
+        },
+        {
+            "sleeperPlayerId": "6869",
+            "value": 1.64,
+            "rawValue": 164,
+            "overallRank": 516,
+            "positionRank": 81
         },
         {
             "sleeperPlayerId": "5938",
             "value": 1.64,
             "rawValue": 164,
-            "overallRank": 516,
-            "positionRank": 172
+            "overallRank": 517,
+            "positionRank": 174
         },
         {
             "sleeperPlayerId": "7922",
             "value": 1.64,
             "rawValue": 164,
-            "overallRank": 517,
+            "overallRank": 518,
             "positionRank": 36
         },
         {
             "sleeperPlayerId": "6083",
             "value": 1.63,
             "rawValue": 163,
-            "overallRank": 518,
+            "overallRank": 519,
             "positionRank": 37
         },
         {
-            "sleeperPlayerId": "11748",
+            "sleeperPlayerId": "11261",
             "value": 1.61,
             "rawValue": 161,
-            "overallRank": 519,
-            "positionRank": 173
-        },
-        {
-            "sleeperPlayerId": "11261",
-            "value": 1.6,
-            "rawValue": 160,
             "overallRank": 520,
             "positionRank": 38
         },
         {
             "sleeperPlayerId": "6828",
-            "value": 1.59,
-            "rawValue": 159,
+            "value": 1.6,
+            "rawValue": 160,
             "overallRank": 521,
-            "positionRank": 137
+            "positionRank": 136
         },
         {
             "sleeperPlayerId": "7891",
-            "value": 1.58,
-            "rawValue": 158,
+            "value": 1.59,
+            "rawValue": 159,
             "overallRank": 522,
             "positionRank": 82
         },
         {
-            "sleeperPlayerId": "12860",
-            "value": 1.56,
-            "rawValue": 156,
-            "overallRank": 523,
-            "positionRank": 174
-        },
-        {
             "sleeperPlayerId": "11082",
-            "value": 1.55,
-            "rawValue": 155,
-            "overallRank": 524,
+            "value": 1.57,
+            "rawValue": 157,
+            "overallRank": 523,
             "positionRank": 83
         },
         {
             "sleeperPlayerId": "10214",
-            "value": 1.54,
-            "rawValue": 154,
-            "overallRank": 525,
+            "value": 1.56,
+            "rawValue": 156,
+            "overallRank": 524,
             "positionRank": 84
         },
         {
             "sleeperPlayerId": "6144",
-            "value": 1.52,
-            "rawValue": 152,
-            "overallRank": 526,
-            "positionRank": 138
+            "value": 1.54,
+            "rawValue": 154,
+            "overallRank": 525,
+            "positionRank": 137
         },
         {
             "sleeperPlayerId": "8181",
-            "value": 1.51,
-            "rawValue": 151,
-            "overallRank": 527,
+            "value": 1.53,
+            "rawValue": 153,
+            "overallRank": 526,
             "positionRank": 85
         },
         {
             "sleeperPlayerId": "11433",
-            "value": 1.5,
-            "rawValue": 150,
-            "overallRank": 528,
+            "value": 1.52,
+            "rawValue": 152,
+            "overallRank": 527,
             "positionRank": 86
         },
         {
             "sleeperPlayerId": "3258",
-            "value": 1.49,
-            "rawValue": 149,
-            "overallRank": 529,
+            "value": 1.5,
+            "rawValue": 150,
+            "overallRank": 528,
             "positionRank": 87
         },
         {
             "sleeperPlayerId": "13282",
-            "value": 1.47,
-            "rawValue": 147,
-            "overallRank": 530,
+            "value": 1.49,
+            "rawValue": 149,
+            "overallRank": 529,
             "positionRank": 88
         },
         {
             "sleeperPlayerId": "9483",
-            "value": 1.46,
-            "rawValue": 146,
-            "overallRank": 531,
+            "value": 1.48,
+            "rawValue": 148,
+            "overallRank": 530,
             "positionRank": 89
         },
         {
             "sleeperPlayerId": "12389",
-            "value": 1.45,
-            "rawValue": 145,
-            "overallRank": 532,
+            "value": 1.46,
+            "rawValue": 146,
+            "overallRank": 531,
             "positionRank": 90
         },
         {
             "sleeperPlayerId": "10220",
-            "value": 1.44,
-            "rawValue": 144,
-            "overallRank": 533,
+            "value": 1.45,
+            "rawValue": 145,
+            "overallRank": 532,
             "positionRank": 91
         },
         {
             "sleeperPlayerId": "12062",
+            "value": 1.44,
+            "rawValue": 144,
+            "overallRank": 533,
+            "positionRank": 92
+        },
+        {
+            "sleeperPlayerId": "8227",
             "value": 1.42,
             "rawValue": 142,
             "overallRank": 534,
-            "positionRank": 92
+            "positionRank": 93
         },
         {
             "sleeperPlayerId": "11381",
             "value": 1.41,
             "rawValue": 141,
             "overallRank": 535,
-            "positionRank": 93
-        },
-        {
-            "sleeperPlayerId": "8177",
-            "value": 1.4,
-            "rawValue": 140,
-            "overallRank": 536,
             "positionRank": 94
         },
         {
-            "sleeperPlayerId": "7075",
-            "value": 1.38,
-            "rawValue": 138,
-            "overallRank": 537,
+            "sleeperPlayerId": "12851",
+            "value": 1.4,
+            "rawValue": 140,
+            "overallRank": 536,
             "positionRank": 95
         },
         {
-            "sleeperPlayerId": "5985",
-            "value": 1.37,
-            "rawValue": 137,
-            "overallRank": 538,
+            "sleeperPlayerId": "8177",
+            "value": 1.38,
+            "rawValue": 138,
+            "overallRank": 537,
             "positionRank": 96
         },
         {
-            "sleeperPlayerId": "4054",
-            "value": 1.36,
-            "rawValue": 136,
-            "overallRank": 539,
+            "sleeperPlayerId": "7075",
+            "value": 1.37,
+            "rawValue": 137,
+            "overallRank": 538,
             "positionRank": 97
         },
         {
-            "sleeperPlayerId": "7561",
-            "value": 1.35,
-            "rawValue": 135,
-            "overallRank": 540,
-            "positionRank": 139
-        },
-        {
-            "sleeperPlayerId": "6074",
-            "value": 1.33,
-            "rawValue": 133,
-            "overallRank": 541,
+            "sleeperPlayerId": "13308",
+            "value": 1.36,
+            "rawValue": 136,
+            "overallRank": 539,
             "positionRank": 98
         },
         {
-            "sleeperPlayerId": "13210",
-            "value": 1.32,
-            "rawValue": 132,
-            "overallRank": 542,
+            "sleeperPlayerId": "11598",
+            "value": 1.34,
+            "rawValue": 134,
+            "overallRank": 540,
             "positionRank": 99
         },
         {
-            "sleeperPlayerId": "8500",
-            "value": 1.31,
-            "rawValue": 131,
-            "overallRank": 543,
+            "sleeperPlayerId": "8799",
+            "value": 1.33,
+            "rawValue": 133,
+            "overallRank": 541,
             "positionRank": 100
         },
         {
-            "sleeperPlayerId": "13429",
-            "value": 1.29,
-            "rawValue": 129,
-            "overallRank": 544,
+            "sleeperPlayerId": "5985",
+            "value": 1.31,
+            "rawValue": 131,
+            "overallRank": 542,
             "positionRank": 101
         },
         {
-            "sleeperPlayerId": "6918",
-            "value": 1.28,
-            "rawValue": 128,
+            "sleeperPlayerId": "4054",
+            "value": 1.3,
+            "rawValue": 130,
+            "overallRank": 543,
+            "positionRank": 102
+        },
+        {
+            "sleeperPlayerId": "7561",
+            "value": 1.29,
+            "rawValue": 129,
+            "overallRank": 544,
+            "positionRank": 138
+        },
+        {
+            "sleeperPlayerId": "12715",
+            "value": 1.27,
+            "rawValue": 127,
             "overallRank": 545,
+            "positionRank": 103
+        },
+        {
+            "sleeperPlayerId": "11605",
+            "value": 1.26,
+            "rawValue": 126,
+            "overallRank": 546,
+            "positionRank": 104
+        },
+        {
+            "sleeperPlayerId": "6074",
+            "value": 1.25,
+            "rawValue": 125,
+            "overallRank": 547,
+            "positionRank": 105
+        },
+        {
+            "sleeperPlayerId": "13210",
+            "value": 1.23,
+            "rawValue": 123,
+            "overallRank": 548,
+            "positionRank": 106
+        },
+        {
+            "sleeperPlayerId": "6918",
+            "value": 1.22,
+            "rawValue": 122,
+            "overallRank": 549,
+            "positionRank": 139
+        },
+        {
+            "sleeperPlayerId": "9227",
+            "value": 1.21,
+            "rawValue": 121,
+            "overallRank": 550,
             "positionRank": 140
         },
         {
             "sleeperPlayerId": "12515",
-            "value": 1.27,
-            "rawValue": 127,
-            "overallRank": 546,
+            "value": 1.19,
+            "rawValue": 119,
+            "overallRank": 551,
             "positionRank": 141
         },
         {
-            "sleeperPlayerId": "11186",
-            "value": 1.26,
-            "rawValue": 126,
-            "overallRank": 547,
-            "positionRank": 142
-        },
-        {
-            "sleeperPlayerId": "9505",
-            "value": 1.24,
-            "rawValue": 124,
-            "overallRank": 548,
-            "positionRank": 143
-        },
-        {
-            "sleeperPlayerId": "13435",
-            "value": 1.23,
-            "rawValue": 123,
-            "overallRank": 549,
-            "positionRank": 102
+            "sleeperPlayerId": "11593",
+            "value": 1.18,
+            "rawValue": 118,
+            "overallRank": 552,
+            "positionRank": 107
         },
         {
             "sleeperPlayerId": "10227",
-            "value": 1.22,
-            "rawValue": 122,
-            "overallRank": 550,
-            "positionRank": 103
-        },
-        {
-            "sleeperPlayerId": "11820",
-            "value": 1.2,
-            "rawValue": 120,
-            "overallRank": 551,
-            "positionRank": 104
-        },
-        {
-            "sleeperPlayerId": "11895",
-            "value": 1.19,
-            "rawValue": 119,
-            "overallRank": 552,
-            "positionRank": 175
-        },
-        {
-            "sleeperPlayerId": "10212",
-            "value": 1.18,
-            "rawValue": 118,
-            "overallRank": 553,
-            "positionRank": 105
-        },
-        {
-            "sleeperPlayerId": "13273",
             "value": 1.17,
             "rawValue": 117,
-            "overallRank": 554,
-            "positionRank": 106
+            "overallRank": 553,
+            "positionRank": 108
         },
         {
             "sleeperPlayerId": "7535",
             "value": 1.15,
             "rawValue": 115,
-            "overallRank": 555,
-            "positionRank": 107
-        },
-        {
-            "sleeperPlayerId": "3048",
-            "value": 1.14,
-            "rawValue": 114,
-            "overallRank": 556,
-            "positionRank": 108
-        },
-        {
-            "sleeperPlayerId": "8249",
-            "value": 1.13,
-            "rawValue": 113,
-            "overallRank": 557,
+            "overallRank": 554,
             "positionRank": 109
         },
         {
-            "sleeperPlayerId": "8002",
+            "sleeperPlayerId": "11820",
+            "value": 1.14,
+            "rawValue": 114,
+            "overallRank": 555,
+            "positionRank": 110
+        },
+        {
+            "sleeperPlayerId": "3155",
+            "value": 1.12,
+            "rawValue": 112,
+            "overallRank": 556,
+            "positionRank": 175
+        },
+        {
+            "sleeperPlayerId": "10212",
             "value": 1.11,
             "rawValue": 111,
+            "overallRank": 557,
+            "positionRank": 111
+        },
+        {
+            "sleeperPlayerId": "4995",
+            "value": 1.1,
+            "rawValue": 110,
             "overallRank": 558,
-            "positionRank": 55
+            "positionRank": 112
+        },
+        {
+            "sleeperPlayerId": "13273",
+            "value": 1.08,
+            "rawValue": 108,
+            "overallRank": 559,
+            "positionRank": 113
         },
         {
             "sleeperPlayerId": "8204",
-            "value": 1.1,
-            "rawValue": 110,
-            "overallRank": 559,
+            "value": 1.07,
+            "rawValue": 107,
+            "overallRank": 560,
             "positionRank": 176
         },
         {
-            "sleeperPlayerId": "9999",
-            "value": 1.09,
-            "rawValue": 109,
-            "overallRank": 560,
-            "positionRank": 56
-        },
-        {
-            "sleeperPlayerId": "6136",
-            "value": 1.08,
-            "rawValue": 108,
-            "overallRank": 561,
-            "positionRank": 57
-        },
-        {
-            "sleeperPlayerId": "7585",
+            "sleeperPlayerId": "11201",
             "value": 1.06,
             "rawValue": 106,
-            "overallRank": 562,
-            "positionRank": 58
+            "overallRank": 561,
+            "positionRank": 114
         },
         {
-            "sleeperPlayerId": "11377",
-            "value": 1.05,
-            "rawValue": 105,
-            "overallRank": 563,
+            "sleeperPlayerId": "8200",
+            "value": 1.04,
+            "rawValue": 104,
+            "overallRank": 562,
             "positionRank": 177
         },
         {
-            "sleeperPlayerId": "4179",
-            "value": 1.04,
-            "rawValue": 104,
-            "overallRank": 564,
-            "positionRank": 59
-        },
-        {
-            "sleeperPlayerId": "11292",
+            "sleeperPlayerId": "8250",
             "value": 1.03,
             "rawValue": 103,
-            "overallRank": 565,
-            "positionRank": 60
-        },
-        {
-            "sleeperPlayerId": "7083",
-            "value": 1.01,
-            "rawValue": 101,
-            "overallRank": 566,
-            "positionRank": 61
-        },
-        {
-            "sleeperPlayerId": "9230",
-            "value": 1,
-            "rawValue": 100,
-            "overallRank": 567,
-            "positionRank": 62
-        },
-        {
-            "sleeperPlayerId": "10234",
-            "value": 0.99,
-            "rawValue": 99,
-            "overallRank": 568,
+            "overallRank": 563,
             "positionRank": 178
         },
         {
-            "sleeperPlayerId": "8160",
-            "value": 0.97,
-            "rawValue": 97,
+            "sleeperPlayerId": "11617",
+            "value": 1.02,
+            "rawValue": 102,
+            "overallRank": 564,
+            "positionRank": 179
+        },
+        {
+            "sleeperPlayerId": "8002",
+            "value": 1,
+            "rawValue": 100,
+            "overallRank": 565,
+            "positionRank": 55
+        },
+        {
+            "sleeperPlayerId": "11292",
+            "value": 0.99,
+            "rawValue": 99,
+            "overallRank": 566,
+            "positionRank": 56
+        },
+        {
+            "sleeperPlayerId": "9999",
+            "value": 0.98,
+            "rawValue": 98,
+            "overallRank": 567,
+            "positionRank": 57
+        },
+        {
+            "sleeperPlayerId": "6136",
+            "value": 0.96,
+            "rawValue": 96,
+            "overallRank": 568,
+            "positionRank": 58
+        },
+        {
+            "sleeperPlayerId": "4179",
+            "value": 0.95,
+            "rawValue": 95,
             "overallRank": 569,
+            "positionRank": 59
+        },
+        {
+            "sleeperPlayerId": "7083",
+            "value": 0.93,
+            "rawValue": 93,
+            "overallRank": 570,
+            "positionRank": 60
+        },
+        {
+            "sleeperPlayerId": "9230",
+            "value": 0.92,
+            "rawValue": 92,
+            "overallRank": 571,
+            "positionRank": 61
+        },
+        {
+            "sleeperPlayerId": "10234",
+            "value": 0.91,
+            "rawValue": 91,
+            "overallRank": 572,
+            "positionRank": 180
+        },
+        {
+            "sleeperPlayerId": "8160",
+            "value": 0.89,
+            "rawValue": 89,
+            "overallRank": 573,
+            "positionRank": 62
+        },
+        {
+            "sleeperPlayerId": "13425",
+            "value": 0.88,
+            "rawValue": 88,
+            "overallRank": 574,
             "positionRank": 63
         },
         {
             "sleeperPlayerId": "11562",
-            "value": 0.96,
-            "rawValue": 96,
-            "overallRank": 570,
+            "value": 0.87,
+            "rawValue": 87,
+            "overallRank": 575,
             "positionRank": 64
         },
         {
             "sleeperPlayerId": "8162",
-            "value": 0.95,
-            "rawValue": 95,
-            "overallRank": 571,
+            "value": 0.85,
+            "rawValue": 85,
+            "overallRank": 576,
             "positionRank": 65
         },
         {
             "sleeperPlayerId": "5854",
-            "value": 0.94,
-            "rawValue": 94,
-            "overallRank": 572,
+            "value": 0.84,
+            "rawValue": 84,
+            "overallRank": 577,
             "positionRank": 66
         },
         {
             "sleeperPlayerId": "829",
-            "value": 0.92,
-            "rawValue": 92,
-            "overallRank": 573,
+            "value": 0.83,
+            "rawValue": 83,
+            "overallRank": 578,
             "positionRank": 67
         },
         {
-            "sleeperPlayerId": "4464",
-            "value": 0.91,
-            "rawValue": 91,
-            "overallRank": 574,
+            "sleeperPlayerId": "13289",
+            "value": 0.81,
+            "rawValue": 81,
+            "overallRank": 579,
             "positionRank": 68
         },
         {
-            "sleeperPlayerId": "8413",
-            "value": 0.9,
-            "rawValue": 90,
-            "overallRank": 575,
-            "positionRank": 69
-        },
-        {
-            "sleeperPlayerId": "13295",
-            "value": 0.88,
-            "rawValue": 88,
-            "overallRank": 576,
-            "positionRank": 70
-        },
-        {
             "sleeperPlayerId": "12542",
-            "value": 0.87,
-            "rawValue": 87,
-            "overallRank": 577,
-            "positionRank": 179
-        },
-        {
-            "sleeperPlayerId": "11593",
-            "value": 0.86,
-            "rawValue": 86,
-            "overallRank": 578,
-            "positionRank": 110
-        },
-        {
-            "sleeperPlayerId": "7842",
-            "value": 0.85,
-            "rawValue": 85,
-            "overallRank": 579,
-            "positionRank": 111
-        },
-        {
-            "sleeperPlayerId": "11065",
-            "value": 0.83,
-            "rawValue": 83,
+            "value": 0.8,
+            "rawValue": 80,
             "overallRank": 580,
-            "positionRank": 71
-        },
-        {
-            "sleeperPlayerId": "13404",
-            "value": 0.82,
-            "rawValue": 82,
-            "overallRank": 581,
-            "positionRank": 72
-        },
-        {
-            "sleeperPlayerId": "12984",
-            "value": 0.81,
-            "rawValue": 81,
-            "overallRank": 582,
-            "positionRank": 112
+            "positionRank": 181
         },
         {
             "sleeperPlayerId": "13335",
             "value": 0.79,
             "rawValue": 79,
-            "overallRank": 583,
-            "positionRank": 73
-        },
-        {
-            "sleeperPlayerId": "11617",
-            "value": 0.78,
-            "rawValue": 78,
-            "overallRank": 584,
-            "positionRank": 180
-        },
-        {
-            "sleeperPlayerId": "12510",
-            "value": 0.77,
-            "rawValue": 77,
-            "overallRank": 585,
-            "positionRank": 74
+            "overallRank": 581,
+            "positionRank": 69
         },
         {
             "sleeperPlayerId": "5127",
-            "value": 0.76,
-            "rawValue": 76,
-            "overallRank": 586,
-            "positionRank": 75
+            "value": 0.77,
+            "rawValue": 77,
+            "overallRank": 582,
+            "positionRank": 70
         },
         {
             "sleeperPlayerId": "3976",
+            "value": 0.76,
+            "rawValue": 76,
+            "overallRank": 583,
+            "positionRank": 71
+        },
+        {
+            "sleeperPlayerId": "12510",
             "value": 0.74,
             "rawValue": 74,
-            "overallRank": 587,
-            "positionRank": 76
+            "overallRank": 584,
+            "positionRank": 72
         },
         {
             "sleeperPlayerId": "8484",
             "value": 0.73,
             "rawValue": 73,
-            "overallRank": 588,
-            "positionRank": 113
-        },
-        {
-            "sleeperPlayerId": "8489",
-            "value": 0.72,
-            "rawValue": 72,
-            "overallRank": 589,
-            "positionRank": 114
-        },
-        {
-            "sleeperPlayerId": "4189",
-            "value": 0.7,
-            "rawValue": 70,
-            "overallRank": 590,
+            "overallRank": 585,
             "positionRank": 115
         },
         {
-            "sleeperPlayerId": "5374",
+            "sleeperPlayerId": "7842",
+            "value": 0.72,
+            "rawValue": 72,
+            "overallRank": 586,
+            "positionRank": 116
+        },
+        {
+            "sleeperPlayerId": "8489",
+            "value": 0.7,
+            "rawValue": 70,
+            "overallRank": 587,
+            "positionRank": 117
+        },
+        {
+            "sleeperPlayerId": "4189",
             "value": 0.69,
             "rawValue": 69,
-            "overallRank": 591,
-            "positionRank": 181
+            "overallRank": 588,
+            "positionRank": 118
         },
         {
             "sleeperPlayerId": "13150",
             "value": 0.68,
             "rawValue": 68,
-            "overallRank": 592,
+            "overallRank": 589,
             "positionRank": 182
         },
         {
-            "sleeperPlayerId": "11716",
-            "value": 0.67,
-            "rawValue": 67,
-            "overallRank": 593,
-            "positionRank": 116
-        },
-        {
             "sleeperPlayerId": "10225",
-            "value": 0.65,
-            "rawValue": 65,
-            "overallRank": 594,
+            "value": 0.66,
+            "rawValue": 66,
+            "overallRank": 590,
             "positionRank": 183
         },
         {
-            "sleeperPlayerId": "4995",
-            "value": 0.64,
-            "rawValue": 64,
-            "overallRank": 595,
-            "positionRank": 117
-        },
-        {
             "sleeperPlayerId": "4314",
-            "value": 0.63,
-            "rawValue": 63,
-            "overallRank": 596,
-            "positionRank": 118
-        },
-        {
-            "sleeperPlayerId": "11157",
-            "value": 0.62,
-            "rawValue": 62,
-            "overallRank": 597,
-            "positionRank": 184
-        },
-        {
-            "sleeperPlayerId": "11201",
-            "value": 0.6,
-            "rawValue": 60,
-            "overallRank": 598,
+            "value": 0.65,
+            "rawValue": 65,
+            "overallRank": 591,
             "positionRank": 119
         },
         {
-            "sleeperPlayerId": "12511",
-            "value": 0.59,
-            "rawValue": 59,
-            "overallRank": 599,
-            "positionRank": 77
+            "sleeperPlayerId": "13580",
+            "value": 0.64,
+            "rawValue": 64,
+            "overallRank": 592,
+            "positionRank": 120
         },
         {
-            "sleeperPlayerId": "8159",
-            "value": 0.58,
-            "rawValue": 58,
-            "overallRank": 600,
-            "positionRank": 78
+            "sleeperPlayerId": "12494",
+            "value": 0.62,
+            "rawValue": 62,
+            "overallRank": 593,
+            "positionRank": 73
+        },
+        {
+            "sleeperPlayerId": "11157",
+            "value": 0.61,
+            "rawValue": 61,
+            "overallRank": 594,
+            "positionRank": 184
+        },
+        {
+            "sleeperPlayerId": "12511",
+            "value": 0.6,
+            "rawValue": 60,
+            "overallRank": 595,
+            "positionRank": 74
         },
         {
             "sleeperPlayerId": "4972",
-            "value": 0.56,
-            "rawValue": 56,
-            "overallRank": 601,
-            "positionRank": 79
+            "value": 0.58,
+            "rawValue": 58,
+            "overallRank": 596,
+            "positionRank": 75
         },
         {
-            "sleeperPlayerId": "12538",
+            "sleeperPlayerId": "10857",
+            "value": 0.57,
+            "rawValue": 57,
+            "overallRank": 597,
+            "positionRank": 76
+        },
+        {
+            "sleeperPlayerId": "3048",
             "value": 0.55,
             "rawValue": 55,
-            "overallRank": 602,
-            "positionRank": 80
+            "overallRank": 598,
+            "positionRank": 121
         },
         {
             "sleeperPlayerId": "7757",
             "value": 0.54,
             "rawValue": 54,
-            "overallRank": 603,
+            "overallRank": 599,
             "positionRank": 185
         },
         {
             "sleeperPlayerId": "12539",
             "value": 0.53,
             "rawValue": 53,
-            "overallRank": 604,
+            "overallRank": 600,
             "positionRank": 186
         },
         {
             "sleeperPlayerId": "11994",
             "value": 0.51,
             "rawValue": 51,
-            "overallRank": 605,
+            "overallRank": 601,
             "positionRank": 187
         },
         {
             "sleeperPlayerId": "13491",
             "value": 0.5,
             "rawValue": 50,
-            "overallRank": 606,
+            "overallRank": 602,
             "positionRank": 188
         }
     ]

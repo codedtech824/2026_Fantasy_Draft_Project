@@ -5,15 +5,16 @@ import json
 import glob
 from datetime import datetime
 
+_PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
 class BronzeToSilver:
     """
     Transforms raw JSON data from the Bronze layer into cleaned, conformed
     Parquet tables in the Silver layer.
     """
-    def __init__(self, bronze_dir="/tmp/nfl-prediction-engine/data/bronze",
-                 silver_dir="/tmp/nfl-prediction-engine/data/silver"):
-        self.bronze_dir = bronze_dir
-        self.silver_dir = silver_dir
+    def __init__(self, bronze_dir=None, silver_dir=None):
+        self.bronze_dir = bronze_dir or os.path.join(_PROJECT_ROOT, "data", "bronze")
+        self.silver_dir = silver_dir or os.path.join(_PROJECT_ROOT, "data", "silver")
         os.makedirs(self.silver_dir, exist_ok=True)
 
     def _load_json_files(self, subfolder, pattern="*.json"):
@@ -58,6 +59,19 @@ class BronzeToSilver:
 
             df = pd.DataFrame(data)
             df['season'] = season
+
+            # Unnest paginated API response (e.g. NFLData.org returns {"data": [...], "total": ...})
+            if 'data' in df.columns:
+                unnested = []
+                for _, row in df.iterrows():
+                    if isinstance(row.get('data'), list):
+                        for player in row['data']:
+                            if isinstance(player, dict):
+                                player.setdefault('season', row.get('season', season))
+                                unnested.append(player)
+                if unnested:
+                    df = pd.DataFrame(unnested)
+
             all_dfs.append(df)
 
         df = pd.concat(all_dfs, ignore_index=True)
