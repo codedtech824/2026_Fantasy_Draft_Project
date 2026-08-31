@@ -6,8 +6,8 @@ class NFLDrafter:
     """
     Implements Value Based Drafting (VBD) and Scarcity Analysis.
     """
-    def __init__(self, processed_dir="/dbfs/nfl-prediction-engine/data/processed",
-                 silver_dir="/dbfs/nfl-prediction-engine/data/silver"):
+    def __init__(self, processed_dir="/tmp/nfl-prediction-engine/data/processed",
+                 silver_dir="/tmp/nfl-prediction-engine/data/silver"):
         self.processed_dir = processed_dir
         self.silver_dir = silver_dir
 

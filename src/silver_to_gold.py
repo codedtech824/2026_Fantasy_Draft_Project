@@ -8,8 +8,8 @@ class SilverToGold:
     Transforms cleaned Silver data into a predictive Gold feature set.
     Implements: EWMA, SOS Normalization, Injury Risk, and Matchup Analysis.
     """
-    def __init__(self, silver_dir="/dbfs/nfl-prediction-engine/data/silver",
-                 gold_dir="/dbfs/nfl-prediction-engine/data/gold"):
+    def __init__(self, silver_dir="/tmp/nfl-prediction-engine/data/silver",
+                 gold_dir="/tmp/nfl-prediction-engine/data/gold"):
         self.silver_dir = silver_dir
         self.gold_dir = gold_dir
         os.makedirs(self.gold_dir, exist_ok=True)
