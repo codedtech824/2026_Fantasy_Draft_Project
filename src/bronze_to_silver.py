@@ -10,8 +10,8 @@ class BronzeToSilver:
     Transforms raw JSON data from the Bronze layer into cleaned, conformed
     Parquet tables in the Silver layer.
     """
-    def __init__(self, bronze_dir="C:/Users/Keith/nfl-prediction-engine/data/bronze",
-                 silver_dir="C:/Users/Keith/nfl-prediction-engine/data/silver"):
+    def __init__(self, bronze_dir="/dbfs/nfl-prediction-engine/data/bronze",
+                 silver_dir="/dbfs/nfl-prediction-engine/data/silver"):
         self.bronze_dir = bronze_dir
         self.silver_dir = silver_dir
         os.makedirs(self.silver_dir, exist_ok=True)

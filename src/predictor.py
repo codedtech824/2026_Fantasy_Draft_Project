@@ -9,8 +9,8 @@ class NFLPredictor:
     """
     Uses Machine Learning to convert Gold features into finalized 2026 projections.
     """
-    def __init__(self, gold_dir="C:/Users/Keith/nfl-prediction-engine/data/gold",
-                 processed_dir="C:/Users/Keith/nfl-prediction-engine/data/processed"):
+    def __init__(self, gold_dir="/dbfs/nfl-prediction-engine/data/gold",
+                 processed_dir="/dbfs/nfl-prediction-engine/data/processed"):
         self.gold_dir = gold_dir
         self.processed_dir = processed_dir
         os.makedirs(self.processed_dir, exist_ok=True)

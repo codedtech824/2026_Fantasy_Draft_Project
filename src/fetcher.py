@@ -8,7 +8,7 @@ class NFLDataFetcher:
     """
     Handles the ingestion of raw NFL data from verified APIs into the Bronze layer.
     """
-    def __init__(self, base_dir="C:/Users/Keith/nfl-prediction-engine/data/bronze"):
+    def __init__(self, base_dir="/dbfs/nfl-prediction-engine/data/bronze"):
         self.base_dir = base_dir
         self.session = requests.Session()
         # Common headers to avoid 403s and 406s
