@@ -24,8 +24,18 @@ repo_root = os.path.abspath(os.path.join(os.getcwd(), ".."))
 if repo_root not in sys.path:
     sys.path.insert(0, repo_root)
 
+# Create all required directories in this session's /tmp
+for folder in [
+    "/tmp/nfl-prediction-engine/data/bronze/nfl_stats",
+    "/tmp/nfl-prediction-engine/data/bronze/injuries",
+    "/tmp/nfl-prediction-engine/data/silver",
+    "/tmp/nfl-prediction-engine/data/gold",
+    "/tmp/nfl-prediction-engine/data/processed",
+]:
+    os.makedirs(folder, exist_ok=True)
+
 print(f"Repo root: {repo_root}")
-print("Starting full pipeline...\n")
+print("Directories ready. Starting full pipeline...\n")
 
 # COMMAND ----------
 
