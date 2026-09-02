@@ -4,8 +4,9 @@
 
 # MAGIC %md
 # MAGIC # 06 - Update 2026 Stats
-# MAGIC Fetches stats for every *completed* 2026-season game from nfldata.org and
-# MAGIC upserts them into `nfl_prediction_engine.stats_2026`.
+# MAGIC Fetches stats for every *completed* 2026-season game -- weekly player
+# MAGIC stats from nflverse, completed-game/schedule metadata from nfldata.org --
+# MAGIC and upserts them into `nfl_prediction_engine.stats_2026`.
 # MAGIC
 # MAGIC Safe to re-run any time during the season -- rows are keyed by
 # MAGIC `game_id + player + position`, so newly completed games are added and
