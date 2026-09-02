@@ -13,10 +13,16 @@
 # MAGIC for each side is that team's rostered QB/RB/WR/TE `ml_projected_points`
 # MAGIC summed (offense), minus the opponent's D/ST `ml_projected_points`
 # MAGIC (defense) -- both numbers already sitting in the draft board, no new
-# MAGIC modeling. Validated against the real, fully-resolved 2025 season: 59.9%
-# MAGIC accuracy (163/272 games) -- meaningfully better than a coin flip, well
-# MAGIC below what a real spread model would do, exactly what you'd expect from
-# MAGIC a deliberately simple baseline.
+# MAGIC modeling. Any player nflverse's weekly injury report has marked "Out"
+# MAGIC for that week is excluded from their team's offense sum first -- a
+# MAGIC benched starter shouldn't count. Validated against the real,
+# MAGIC fully-resolved 2025 season: 59.9% accuracy without the injury filter,
+# MAGIC 61.4% with it (163 -> 167 of 272 games) -- meaningfully better than a
+# MAGIC coin flip, well below what a real spread model would do, exactly what
+# MAGIC you'd expect from a deliberately simple baseline. A home-field-advantage
+# MAGIC adjustment was also tested and dropped -- across bonus sizes from 2% to
+# MAGIC 10% it never beat the baseline by more than 1 game out of 272, noise
+# MAGIC rather than signal at this model's scale.
 # MAGIC
 # MAGIC Only depends on the draft board (`run_pipeline.py`), not the fantasy
 # MAGIC rosters from `07` -- these are real NFL team predictions, unrelated to
@@ -45,7 +51,10 @@ if repo_root not in sys.path:
 # COMMAND ----------
 
 import pandas as pd
-from src.season_simulator import fetch_nfl_games, predict_nfl_games, grade_nfl_predictions, add_realistic_scores
+from src.season_simulator import (
+    fetch_nfl_games, fetch_weekly_injuries, predict_nfl_games,
+    grade_nfl_predictions, add_realistic_scores,
+)
 
 _PROC = "/tmp/nfl-prediction-engine/data/processed"
 _BOARD_TABLE = "nfl_prediction_engine.draft_board_2026"
@@ -68,7 +77,14 @@ else:
 games = fetch_nfl_games(SEASON)
 print(f"Fetched {len(games)} games for {SEASON} (played or not)")
 
-predictions = predict_nfl_games(board, games)
+injuries_by_week = fetch_weekly_injuries(SEASON)
+if injuries_by_week:
+    total_out = sum(len(ids) for ids in injuries_by_week.values())
+    print(f"Fetched {total_out} 'Out' designations across {len(injuries_by_week)} week(s) -- excluding them from that week's offense sum")
+else:
+    print(f"No {SEASON} injury reports published yet -- predicting with full rosters until they are")
+
+predictions = predict_nfl_games(board, games, injuries_by_week)
 predictions = add_realistic_scores(predictions)
 
 score_cols = ["home_team", "away_team", "predicted_winner",
