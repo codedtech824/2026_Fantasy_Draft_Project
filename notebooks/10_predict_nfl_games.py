@@ -94,9 +94,12 @@ else:
 # COMMAND ----------
 
 spark.sql("CREATE DATABASE IF NOT EXISTS nfl_prediction_engine")
-spark.createDataFrame(predictions).write.mode("overwrite").saveAsTable("nfl_prediction_engine.nfl_game_predictions_2026")
+# overwriteSchema: the realistic-score/TD-PAT-FG columns are new -- without
+# this, Delta rejects the write with DELTA_METADATA_MISMATCH against the
+# table's older schema instead of evolving it.
+spark.createDataFrame(predictions).write.mode("overwrite").option("overwriteSchema", "true").saveAsTable("nfl_prediction_engine.nfl_game_predictions_2026")
 print("Table saved: nfl_prediction_engine.nfl_game_predictions_2026 (every game, played or not)")
 
 if not graded.empty:
-    spark.createDataFrame(graded).write.mode("overwrite").saveAsTable("nfl_prediction_engine.nfl_game_predictions_graded_2026")
+    spark.createDataFrame(graded).write.mode("overwrite").option("overwriteSchema", "true").saveAsTable("nfl_prediction_engine.nfl_game_predictions_graded_2026")
     print("Table saved: nfl_prediction_engine.nfl_game_predictions_graded_2026 (completed games only, with accuracy)")
