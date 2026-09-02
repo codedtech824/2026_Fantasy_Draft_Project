@@ -461,6 +461,9 @@ def _team_defense_strength(board, team):
     return vals.iloc[0] if len(vals) else 0.0
 
 
+HOME_FIELD_BONUS_PCT = 0.03  # see predict_nfl_games docstring -- backtested as accuracy-neutral, not a proven gain
+
+
 def predict_nfl_games(board, games, injuries_by_week=None):
     """
     One predicted row per real NFL game: predicted_home_score/
@@ -473,12 +476,19 @@ def predict_nfl_games(board, games, injuries_by_week=None):
     from the offense sum -- validated against the real 2025 season at
     +1.5 points of accuracy (59.9% -> 61.4%) even with an imperfect
     cross-season player match, so worth passing when you have it.
+
+    The home team's offense also gets a flat HOME_FIELD_BONUS_PCT boost.
+    Honesty check: this was backtested against the real 2025 season across
+    bonus sizes from 2% to 10% and never beat the baseline by more than 1
+    game out of 272 at any size -- it's here for real-world modeling
+    completeness (home-field advantage is real), not because the backtest
+    proved it helps this particular model.
     """
     rows = []
     for g in games:
         home, away, wk = g["home_team"], g["away_team"], g["week"]
         excluded = (injuries_by_week or {}).get(wk, set())
-        off_home = _team_offense_strength(board, home, excluded)
+        off_home = _team_offense_strength(board, home, excluded) * (1 + HOME_FIELD_BONUS_PCT)
         off_away = _team_offense_strength(board, away, excluded)
         def_home, def_away = _team_defense_strength(board, home), _team_defense_strength(board, away)
         pred_home = round(off_home - def_away, 2)

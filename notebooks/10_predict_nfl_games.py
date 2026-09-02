@@ -19,10 +19,13 @@
 # MAGIC fully-resolved 2025 season: 59.9% accuracy without the injury filter,
 # MAGIC 61.4% with it (163 -> 167 of 272 games) -- meaningfully better than a
 # MAGIC coin flip, well below what a real spread model would do, exactly what
-# MAGIC you'd expect from a deliberately simple baseline. A home-field-advantage
-# MAGIC adjustment was also tested and dropped -- across bonus sizes from 2% to
-# MAGIC 10% it never beat the baseline by more than 1 game out of 272, noise
-# MAGIC rather than signal at this model's scale.
+# MAGIC you'd expect from a deliberately simple baseline. A flat home-field-
+# MAGIC advantage boost (`HOME_FIELD_BONUS_PCT` in season_simulator.py) is also
+# MAGIC applied to the home team's offense -- honestly, this was backtested
+# MAGIC across bonus sizes from 2% to 10% and never beat the baseline by more
+# MAGIC than 1 game out of 272, so it's here for real-world modeling
+# MAGIC completeness (home-field advantage is real), not because the backtest
+# MAGIC proved it helps this particular model.
 # MAGIC
 # MAGIC Only depends on the draft board (`run_pipeline.py`), not the fantasy
 # MAGIC rosters from `07` -- these are real NFL team predictions, unrelated to
