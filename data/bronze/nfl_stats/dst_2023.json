@@ -216,12 +216,12 @@
         "points_allowed_total": 384
     },
     {
-        "team": "WSH",
+        "team": "WAS",
         "season": 2023,
         "games": 17,
-        "sacks": 0,
-        "interceptions": 0,
-        "fumble_recoveries": 0,
+        "sacks": 26.0,
+        "interceptions": 7,
+        "fumble_recoveries": 14,
         "def_tds": 0,
         "safeties": 0,
         "points_allowed_per_game": 30.470588235294116,

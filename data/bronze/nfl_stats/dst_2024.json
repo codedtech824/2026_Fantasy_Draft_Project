@@ -36,13 +36,13 @@
         "points_allowed_total": 432
     },
     {
-        "team": "WSH",
+        "team": "WAS",
         "season": 2024,
         "games": 20,
-        "sacks": 0,
-        "interceptions": 0,
-        "fumble_recoveries": 0,
-        "def_tds": 0,
+        "sacks": 49.0,
+        "interceptions": 9,
+        "fumble_recoveries": 12,
+        "def_tds": 3,
         "safeties": 0,
         "points_allowed_per_game": 24.85,
         "points_allowed_total": 497

@@ -228,14 +228,14 @@
         "points_allowed_total": 381
     },
     {
-        "team": "WSH",
+        "team": "WAS",
         "season": 2022,
         "games": 17,
-        "sacks": 0,
-        "interceptions": 0,
-        "fumble_recoveries": 0,
+        "sacks": 30.5,
+        "interceptions": 10,
+        "fumble_recoveries": 4,
         "def_tds": 0,
-        "safeties": 0,
+        "safeties": 1,
         "points_allowed_per_game": 20.176470588235293,
         "points_allowed_total": 343
     },

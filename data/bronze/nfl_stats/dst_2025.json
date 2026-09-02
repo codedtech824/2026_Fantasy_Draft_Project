@@ -360,14 +360,14 @@
         "points_allowed_total": 478
     },
     {
-        "team": "WSH",
+        "team": "WAS",
         "season": 2025,
         "games": 17,
-        "sacks": 0,
-        "interceptions": 0,
-        "fumble_recoveries": 0,
+        "sacks": 55.0,
+        "interceptions": 6,
+        "fumble_recoveries": 3,
         "def_tds": 0,
-        "safeties": 0,
+        "safeties": 2,
         "points_allowed_per_game": 26.529411764705884,
         "points_allowed_total": 451
     },
