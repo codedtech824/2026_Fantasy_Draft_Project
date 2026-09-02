@@ -96,7 +96,7 @@ class NFLDrafter:
         # so a fixed baseline like "250 for every QB" ends up meaning
         # different things per position and can make a whole position appear
         # uniformly over- or under-valued regardless of who's actually good.
-        starters_per_position = {'QB': 13, 'RB': 26, 'WR': 26, 'TE': 13, 'DST': 13}
+        starters_per_position = {'QB': 13, 'RB': 26, 'WR': 26, 'TE': 13, 'DST': 13, 'K': 13}
         baselines = {}
         for pos, rank in starters_per_position.items():
             pos_values = df.loc[df['position'] == pos, 'ml_projected_points'].sort_values(ascending=False)
