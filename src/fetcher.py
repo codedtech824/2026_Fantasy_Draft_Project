@@ -58,20 +58,103 @@ class NFLDataFetcher:
 
     def fetch_nfl_data_stats(self, seasons=[2022, 2023, 2024, 2025]):
         """
-        Pulls historical stats from NFLData.org.
+        Pulls historical stats from NFLData.org, paginating through every
+        record. /stats/season returns ~1900+ player-seasons but only 50 per
+        page -- an unpaginated single request silently keeps just the top 50
+        by score, which starves every position of depth (worst for TE, since
+        TEs score lower on average and get squeezed out of a combined top-50
+        cut first).
         """
         print("Fetching historical stats from NFLData.org...")
         base_url = "https://api.nfldata.org/v1"
 
         for season in seasons:
             try:
-                leaders_url = f"{base_url}/stats/season?season={season}"
-                resp = self.session.get(leaders_url)
-                resp.raise_for_status()
-                data = resp.json()
-                self._save_raw(data, "nfl_stats", f"leaders_{season}.json")
+                all_records = []
+                offset, limit = 0, 500
+                while True:
+                    resp = self.session.get(
+                        f"{base_url}/stats/season",
+                        params={"season": season, "limit": limit, "offset": offset},
+                    )
+                    resp.raise_for_status()
+                    page = resp.json()
+                    records = page.get("data", [])
+                    all_records.extend(records)
+                    if len(all_records) >= page.get("total", 0) or len(records) < limit:
+                        break
+                    offset += limit
+
+                self._save_raw({"data": all_records, "total": len(all_records)}, "nfl_stats", f"leaders_{season}.json")
+                print(f"  {season}: {len(all_records)} player-seasons")
             except Exception as e:
                 print(f"Error fetching NFLData stats for {season}: {e}")
+
+    def fetch_dst_stats(self, seasons=[2022, 2023, 2024, 2025]):
+        """
+        Builds team-defense (D/ST) season totals from two sources:
+        - Per-player defensive counting stats (sacks, INTs, fumble
+          recoveries, def/return TDs, safeties) already present on every
+          player row from /stats/season, summed by team.
+        - Points allowed per team, from /games (home_score/away_score of
+          every game that team played).
+        There's no dedicated team-defense endpoint on this API, so this is
+        assembled rather than fetched as one payload.
+        """
+        print("Building team defense (D/ST) stats from player + game data...")
+        base_url = "https://api.nfldata.org/v1"
+
+        for season in seasons:
+            try:
+                games_resp = self.session.get(f"{base_url}/games", params={"season": season, "limit": 500})
+                games_resp.raise_for_status()
+                games = games_resp.json().get("data", [])
+                points_allowed = {}
+                for g in games:
+                    if g.get("home_score") is None or g.get("away_score") is None:
+                        continue
+                    home, away = g.get("home_team"), g.get("away_team")
+                    points_allowed.setdefault(home, []).append(g["away_score"])
+                    points_allowed.setdefault(away, []).append(g["home_score"])
+
+                leaders_path = os.path.join(self.base_dir, "nfl_stats", f"leaders_{season}.json")
+                if not os.path.exists(leaders_path):
+                    print(f"  {season}: no leaders file yet -- run fetch_nfl_data_stats first, skipping DST")
+                    continue
+                with open(leaders_path, "r", encoding="utf-8") as f:
+                    players = json.load(f).get("data", [])
+
+                def_fields = ["def_sacks", "def_interceptions", "def_tds", "def_safeties"]
+                team_totals = {}
+                for p in players:
+                    team = p.get("recent_team")
+                    if not team:
+                        continue
+                    t = team_totals.setdefault(team, {k: 0 for k in def_fields} | {"fumble_recoveries": 0})
+                    for k in def_fields:
+                        t[k] += p.get(k) or 0
+                    t["fumble_recoveries"] += (p.get("fumble_recovery_opp") or 0)
+
+                dst_rows = []
+                for team, allowed in points_allowed.items():
+                    stats = team_totals.get(team, {k: 0 for k in def_fields} | {"fumble_recoveries": 0})
+                    dst_rows.append({
+                        "team": team,
+                        "season": season,
+                        "games": len(allowed),
+                        "sacks": stats["def_sacks"],
+                        "interceptions": stats["def_interceptions"],
+                        "fumble_recoveries": stats["fumble_recoveries"],
+                        "def_tds": stats["def_tds"],
+                        "safeties": stats["def_safeties"],
+                        "points_allowed_per_game": sum(allowed) / len(allowed) if allowed else None,
+                        "points_allowed_total": sum(allowed),
+                    })
+
+                self._save_raw(dst_rows, "nfl_stats", f"dst_{season}.json")
+                print(f"  {season}: {len(dst_rows)} team defenses")
+            except Exception as e:
+                print(f"Error building DST stats for {season}: {e}")
 
     def fetch_muffed_metrics(self):
         """
@@ -155,6 +238,7 @@ class NFLDataFetcher:
         """Runs the corrected bronze ingestion pipeline."""
         self.fetch_league_logs_data()
         self.fetch_nfl_data_stats()
+        self.fetch_dst_stats()
         self.fetch_muffed_metrics()
         self.fetch_injuries_via_leaguelogs()
         print("Bronze ingestion complete.")

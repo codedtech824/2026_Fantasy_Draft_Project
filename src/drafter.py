@@ -53,18 +53,44 @@ class NFLDrafter:
                 player_meta = logs[meta_cols].drop_duplicates('conformed_id')
                 df = preds.merge(player_meta, on='conformed_id', how='left')
 
-        # 1. Define Replacement Level (Baseline) per position
-        baselines = {
-            'QB': 250,
-            'RB': 150,
-            'WR': 140,
-            'TE': 100
-        }
+        # 0. Exclude known-retired players who still have historical stats in
+        # the training data (e.g. Tom Brady's final 2022 season) and would
+        # otherwise get projected forward. This is a manual list, not an
+        # automated filter, because the roster snapshot's own status/team
+        # fields aren't reliable enough to detect retirement (they mark
+        # Brady "active" with no team, but also show no team for plenty of
+        # players who definitely are active, like Tyreek Hill) -- verified
+        # against nfldata.org/players_master during development.
+        RETIRED_PLAYER_IDS = {"t.brady_qb"}
+        if "conformed_id" in df.columns:
+            df = df[~df["conformed_id"].isin(RETIRED_PLAYER_IDS)]
+
+        # 1. Define Replacement Level (Baseline) per position.
+        # Computed from the actual distribution of ml_projected_points rather
+        # than a fixed guess -- baseline = the projected value of the last
+        # startable player at that position in a 13-team league (standard VBD
+        # replacement level). Different positions land on very different raw
+        # point scales here (e.g. DST's "points" -- a mean across counting
+        # stats like sacks/INTs -- is nowhere near a QB's yardage-heavy mean),
+        # so a fixed baseline like "250 for every QB" ends up meaning
+        # different things per position and can make a whole position appear
+        # uniformly over- or under-valued regardless of who's actually good.
+        starters_per_position = {'QB': 13, 'RB': 26, 'WR': 26, 'TE': 13, 'DST': 13}
+        baselines = {}
+        for pos, rank in starters_per_position.items():
+            pos_values = df.loc[df['position'] == pos, 'ml_projected_points'].sort_values(ascending=False)
+            if len(pos_values) >= rank:
+                baselines[pos] = pos_values.iloc[rank - 1]
+            elif len(pos_values):
+                baselines[pos] = pos_values.min()
+            else:
+                baselines[pos] = 0
+        default_baseline = df['ml_projected_points'].median() if not df.empty else 0
 
         # 2. Calculate Value
         def get_value(row):
             pos = str(row.get('position', 'Unknown')).upper()
-            baseline = baselines.get(pos, 100)
+            baseline = baselines.get(pos, default_baseline)
             return row['ml_projected_points'] - baseline
 
         df['vbd_score'] = df.apply(get_value, axis=1)
@@ -74,7 +100,8 @@ class NFLDrafter:
             'TE': 1.2,
             'RB': 1.1,
             'WR': 1.0,
-            'QB': 0.9
+            'QB': 0.9,
+            'DST': 1.0
         }
         df['final_draft_value'] = df.apply(
             lambda r: r['vbd_score'] * scarcity_boost.get(str(r.get('position', 'Unknown')).upper(), 1.0),

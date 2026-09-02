@@ -103,6 +103,81 @@ class BronzeToSilver:
         print(f"Saved cleaned game logs to {output_path}")
         return df
 
+    @staticmethod
+    def _points_allowed_tier(points_per_game):
+        """Standard D/ST points-allowed scoring tier."""
+        if points_per_game is None:
+            return 0
+        if points_per_game <= 0:
+            return 10
+        if points_per_game <= 6:
+            return 7
+        if points_per_game <= 13:
+            return 4
+        if points_per_game <= 20:
+            return 1
+        if points_per_game <= 27:
+            return 0
+        if points_per_game <= 34:
+            return -1
+        return -4
+
+    def process_dst(self):
+        """
+        Cleans raw team-defense data (dst_*.json) into Silver rows shaped
+        like the offensive game logs, so they flow through the same
+        EWMA/SOS/gold pipeline unchanged. fantasy_points is computed here
+        (not in bronze) since points-allowed tiering is a scoring
+        transformation, not raw data: sacks*1, INT*2, fumble rec*2,
+        safety*2, def TD*6, plus the tiered points-allowed score per game.
+        """
+        print("Processing Bronze DST -> Silver...")
+        files_data = self._load_json_files("nfl_stats", "dst_*.json")
+        if not files_data:
+            print("No DST data found in Bronze. Skipping...")
+            return None
+
+        rows = []
+        for filename, data in files_data:
+            try:
+                season = filename.split('_')[1].split('.')[0]
+            except Exception:
+                season = "Unknown"
+            for row in data:
+                games = row.get("games") or 0
+                pa_tier_total = self._points_allowed_tier(row.get("points_allowed_per_game")) * games
+                fantasy_points = (
+                    (row.get("sacks") or 0) * 1
+                    + (row.get("interceptions") or 0) * 2
+                    + (row.get("fumble_recoveries") or 0) * 2
+                    + (row.get("safeties") or 0) * 2
+                    + (row.get("def_tds") or 0) * 6
+                    + pa_tier_total
+                )
+                team = row.get("team")
+                rows.append({
+                    "season": row.get("season", season),
+                    "team": team,
+                    "player_name": f"{team} D/ST",
+                    "position": "DST",
+                    "conformed_id": f"{str(team).lower()}_dst",
+                    "games": games,
+                    "sacks": row.get("sacks"),
+                    "interceptions": row.get("interceptions"),
+                    "fumble_recoveries": row.get("fumble_recoveries"),
+                    "def_tds": row.get("def_tds"),
+                    "safeties": row.get("safeties"),
+                    "points_allowed_per_game": row.get("points_allowed_per_game"),
+                    "fantasy_points": fantasy_points,
+                    "fantasy_points_ppr": fantasy_points,  # PPR doesn't apply to DST -- kept for schema consistency
+                })
+
+        df = pd.DataFrame(rows)
+        output_path = os.path.join(self.silver_dir, "dst_logs.parquet")
+        df.to_parquet(output_path, index=False)
+        print(f"Saved cleaned DST logs to {output_path}")
+        return df
+
     def process_injuries(self):
         """
         Cleans raw injury reports.
@@ -216,6 +291,15 @@ class BronzeToSilver:
     def run_pipeline(self):
         """Orchestrates the Bronze to Silver flow."""
         stats_df = self.process_stats()
+        dst_df = self.process_dst()
+
+        if dst_df is not None and not dst_df.empty:
+            combined = pd.concat([stats_df, dst_df], ignore_index=True) if stats_df is not None else dst_df
+            output_path = os.path.join(self.silver_dir, "game_logs.parquet")
+            combined.to_parquet(output_path, index=False)
+            print(f"Merged DST rows into {output_path}")
+            stats_df = combined
+
         self.process_injuries()
         self.create_players_master(stats_df)
         print("Silver transformation complete.")
