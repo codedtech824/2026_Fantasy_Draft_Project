@@ -159,6 +159,56 @@ def fetch_weekly_dst_scores(season, session=None):
     return merged[["team", "week", "fantasy_points"]]
 
 
+def build_weekly_lookups(weekly_offense, weekly_dst, weekly_kicker):
+    """
+    Turns the three weekly-stats DataFrames into {key: fantasy_points}
+    lookup dicts -- shared by simulate_season() and anything else (like the
+    actual-results playoff bracket) that needs a team's real score for an
+    arbitrary week, not just the weeks in a fixed schedule.
+    """
+    weekly_offense = weekly_offense.copy()
+    if "conformed_id" not in weekly_offense.columns:
+        weekly_offense["conformed_id"] = (
+            weekly_offense["player_name"].str.strip().str.lower() + "_" +
+            weekly_offense["position"].str.strip().str.lower()
+        )
+    return {
+        "offense": weekly_offense.set_index(["conformed_id", "week"])["fantasy_points"].to_dict(),
+        "dst": weekly_dst.set_index(["team", "week"])["fantasy_points"].to_dict(),
+        "kicker": weekly_kicker.set_index(["conformed_id", "week"])["fantasy_points"].to_dict(),
+    }
+
+
+def compute_team_week_score(rosters, team, week, lookups):
+    """A team's real score for one specific week, from the lookups
+    build_weekly_lookups() produces. Missing data (bye, no stats found)
+    contributes 0 for that player, same as simulate_season()."""
+    total = 0.0
+    for slot in STARTER_SLOT_ORDER:
+        for player in rosters[team].get(slot, []):
+            if slot == "DST":
+                total += lookups["dst"].get((player.get("team"), week), 0.0)
+            elif slot == "K":
+                total += lookups["kicker"].get((player.get("conformed_id"), week), 0.0)
+            else:
+                total += lookups["offense"].get((player.get("conformed_id"), week), 0.0)
+    return round(total, 2)
+
+
+def actual_scores_for_weeks(rosters, weeks, weekly_offense, weekly_dst, weekly_kicker):
+    """{(team, week): points} for every team across the given weeks --
+    ready to pass straight into simulate_playoff_bracket's actual_scores.
+    Use this to get REAL playoff-week results for a season where that data
+    already exists (e.g. 2025's actual weeks 14-16), separate from the
+    fixed regular-season `schedule` a round robin produces."""
+    lookups = build_weekly_lookups(weekly_offense, weekly_dst, weekly_kicker)
+    return {
+        (team, week): compute_team_week_score(rosters, team, week, lookups)
+        for team in rosters
+        for week in weeks
+    }
+
+
 def simulate_season(rosters, weekly_offense, weekly_dst, weekly_kicker, schedule):
     """
     rosters: {team: {slot: [player dict with conformed_id/nfl_team]}}, from
@@ -174,28 +224,10 @@ def simulate_season(rosters, weekly_offense, weekly_dst, weekly_kicker, schedule
     Returns a DataFrame: team, week, opponent, points_for, points_against,
     result (W/L/T/BYE) -- one row per team per week.
     """
-    weekly_offense = weekly_offense.copy()
-    if "conformed_id" not in weekly_offense.columns:
-        weekly_offense["conformed_id"] = (
-            weekly_offense["player_name"].str.strip().str.lower() + "_" +
-            weekly_offense["position"].str.strip().str.lower()
-        )
-    offense_lookup = weekly_offense.set_index(["conformed_id", "week"])["fantasy_points"].to_dict()
-    dst_lookup = weekly_dst.set_index(["team", "week"])["fantasy_points"].to_dict()
-    kicker_lookup = weekly_kicker.set_index(["conformed_id", "week"])["fantasy_points"].to_dict()
+    lookups = build_weekly_lookups(weekly_offense, weekly_dst, weekly_kicker)
 
     def team_week_score(team, week):
-        total = 0.0
-        r = rosters[team]
-        for slot in STARTER_SLOT_ORDER:
-            for player in r.get(slot, []):
-                if slot == "DST":
-                    total += dst_lookup.get((player.get("team"), week), 0.0)
-                elif slot == "K":
-                    total += kicker_lookup.get((player.get("conformed_id"), week), 0.0)
-                else:
-                    total += offense_lookup.get((player.get("conformed_id"), week), 0.0)
-        return round(total, 2)
+        return compute_team_week_score(rosters, team, week, lookups)
 
     weeks = sorted({row["week"] for row in schedule})
     all_teams = sorted(rosters.keys())
@@ -215,3 +247,144 @@ def simulate_season(rosters, weekly_offense, weekly_dst, weekly_kicker, schedule
                      "points_for": pf, "points_against": pa, "result": result})
 
     return pd.DataFrame(rows)
+
+
+# ---- predictions & playoff bracket -----------------------------------------
+# Everything below predicts outcomes *before* they're known, so results can
+# be graded against reality afterward. The prediction itself is deliberately
+# simple: each team's predicted score is the season-long average of its
+# starters' ml_projected_points (from the draft board), divided by a flat
+# 17-game season -- the same number every week, not re-tuned per matchup or
+# opponent. It's a baseline to grade actual results against, not a
+# sophisticated week-by-week model -- and since ml_projected_points itself
+# used to be badly skewed toward QBs (fixed in silver_to_gold.py), these
+# predictions are only as good as that fix.
+
+_SEASON_GAMES = 17
+
+
+def team_predicted_weekly_score(rosters, team):
+    """Static predicted weekly score: sum of the team's starters'
+    ml_projected_points (season-long projection from the draft board),
+    each divided by a flat 17-game season. Same figure used for every
+    week -- see module docstring above for why that's a deliberate
+    simplification, not an oversight."""
+    total = 0.0
+    for slot in STARTER_SLOT_ORDER:
+        for player in rosters[team].get(slot, []):
+            proj = player.get("ml_projected_points") or 0
+            total += proj / _SEASON_GAMES
+    return round(total, 2)
+
+
+def predict_matchup_outcomes(rosters, schedule):
+    """
+    Predicted winner/score for every scheduled matchup (byes excluded --
+    nothing to predict). One row per team per week they play, columns:
+    team, week, opponent, predicted_points_for, predicted_points_against,
+    predicted_result (W/L/T).
+    """
+    team_scores = {team: team_predicted_weekly_score(rosters, team) for team in rosters}
+    rows = []
+    for row in schedule:
+        team, week, opp = row["team"], row["week"], row["opponent"]
+        if opp is None:
+            continue
+        pf, pa = team_scores[team], team_scores[opp]
+        rows.append({
+            "team": team, "week": week, "opponent": opp,
+            "predicted_points_for": pf, "predicted_points_against": pa,
+            "predicted_result": "W" if pf > pa else ("L" if pf < pa else "T"),
+        })
+    return pd.DataFrame(rows)
+
+
+def compare_predictions_to_actual(predictions_df, actual_df):
+    """
+    Joins predicted vs. actual outcomes on (team, week) -- inner join, so
+    only weeks that have actually been played show up (actual_df only ever
+    has rows for completed weeks, from simulate_season). Adds `correct`
+    (predicted_result == actual_result) and `points_for_error` (predicted
+    minus actual) so accuracy is directly visible in the table, not
+    something you have to compute yourself downstream.
+    """
+    merged = predictions_df.merge(
+        actual_df[["team", "week", "points_for", "points_against", "result"]],
+        on=["team", "week"], how="inner",
+    )
+    merged = merged.rename(columns={
+        "points_for": "actual_points_for",
+        "points_against": "actual_points_against",
+        "result": "actual_result",
+    })
+    merged["correct"] = merged["predicted_result"] == merged["actual_result"]
+    merged["points_for_error"] = (merged["predicted_points_for"] - merged["actual_points_for"]).round(2)
+    return merged
+
+
+def compute_standings(season_df):
+    """Standings (rank = seed) from a season/backtest DataFrame in the same
+    shape simulate_season() produces. Factored out here so the playoff
+    seeder and 08/09's own standings display can share one implementation."""
+    played = season_df[season_df["result"] != "BYE"]
+    standings = (
+        played.groupby("team")
+        .agg(
+            wins=("result", lambda s: (s == "W").sum()),
+            losses=("result", lambda s: (s == "L").sum()),
+            ties=("result", lambda s: (s == "T").sum()),
+            points_for=("points_for", "sum"),
+            points_against=("points_against", "sum"),
+        )
+        .reset_index()
+    )
+    standings[["points_for", "points_against"]] = standings[["points_for", "points_against"]].round(2)
+    standings = standings.sort_values(["wins", "points_for"], ascending=[False, False]).reset_index(drop=True)
+    standings.index += 1
+    return standings
+
+
+def simulate_playoff_bracket(seeds, rosters, actual_scores=None):
+    """
+    Top-6-with-byes bracket, 3 rounds (weeks 14-16 by convention): Round 1
+    is seed3 vs seed6 and seed4 vs seed5; seeds 1-2 sit out and meet those
+    winners in the semifinal; the champion is decided in week 16.
+
+    seeds: the top 6 team names in seed order, [seed1, ..., seed6] (e.g.
+    compute_standings(...)['team'].head(6).tolist()).
+    actual_scores: optional {(team, week): points_for} -- for any
+    (team, week) present here, the REAL score is used instead of the
+    static predicted one, so a bracket for a season already partway
+    through its playoffs reflects real results for the rounds that have
+    actually happened and only predicts the rounds that haven't yet.
+
+    Returns (games, champion): games is a list of {round, week, team_a,
+    score_a, team_b, score_b, winner, is_predicted} dicts in play order;
+    champion is the winning team name.
+    """
+    def score(team, week):
+        if actual_scores and (team, week) in actual_scores:
+            return actual_scores[(team, week)], False
+        return team_predicted_weekly_score(rosters, team), True
+
+    games = []
+
+    def play(team_a, team_b, week, round_name):
+        sa, pred_a = score(team_a, week)
+        sb, pred_b = score(team_b, week)
+        winner = team_a if sa >= sb else team_b
+        games.append({
+            "round": round_name, "week": week,
+            "team_a": team_a, "score_a": sa, "team_b": team_b, "score_b": sb,
+            "winner": winner, "is_predicted": pred_a or pred_b,
+        })
+        return winner
+
+    seed1, seed2, seed3, seed4, seed5, seed6 = seeds
+    win_36 = play(seed3, seed6, 14, "Round 1")
+    win_45 = play(seed4, seed5, 14, "Round 1")
+    sf1 = play(seed1, win_45, 15, "Semifinal")
+    sf2 = play(seed2, win_36, 15, "Semifinal")
+    champion = play(sf1, sf2, 16, "Championship")
+
+    return games, champion

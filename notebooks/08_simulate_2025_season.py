@@ -18,6 +18,13 @@
 # MAGIC tiered points-allowed) and real per-week kicking (FG distance buckets +
 # MAGIC PAT), not approximations. See `src/season_simulator.py` for detail.
 # MAGIC
+# MAGIC Also produces **predicted** matchup and playoff-bracket outcomes, graded
+# MAGIC against the real results -- each team's predicted score is a static
+# MAGIC season-long average (`ml_projected_points` / 17), not re-tuned per
+# MAGIC matchup, so don't expect it to be highly accurate; the point is to show
+# MAGIC *how* accurate a simple projection-based prediction actually is against
+# MAGIC a fully-known season, honestly.
+# MAGIC
 # MAGIC **Remaining known gap**: any 2026 rookie on a roster contributes 0 all
 # MAGIC season -- they weren't in the NFL yet in 2025.
 
@@ -36,12 +43,15 @@ import pandas as pd
 from src.league import FANTASY_TEAMS
 from src.season_simulator import (
     generate_round_robin, fetch_weekly_offense, fetch_weekly_dst_scores,
-    fetch_weekly_kicker_points, simulate_season,
+    fetch_weekly_kicker_points, simulate_season, compute_standings,
+    predict_matchup_outcomes, compare_predictions_to_actual,
+    simulate_playoff_bracket, actual_scores_for_weeks,
 )
 
 _PROC = "/tmp/nfl-prediction-engine/data/processed"
 _ROSTERS_TABLE = "nfl_prediction_engine.fantasy_rosters_2026"
 SEASON = 2025
+PLAYOFF_WEEKS = [14, 15, 16]
 
 # Read from the Delta table, not the /tmp JSON -- /tmp only persists for the
 # current cluster session, the Delta table survives a restart/detach between
@@ -82,26 +92,64 @@ season = simulate_season(rosters, weekly_offense, weekly_dst, weekly_kicker, sch
 print(f"Season simulated: {len(season)} team-weeks")
 print(season[season.team == FANTASY_TEAMS[0]].to_string(index=False))
 
+standings = compute_standings(season)
+print("\n=== Standings ===")
+print(standings.to_string())
+
 # COMMAND ----------
 
-played = season[season["result"] != "BYE"]
-standings = (
-    played.groupby("team")
-    .agg(
-        wins=("result", lambda s: (s == "W").sum()),
-        losses=("result", lambda s: (s == "L").sum()),
-        ties=("result", lambda s: (s == "T").sum()),
-        points_for=("points_for", "sum"),
-        points_against=("points_against", "sum"),
-    )
-    .reset_index()
-)
-standings[["points_for", "points_against"]] = standings[["points_for", "points_against"]].round(2)
-standings = standings.sort_values(["wins", "points_for"], ascending=[False, False]).reset_index(drop=True)
-standings.index += 1
+# MAGIC %md
+# MAGIC ## Predicted vs. actual -- regular season matchups
 
-print("=== Standings ===")
-print(standings.to_string())
+# COMMAND ----------
+
+predictions = predict_matchup_outcomes(rosters, schedule)
+graded = compare_predictions_to_actual(predictions, season)
+
+accuracy = graded["correct"].mean()
+mae = graded["points_for_error"].abs().mean()
+print(f"Regular-season prediction accuracy: {accuracy:.1%} ({graded['correct'].sum()}/{len(graded)})")
+print(f"Mean absolute points error: {mae:.2f}")
+print()
+print(graded.head(10).to_string(index=False))
+
+# COMMAND ----------
+
+# MAGIC %md
+# MAGIC ## Playoff bracket -- predicted vs. actual champion
+# MAGIC Top 6 seeds, byes for #1-#2. Two *separate* brackets are simulated with
+# MAGIC the same seeding: one using only the static projection (as if playoff
+# MAGIC results weren't knowable yet), one using the real 2025 weeks 14-16
+# MAGIC results. They're kept as two independent scenarios, not merged
+# MAGIC game-by-game -- once the brackets disagree on who wins Round 1, the
+# MAGIC *matchup* itself in the semifinal differs between them (a different team
+# MAGIC advances), so there's no single "Semifinal" row that means the same
+# MAGIC thing in both. The real comparison that matters is at the end: did the
+# MAGIC predicted champion match the actual one.
+
+# COMMAND ----------
+
+seeds = standings["team"].head(6).tolist()
+print("Seeds (1-6):", seeds)
+
+predicted_games, predicted_champion = simulate_playoff_bracket(seeds, rosters)
+
+real_playoff_scores = actual_scores_for_weeks(rosters, PLAYOFF_WEEKS, weekly_offense, weekly_dst, weekly_kicker)
+actual_games, actual_champion = simulate_playoff_bracket(seeds, rosters, actual_scores=real_playoff_scores)
+
+for g in predicted_games:
+    g["scenario"] = "predicted"
+for g in actual_games:
+    g["scenario"] = "actual"
+bracket = pd.DataFrame(predicted_games + actual_games)[
+    ["scenario", "round", "week", "team_a", "score_a", "team_b", "score_b", "winner"]
+]
+
+print(f"\nPredicted champion: {predicted_champion}")
+print(f"Actual champion:    {actual_champion}")
+print(f"Predicted the champion correctly: {predicted_champion == actual_champion}")
+print()
+print(bracket.to_string(index=False))
 
 # COMMAND ----------
 
@@ -112,11 +160,15 @@ print(standings.to_string())
 spark.sql("CREATE DATABASE IF NOT EXISTS nfl_prediction_engine")
 spark.createDataFrame(season).write.mode("overwrite").saveAsTable("nfl_prediction_engine.fantasy_season_2025")
 spark.createDataFrame(standings).write.mode("overwrite").saveAsTable("nfl_prediction_engine.fantasy_standings_2025")
+spark.createDataFrame(graded).write.mode("overwrite").saveAsTable("nfl_prediction_engine.fantasy_predictions_2025")
+spark.createDataFrame(bracket).write.mode("overwrite").saveAsTable("nfl_prediction_engine.fantasy_bracket_2025")
 
 os.makedirs(_PROC, exist_ok=True)
 season.to_parquet(f"{_PROC}/fantasy_season_2025.parquet", index=False)
 standings.to_parquet(f"{_PROC}/fantasy_standings_2025.parquet", index=False)
 
 print("Tables saved:")
-print("  nfl_prediction_engine.fantasy_season_2025    (one row per team per week -- for a weekly-trend chart)")
-print("  nfl_prediction_engine.fantasy_standings_2025  (one row per team -- for a standings table)")
+print("  nfl_prediction_engine.fantasy_season_2025      (one row per team per week -- weekly trend chart)")
+print("  nfl_prediction_engine.fantasy_standings_2025    (one row per team -- standings table)")
+print("  nfl_prediction_engine.fantasy_predictions_2025  (predicted vs actual per matchup, with accuracy)")
+print("  nfl_prediction_engine.fantasy_bracket_2025      (predicted vs actual playoff bracket + champion)")
