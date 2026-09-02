@@ -246,6 +246,21 @@ class BronzeToSilver:
                 master["player_name"].str.lower().str.strip() + "_" +
                 master["position"].str.lower().str.strip()
             )
+
+            # The first-initial.lastname scheme isn't always unique -- e.g.
+            # Bijan Robinson and Brian Robinson Jr. both reduce to
+            # "b.robinson_rb". A duplicate conformed_id here would fan out
+            # the merge in drafter.py (one prediction row matching two master
+            # rows), silently duplicating a player onto the draft board with
+            # identical stats. Collapse to one row per key rather than risk
+            # that -- the dropped player just falls through to the game_logs
+            # fallback for metadata (no roster_status, so excluded from the
+            # ACT filter), which is a safer failure mode than misattribution.
+            dupes = master["conformed_id"].duplicated(keep=False).sum()
+            if dupes:
+                print(f"  {dupes} rows share a conformed_id with another player (name collision) -- keeping one each")
+            master = master.drop_duplicates(subset="conformed_id", keep="first")
+
             master = master.rename(columns={"status": "roster_status"})
             keep_cols = ["conformed_id", "player_name", "full_name", "position", "team",
                          "roster_status", "years_exp", "college"]
