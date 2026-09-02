@@ -388,3 +388,102 @@ def simulate_playoff_bracket(seeds, rosters, actual_scores=None):
     champion = play(sf1, sf2, 16, "Championship")
 
     return games, champion
+
+
+# ---- real NFL game predictions ---------------------------------------------
+# Same idea as the fantasy predictor, pointed at real NFL teams instead of
+# drafted rosters: a simple offense-vs-opponent's-defense baseline, not a
+# real point-spread model. No new modeling -- reuses ml_projected_points
+# (offense) and the D/ST row's own ml_projected_points (defense) that are
+# already sitting in the draft board.
+
+def fetch_nfl_games(season, game_type="REG", session=None):
+    """The season's real schedule, played or not, with real scores where
+    available -- {season, week, game_id, home_team, away_team, home_score,
+    away_score}, team codes normalized the same way as everywhere else."""
+    session = session or requests.Session()
+    session.headers.setdefault("User-Agent", "NFL-Fantasy-Pipeline/1.0")
+    resp = session.get(
+        "https://api.nfldata.org/v1/games",
+        params={"season": season, "game_type": game_type, "limit": 500},
+    )
+    resp.raise_for_status()
+    games = resp.json().get("data", [])
+    for g in games:
+        g["home_team"] = _TEAM_ALIASES.get(g.get("home_team"), g.get("home_team"))
+        g["away_team"] = _TEAM_ALIASES.get(g.get("away_team"), g.get("away_team"))
+    return games
+
+
+def _team_offense_strength(board, team):
+    """Sum of ml_projected_points across a real NFL team's rostered
+    QB/RB/WR/TE -- a rough total-offensive-output proxy, nothing fancier."""
+    mask = (board["team"] == team) & (board["position"].isin(["QB", "RB", "WR", "TE"]))
+    return board.loc[mask, "ml_projected_points"].sum()
+
+
+def _team_defense_strength(board, team):
+    """A team's own D/ST row's ml_projected_points -- the same season
+    projection already computed for the draft board, not a new model."""
+    mask = (board["team"] == team) & (board["position"] == "DST")
+    vals = board.loc[mask, "ml_projected_points"]
+    return vals.iloc[0] if len(vals) else 0.0
+
+
+def predict_nfl_games(board, games):
+    """
+    One predicted row per real NFL game: predicted_home_score/
+    predicted_away_score are an offense-minus-opponent-defense proxy, not a
+    real predicted point total -- whichever side is higher is
+    predicted_winner. board: a draft-board-shaped DataFrame with team,
+    position, ml_projected_points (e.g. final_draft_board.parquet).
+    games: from fetch_nfl_games().
+    """
+    rows = []
+    for g in games:
+        home, away = g["home_team"], g["away_team"]
+        off_home, off_away = _team_offense_strength(board, home), _team_offense_strength(board, away)
+        def_home, def_away = _team_defense_strength(board, home), _team_defense_strength(board, away)
+        pred_home = round(off_home - def_away, 2)
+        pred_away = round(off_away - def_home, 2)
+        rows.append({
+            "game_id": g["game_id"], "season": g["season"], "week": g["week"],
+            "home_team": home, "away_team": away,
+            "predicted_home_score": pred_home, "predicted_away_score": pred_away,
+            "predicted_winner": home if pred_home >= pred_away else away,
+        })
+    return pd.DataFrame(rows)
+
+
+def grade_nfl_predictions(predictions_df, games):
+    """
+    Inner-joins predictions against real results for whichever games in
+    `games` have actually been played (home_score/away_score populated) --
+    games not yet played simply don't appear in the output. Adds
+    actual_winner and `correct`.
+    """
+    actual_rows = []
+    for g in games:
+        if g.get("home_score") is None or g.get("away_score") is None:
+            continue
+        if g["home_score"] > g["away_score"]:
+            winner = g["home_team"]
+        elif g["away_score"] > g["home_score"]:
+            winner = g["away_team"]
+        else:
+            winner = "TIE"
+        actual_rows.append({
+            "game_id": g["game_id"],
+            "actual_home_score": g["home_score"], "actual_away_score": g["away_score"],
+            "actual_winner": winner,
+        })
+
+    if not actual_rows:
+        return predictions_df.iloc[0:0].assign(
+            actual_home_score=pd.Series(dtype=float), actual_away_score=pd.Series(dtype=float),
+            actual_winner=pd.Series(dtype=str), correct=pd.Series(dtype=bool),
+        )
+
+    merged = predictions_df.merge(pd.DataFrame(actual_rows), on="game_id", how="inner")
+    merged["correct"] = merged["predicted_winner"] == merged["actual_winner"]
+    return merged
