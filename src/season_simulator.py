@@ -487,3 +487,64 @@ def grade_nfl_predictions(predictions_df, games):
     merged = predictions_df.merge(pd.DataFrame(actual_rows), on="game_id", how="inner")
     merged["correct"] = merged["predicted_winner"] == merged["actual_winner"]
     return merged
+
+
+def decompose_score(points):
+    """
+    Breaks a target point total into a plausible NFL scoring combination:
+    touchdown+PAT=7, TD+2pt=8, TD only (missed PAT)=6, field goal=3.
+    Prefers more touchdowns over more field goals, and standard PATs over
+    2pt conversions/missed PATs (at most 2 non-standard-PAT touchdowns),
+    matching how a real game usually breaks down. Not a unique or
+    "correct" decomposition -- there are many real combinations for most
+    totals -- just one that reads as plausible.
+    """
+    points = max(0, round(points))
+    for tds in range(points // 6, -1, -1):
+        for irregular in range(0, min(tds, 2) + 1):
+            for two_pt in range(0, irregular + 1):
+                missed = irregular - two_pt
+                pat = tds - irregular
+                remainder = points - (tds * 6 + pat + two_pt * 2)
+                if remainder >= 0 and remainder % 3 == 0:
+                    return {
+                        "touchdowns": tds, "extra_points": pat,
+                        "two_point_conversions": two_pt, "missed_extra_points": missed,
+                        "field_goals": remainder // 3,
+                    }
+    return {"touchdowns": 0, "extra_points": 0, "two_point_conversions": 0,
+            "missed_extra_points": 0, "field_goals": points // 3}
+
+
+def add_realistic_scores(predictions_df, target_min=10, target_max=34):
+    """
+    predicted_home_score/predicted_away_score are an abstract comparison
+    number (offense minus opponent defense, both season-long
+    ml_projected_points sums) -- useful for picking a winner, not anything
+    resembling a real final score (values run into the hundreds or more).
+    This rescales them into a realistic NFL point range using the min/max
+    across every predicted score in the DataFrame (so a team's *relative*
+    strength is preserved -- the best predicted offense still lands the
+    highest realistic score), then decomposes each side's realistic score
+    into touchdowns/PATs/2pt conversions/field goals via decompose_score().
+
+    Adds, per side (home/away): *_realistic_score and the
+    *_touchdowns/*_extra_points/*_two_point_conversions/
+    *_missed_extra_points/*_field_goals columns from decompose_score().
+    """
+    df = predictions_df.copy()
+    all_scores = pd.concat([df["predicted_home_score"], df["predicted_away_score"]])
+    lo, hi = all_scores.min(), all_scores.max()
+    span = hi - lo if hi > lo else 1
+
+    def rescale(raw):
+        return target_min + (raw - lo) / span * (target_max - target_min)
+
+    for side in ("home", "away"):
+        realistic = df[f"predicted_{side}_score"].apply(rescale)
+        df[f"{side}_realistic_score"] = realistic.round().astype(int)
+        parts = df[f"{side}_realistic_score"].apply(decompose_score)
+        for key in ("touchdowns", "extra_points", "two_point_conversions", "missed_extra_points", "field_goals"):
+            df[f"{side}_{key}"] = parts.apply(lambda p: p[key])
+
+    return df

@@ -25,6 +25,14 @@
 # MAGIC Safe to re-run any time: predictions are static for the season (same
 # MAGIC board every time), the graded/accuracy table always recomputes from
 # MAGIC whatever's actually been played so far.
+# MAGIC
+# MAGIC `predicted_home_score`/`predicted_away_score` are the raw offense-minus-
+# MAGIC defense proxy (useful for picking a winner, not realistic point totals --
+# MAGIC they run into the hundreds). `*_realistic_score` rescales that into a
+# MAGIC real NFL point range using the min/max across every prediction (so
+# MAGIC relative team strength is preserved), then breaks it into a plausible
+# MAGIC touchdowns/PATs/2pt-conversions/field-goals combination -- one specific
+# MAGIC way a real game could reach that total, not the only way.
 
 # COMMAND ----------
 
@@ -37,7 +45,7 @@ if repo_root not in sys.path:
 # COMMAND ----------
 
 import pandas as pd
-from src.season_simulator import fetch_nfl_games, predict_nfl_games, grade_nfl_predictions
+from src.season_simulator import fetch_nfl_games, predict_nfl_games, grade_nfl_predictions, add_realistic_scores
 
 _PROC = "/tmp/nfl-prediction-engine/data/processed"
 _BOARD_TABLE = "nfl_prediction_engine.draft_board_2026"
@@ -61,7 +69,14 @@ games = fetch_nfl_games(SEASON)
 print(f"Fetched {len(games)} games for {SEASON} (played or not)")
 
 predictions = predict_nfl_games(board, games)
-print(predictions.head(10).to_string(index=False))
+predictions = add_realistic_scores(predictions)
+
+score_cols = ["home_team", "away_team", "predicted_winner",
+              "home_realistic_score", "home_touchdowns", "home_extra_points",
+              "home_two_point_conversions", "home_field_goals",
+              "away_realistic_score", "away_touchdowns", "away_extra_points",
+              "away_two_point_conversions", "away_field_goals"]
+print(predictions[score_cols].head(10).to_string(index=False))
 
 # COMMAND ----------
 
@@ -72,7 +87,9 @@ if graded.empty:
 else:
     accuracy = graded["correct"].mean()
     print(f"Accuracy so far: {accuracy:.1%} ({graded['correct'].sum()}/{len(graded)})")
-    print(graded.to_string(index=False))
+    compare_cols = ["home_team", "away_team", "home_realistic_score", "away_realistic_score",
+                    "actual_home_score", "actual_away_score", "predicted_winner", "actual_winner", "correct"]
+    print(graded[compare_cols].to_string(index=False))
 
 # COMMAND ----------
 
