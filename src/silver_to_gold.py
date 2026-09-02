@@ -3,6 +3,8 @@ import pandas as pd
 import numpy as np
 import glob
 
+from src.scoring import FULL_PPR
+
 _PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 class SilverToGold:
@@ -175,6 +177,64 @@ class SilverToGold:
         player_df['bye_week'] = computed.map(lambda x: x[1])
         return player_df
 
+    @staticmethod
+    def _compute_points(gold_df):
+        """
+        Real fantasy-point-weighted season projection, replacing the old
+        approach (a raw, unweighted mean across every numeric stat column).
+        That let a QB's raw yardage volume dominate regardless of actual
+        fantasy value -- passing yards score 1pt/25 while receiving yards
+        score 1pt/10, so a QB's ~4,000-yard season and a WR's ~1,000-yard
+        season were never comparable as raw numbers the way a naive mean
+        treated them, and QBs ended up ranked unrealistically high.
+
+        Position is inferred from the conformed_id suffix (EWMA drops the
+        'position' column since it's non-numeric, so this is the only
+        reliable signal left at this point in the pipeline):
+        - D/ST rows (*_dst) keep the fantasy_points bronze_to_silver.
+          process_dst already computed with the real D/ST formula.
+        - K rows (*_k) use the same FG-distance-bucket + PAT formula used
+          for weekly K scoring elsewhere in this project.
+        - Everything else (QB/RB/WR/TE, and incidentally any IDP-position
+          rows that just score ~0 here since they have no offensive stats)
+          goes through the same ScoringSystem the rest of this pipeline
+          already uses, so a QB and a WR are finally valued on the same
+          real scale.
+        """
+        conformed_id = gold_df['conformed_id'].astype(str)
+        points = pd.Series(0.0, index=gold_df.index)
+
+        is_dst = conformed_id.str.endswith('_dst')
+        if is_dst.any() and 'fantasy_points' in gold_df.columns:
+            points.loc[is_dst] = gold_df.loc[is_dst, 'fantasy_points'].fillna(0)
+
+        is_k = conformed_id.str.endswith('_k')
+        if is_k.any():
+            k = gold_df.loc[is_k]
+            short = sum(k.get(c, 0) for c in ('fg_made_0_19', 'fg_made_20_29', 'fg_made_30_39', 'fg_made_40_49')).fillna(0) if 'fg_made_0_19' in gold_df.columns else 0
+            long = sum(k.get(c, 0) for c in ('fg_made_50_59', 'fg_made_60_')).fillna(0) if 'fg_made_50_59' in gold_df.columns else 0
+            pat = k.get('pat_made', pd.Series(0, index=k.index)).fillna(0)
+            points.loc[is_k] = short * 3 + long * 5 + pat * 1
+
+        is_offense = ~is_dst & ~is_k
+        if is_offense.any():
+            off = gold_df.loc[is_offense]
+            points.loc[is_offense] = off.apply(
+                lambda r: FULL_PPR.score(
+                    pass_yards=r.get('passing_yards') or 0,
+                    pass_tds=r.get('passing_tds') or 0,
+                    interceptions=r.get('passing_interceptions') or 0,
+                    rush_yards=r.get('rushing_yards') or 0,
+                    rush_tds=r.get('rushing_tds') or 0,
+                    rec_yards=r.get('receiving_yards') or 0,
+                    rec_tds=r.get('receiving_tds') or 0,
+                    receptions=r.get('receptions') or 0,
+                ),
+                axis=1,
+            )
+
+        return points
+
     def run_pipeline(self):
         """Orchestrates the Silver to Gold flow."""
         game_logs = self._load_silver("game_logs.parquet")
@@ -200,14 +260,7 @@ class SilverToGold:
         gold_df = self.apply_matchup_engine(gold_df, schedule, dst_logs, players)
 
         # Final Projection Formula
-        # Calculate 'points' based on the available numeric stats
-        numeric_cols = gold_df.select_dtypes(include=[np.number]).columns.drop(
-            ['injury_multiplier', 'schedule_modifier', 'bye_week'], errors='ignore'
-        )
-        if not numeric_cols.empty:
-            gold_df['points'] = gold_df[numeric_cols].mean(axis=1)
-        else:
-            gold_df['points'] = 0.0
+        gold_df['points'] = self._compute_points(gold_df)
 
         gold_df['final_2026_projection'] = (
             gold_df['points'] *
