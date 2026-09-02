@@ -40,10 +40,30 @@ from src.season_simulator import (
 )
 
 _PROC = "/tmp/nfl-prediction-engine/data/processed"
+_ROSTERS_TABLE = "nfl_prediction_engine.fantasy_rosters_2026"
 SEASON = 2025
 
-with open(f"{_PROC}/fantasy_rosters_2026.json") as f:
-    rosters = json.load(f)
+# Read from the Delta table, not the /tmp JSON -- /tmp only persists for the
+# current cluster session, the Delta table survives a restart/detach between
+# running 07 and 08.
+if spark.catalog.tableExists(_ROSTERS_TABLE):
+    rosters_df = spark.table(_ROSTERS_TABLE).toPandas()
+    rosters = {}
+    for team, team_df in rosters_df.groupby("fantasy_team"):
+        rosters[team] = {
+            slot: slot_df.drop(columns=["fantasy_team", "slot"]).to_dict("records")
+            for slot, slot_df in team_df.groupby("slot")
+        }
+    print(f"Loaded rosters from Delta table {_ROSTERS_TABLE}")
+elif os.path.exists(f"{_PROC}/fantasy_rosters_2026.json"):
+    with open(f"{_PROC}/fantasy_rosters_2026.json") as f:
+        rosters = json.load(f)
+    print(f"Delta table {_ROSTERS_TABLE} not found -- loaded from /tmp instead")
+else:
+    raise FileNotFoundError(
+        f"Neither the Delta table {_ROSTERS_TABLE} nor {_PROC}/fantasy_rosters_2026.json exist. "
+        "Run 07_draft_league.py first."
+    )
 
 schedule = generate_round_robin(FANTASY_TEAMS, weeks=13)
 print(f"Schedule: {len(FANTASY_TEAMS)} teams, {len(set(r['week'] for r in schedule))} weeks (round-robin, one bye/week)")
