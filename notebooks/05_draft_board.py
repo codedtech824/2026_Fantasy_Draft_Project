@@ -20,7 +20,10 @@ print(f"Repo root: {repo_root}")
 
 from src.drafter import NFLDrafter
 
-drafter = NFLDrafter()
+drafter = NFLDrafter(
+    processed_dir="/tmp/nfl-prediction-engine/data/processed",
+    silver_dir="/tmp/nfl-prediction-engine/data/silver",
+)
 draft_board = drafter.calculate_vbd()
 
 # COMMAND ----------

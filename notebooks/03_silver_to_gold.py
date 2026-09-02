@@ -20,7 +20,10 @@ print(f"Repo root: {repo_root}")
 
 from src.silver_to_gold import SilverToGold
 
-transformer = SilverToGold()
+transformer = SilverToGold(
+    silver_dir="/tmp/nfl-prediction-engine/data/silver",
+    gold_dir="/tmp/nfl-prediction-engine/data/gold",
+)
 transformer.run_pipeline()
 
 # COMMAND ----------

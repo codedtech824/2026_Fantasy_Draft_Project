@@ -22,7 +22,7 @@ print(f"Repo root: {repo_root}")
 # Run the bronze ingestion
 from src.fetcher import NFLDataFetcher
 
-fetcher = NFLDataFetcher()
+fetcher = NFLDataFetcher(base_dir="/tmp/nfl-prediction-engine/data/bronze")
 fetcher.run_all()
 
 # COMMAND ----------

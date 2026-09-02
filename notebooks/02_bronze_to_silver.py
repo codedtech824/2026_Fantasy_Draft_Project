@@ -22,7 +22,10 @@ print(f"Repo root: {repo_root}")
 # Run the bronze -> silver transformation
 from src.bronze_to_silver import BronzeToSilver
 
-transformer = BronzeToSilver()
+transformer = BronzeToSilver(
+    bronze_dir="/tmp/nfl-prediction-engine/data/bronze",
+    silver_dir="/tmp/nfl-prediction-engine/data/silver",
+)
 transformer.run_pipeline()
 
 # COMMAND ----------
