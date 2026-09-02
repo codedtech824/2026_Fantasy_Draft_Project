@@ -5,15 +5,28 @@ from xgboost import XGBRegressor
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import mean_absolute_error
 
+try:
+    import mlflow
+    import mlflow.xgboost
+    _HAS_MLFLOW = True
+except ImportError:
+    _HAS_MLFLOW = False
+
 _PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 class NFLPredictor:
     """
     Uses Machine Learning to convert Gold features into finalized 2026 projections.
+
+    Logs the run to MLflow when it's available (i.e. on Databricks) -- set
+    mlflow_experiment=None to skip logging even there. Training still works
+    fine without mlflow installed (e.g. running this locally outside
+    Databricks); it just skips the tracking calls.
     """
-    def __init__(self, gold_dir=None, processed_dir=None):
+    def __init__(self, gold_dir=None, processed_dir=None, mlflow_experiment="/nfl-prediction-engine"):
         self.gold_dir = gold_dir or os.path.join(_PROJECT_ROOT, "data", "gold")
         self.processed_dir = processed_dir or os.path.join(_PROJECT_ROOT, "data", "processed")
+        self.mlflow_experiment = mlflow_experiment
         os.makedirs(self.processed_dir, exist_ok=True)
 
     def _load_gold(self):
@@ -52,20 +65,32 @@ class NFLPredictor:
         # 2. Split for Validation (simulating training on past data)
         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-        # 3. Model Training
-        model = XGBRegressor(
-            n_estimators=100,
-            learning_rate=0.05,
-            max_depth=5,
-            objective='reg:squarederror',
-            random_state=42
-        )
-        model.fit(X_train, y_train)
+        # 3. Model Training (+ MLflow tracking, when available)
+        params = dict(n_estimators=100, learning_rate=0.05, max_depth=5,
+                      objective='reg:squarederror', random_state=42)
+        model = XGBRegressor(**params)
 
-        # 4. Validation
-        preds = model.predict(X_test)
-        mae = mean_absolute_error(y_test, preds)
-        print(f"Model Validation MAE: {mae:.4f}")
+        use_mlflow = _HAS_MLFLOW and self.mlflow_experiment
+        if use_mlflow:
+            mlflow.set_experiment(self.mlflow_experiment)
+            run_ctx = mlflow.start_run(run_name="xgboost_2026")
+        else:
+            from contextlib import nullcontext
+            run_ctx = nullcontext()
+
+        with run_ctx:
+            model.fit(X_train, y_train)
+
+            # 4. Validation
+            preds = model.predict(X_test)
+            mae = mean_absolute_error(y_test, preds)
+            print(f"Model Validation MAE: {mae:.4f}")
+
+            if use_mlflow:
+                for k, v in params.items():
+                    mlflow.log_param(k, v)
+                mlflow.log_metric("mae", mae)
+                mlflow.xgboost.log_model(model, "xgboost_model")
 
         # 5. Final 2026 Projection
         # We use the trained model to predict the final value for all players

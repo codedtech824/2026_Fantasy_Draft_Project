@@ -8,7 +8,7 @@
 
 # COMMAND ----------
 
-%pip install xgboost scikit-learn pyarrow requests
+%pip install xgboost scikit-learn pyarrow requests mlflow
 
 # COMMAND ----------
 

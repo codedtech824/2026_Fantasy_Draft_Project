@@ -36,7 +36,7 @@ if os.path.exists(board_path):
     board = pd.read_parquet(board_path)
     print(f"Draft board: {len(board)} players\n")
 
-    cols = ["player_name", "position", "ml_projected_points", "vbd_score", "final_draft_value"]
+    cols = ["player_name", "position", "team", "bye_week", "ml_projected_points", "vbd_score", "final_draft_value"]
     available = [c for c in cols if c in board.columns]
 
     print("=== 2026 FINAL DRAFT BOARD (Top 30) ===")

@@ -50,3 +50,10 @@ print(f"game_logs: {len(game_logs)} rows, {len(game_logs.columns)} columns")
 print("\nColumns:", list(game_logs.columns))
 print("\nSample:")
 print(game_logs.head(3).to_string())
+
+# COMMAND ----------
+
+# Spot-check: the 2026 schedule (feeds the Gold-layer matchup engine)
+schedule = pd.read_parquet("/tmp/nfl-prediction-engine/data/silver/schedule_2026.parquet")
+print(f"schedule_2026: {schedule['team'].nunique()} teams, {schedule['week'].max()} weeks, {len(schedule)} rows")
+print(schedule[schedule.team == "KC"].sort_values("week").to_string(index=False))

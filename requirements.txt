@@ -4,5 +4,6 @@ pyarrow
 requests
 xgboost
 scikit-learn
+mlflow
 matplotlib
 seaborn

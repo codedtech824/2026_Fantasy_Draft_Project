@@ -4,7 +4,10 @@
 
 # MAGIC %md
 # MAGIC # 01 - Bronze Ingestion
-# MAGIC Fetches raw data from LeagueLogs, NFLData.org, and Muffed.ai and saves JSON to `/tmp/nfl-prediction-engine/data/bronze/`.
+# MAGIC Fetches raw data into `/tmp/nfl-prediction-engine/data/bronze/`:
+# MAGIC player stats and the 2026 schedule from nfldata.org, the current 2026
+# MAGIC roster from nflverse, market data/injuries from LeagueLogs, and
+# MAGIC advanced metrics from Muffed.ai.
 
 # COMMAND ----------
 

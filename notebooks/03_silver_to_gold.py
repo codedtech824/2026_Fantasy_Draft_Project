@@ -47,4 +47,4 @@ gold = pd.read_parquet("/tmp/nfl-prediction-engine/data/gold/player_features_202
 print(f"Gold features: {len(gold)} players, {len(gold.columns)} columns")
 print("\nColumns:", list(gold.columns))
 print("\nTop 5 by final_2026_projection:")
-print(gold.nlargest(5, "final_2026_projection")[["conformed_id", "final_2026_projection", "injury_multiplier", "schedule_modifier"]].to_string())
+print(gold.nlargest(5, "final_2026_projection")[["conformed_id", "final_2026_projection", "injury_multiplier", "schedule_modifier", "bye_week"]].to_string())

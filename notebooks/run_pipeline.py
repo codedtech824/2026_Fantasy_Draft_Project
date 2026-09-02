@@ -2,7 +2,7 @@
 
 # COMMAND ----------
 
-%pip install xgboost scikit-learn pyarrow requests
+%pip install xgboost scikit-learn pyarrow requests mlflow
 
 # COMMAND ----------
 
@@ -88,30 +88,11 @@ print(f"Gold complete ({time.time()-t0:.1f}s)")
 
 # COMMAND ----------
 
-import mlflow, mlflow.xgboost
-from xgboost import XGBRegressor
-from sklearn.model_selection import train_test_split
-from sklearn.metrics import mean_absolute_error
-import pandas as pd
+from src.predictor import NFLPredictor
 
-gold = pd.read_parquet(f"{_GOLD}/player_features_2026.parquet")
-X = gold.drop(columns=["final_2026_projection", "conformed_id"], errors="ignore").fillna(0)
-y = gold["final_2026_projection"]
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-
-mlflow.set_experiment("/nfl-prediction-engine")
 t0 = time.time()
-with mlflow.start_run(run_name="xgboost_pipeline_run"):
-    model = XGBRegressor(n_estimators=100, learning_rate=0.05, max_depth=5,
-                         objective="reg:squarederror", random_state=42)
-    model.fit(X_train, y_train)
-    mae = mean_absolute_error(y_test, model.predict(X_test))
-    mlflow.log_metric("mae", mae)
-    mlflow.xgboost.log_model(model, "xgboost_model")
-
-results = pd.DataFrame({"conformed_id": gold["conformed_id"], "ml_projected_points": model.predict(X)})
-results.to_parquet(f"{_PROC}/final_predictions.parquet", index=False)
-print(f"Prediction complete. MAE: {mae:.4f} ({time.time()-t0:.1f}s)")
+results = NFLPredictor(gold_dir=_GOLD, processed_dir=_PROC).train_and_predict()
+print(f"Prediction complete ({time.time()-t0:.1f}s)")
 
 # COMMAND ----------
 
@@ -136,7 +117,7 @@ print(f"Draft board complete ({time.time()-t0:.1f}s)")
 import pandas as pd
 
 board = pd.read_parquet("/tmp/nfl-prediction-engine/data/processed/final_draft_board.parquet")
-cols = ["player_name", "position", "ml_projected_points", "vbd_score", "final_draft_value"]
+cols = ["player_name", "position", "team", "bye_week", "ml_projected_points", "vbd_score", "final_draft_value"]
 available = [c for c in cols if c in board.columns]
 
 print(f"Pipeline complete. Draft board: {len(board)} players\n")
