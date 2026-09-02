@@ -1,8 +1,6 @@
-# Data files — never commit raw data or model artifacts
-data/bronze/
-data/silver/
-data/gold/
-data/processed/
+# Data files are intentionally versioned (not ignored) -- a fresh clone
+# ships with a working draft board so the pipeline can be demoed without
+# first running a full live fetch. Regenerate via 01-05 / run_pipeline.py.
 
 # Python
 __pycache__/
