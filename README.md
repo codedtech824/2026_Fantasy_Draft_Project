@@ -75,6 +75,18 @@ not just an invisible multiplier.
    duplicates a game. Safe to run weekly as the season progresses. Its
    scoring formula is fully configurable (`src/scoring.py`), not hardcoded.
 
+5. For dashboard-ready data before the 2026 season has enough completed
+   games of its own: `notebooks/07_draft_league.py` runs a 13-team, 15-round
+   snake draft against the current board (`src/league.py`, fixed seed —
+   reproducible, not reshuffled every run), then
+   `notebooks/08_simulate_2025_season.py` backtests those same rosters
+   week-by-week against the real, completed 2025 season. Produces three
+   Delta tables: `draft_picks_2026`, `fantasy_season_2025` (one row per
+   team per week — a weekly trend chart), and `fantasy_standings_2025` (one
+   row per team — a standings table). See that notebook's header for the
+   data-coverage gaps this backtest carries (D/ST and K weekly scoring in
+   particular).
+
 ## Running locally
 
 ```bash
