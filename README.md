@@ -85,18 +85,32 @@ not just an invisible multiplier.
    Offense, D/ST (full formula — sacks/INTs/fumbles/def TDs/safeties +
    tiered points-allowed), and K (real FG-distance-bucket + PAT scoring)
    are all real per-week numbers from nflverse, not approximations.
-   Produces three Delta tables: `draft_picks_2026`, `fantasy_season_2025`
-   (one row per team per week — a weekly trend chart), and
-   `fantasy_standings_2025` (one row per team — a standings table).
+   Also predicts every matchup and the playoff bracket (top 6 seeds, byes
+   for #1-#2, weeks 14-16), grading those predictions against the real,
+   fully-known 2025 results — the cleanest place to see how accurate a
+   simple projection-based prediction actually is, honestly (52.6% matchup
+   accuracy and a missed championship pick on the current data, not tuned
+   to look good). Produces five Delta tables: `draft_picks_2026`,
+   `fantasy_season_2025` (one row per team per week — a weekly trend
+   chart), `fantasy_standings_2025`, `fantasy_predictions_2025` (predicted
+   vs actual per matchup, with accuracy), and `fantasy_bracket_2025`
+   (predicted vs actual bracket, two independent scenarios since they can
+   diverge after Round 1).
 
 6. Once the real 2026 season is underway, `notebooks/09_update_2026_season.py`
    is the live counterpart to `08` — scores the same drafted rosters against
    whatever 2026 games have actually completed so far (same round-robin
-   schedule), producing `fantasy_season_2026` and `fantasy_standings_2026`.
-   Safe to re-run anytime, e.g. weekly alongside `06`: it always recomputes
-   the season-to-date from scratch, so a stat correction on a past week
-   shows up immediately. Before Week 1 finishes it finds nothing completed
-   and skips writing rather than create an empty table.
+   schedule), producing `fantasy_season_2026`, `fantasy_standings_2026`,
+   and `fantasy_predictions_2026`. It also logs a `fantasy_championship_tracker_2026`
+   row every week (Delta MERGE keyed on the week, so re-running the same
+   week updates it rather than duplicating) — the current top-6 seeds and
+   predicted champion, so you can watch the prediction shift as the season
+   plays out. Once the regular season ends and playoff weeks start
+   resolving, it also produces `fantasy_bracket_2026` the same way `08`
+   does. Safe to re-run anytime, e.g. weekly alongside `06`: everything
+   except the tracker always recomputes from scratch, so a stat correction
+   on a past week shows up immediately. Before Week 1 finishes it finds
+   nothing completed and skips writing rather than create empty tables.
 
 ## Running locally
 
