@@ -4,6 +4,14 @@ from datetime import datetime, timezone
 import pandas as pd
 import requests
 
+from src.scoring import FULL_PPR
+
+_EMPTY_RAW = dict(
+    pass_yards=0, pass_tds=0, interceptions=0,
+    rush_yards=0, rush_tds=0,
+    rec_yards=0, rec_tds=0, receptions=0,
+)
+
 
 class Stats2026Updater:
     """
@@ -12,16 +20,28 @@ class Stats2026Updater:
 
     Safe to re-run at any point during the season: rows are keyed by
     game_id + conformed_id (player+position), so already-seen games are
-    refreshed in place (e.g. post-game stat corrections) and only newly
-    completed games add new rows -- nothing is ever duplicated.
+    refreshed in place (e.g. post-game stat corrections, or a rescored table
+    after changing `scoring`) and only newly completed games add new rows --
+    nothing is ever duplicated.
+
+    fantasy_points is computed from raw yards/TDs/receptions via a
+    ScoringSystem (src/scoring.py), not read from the API's own precomputed
+    field, so the point values are ours to configure -- e.g.
+    Stats2026Updater(spark, scoring=HALF_PPR).
     """
 
     BASE_URL = "https://api.nfldata.org/v1"
-    POSITIONS = ["passing", "receiving", "rushing"]
+    STANDARD_ENDPOINTS = ["/stats/passing", "/stats/receiving", "/stats/rushing"]
+    NGS_ENDPOINTS = {
+        "passing": "/stats/ngs/passing",
+        "rushing": "/stats/ngs/rushing",
+        "receiving": "/stats/ngs/receiving",
+    }
 
-    def __init__(self, spark, season=2026, db_name="nfl_prediction_engine", table="stats_2026"):
+    def __init__(self, spark, season=2026, scoring=None, db_name="nfl_prediction_engine", table="stats_2026"):
         self.spark = spark
         self.season = season
+        self.scoring = scoring or FULL_PPR
         self.db_name = db_name
         self.table = table
         self.full_table = f"{db_name}.{table}"
@@ -58,7 +78,7 @@ class Stats2026Updater:
             game_date[(away, week)] = gdate
         return opponent, is_home, game_id, game_date
 
-    # ---- stats -----------------------------------------------------------
+    # ---- raw fetch ---------------------------------------------------------
 
     def _fetch_paginated(self, endpoint):
         records, offset, limit = [], 0, 500
@@ -78,38 +98,80 @@ class Stats2026Updater:
             offset += limit
         return records
 
-    def fetch_stats_for_position(self, position):
-        """Standard endpoint first; falls back to NGS, which is what's actually
-        populated for the current season."""
-        standard = {"passing": "/stats/passing", "receiving": "/stats/receiving", "rushing": "/stats/rushing"}
-        ngs = {"passing": "/stats/ngs/passing", "receiving": "/stats/ngs/receiving", "rushing": "/stats/ngs/rushing"}
-
-        records = self._fetch_paginated(standard[position])
-        if records:
-            return records, "standard"
-        return self._fetch_paginated(ngs[position]), "ngs"
+    # ---- per-source field extraction ---------------------------------------
+    # The standard endpoints (/stats/passing, /stats/receiving, /stats/rushing)
+    # are NOT three slices of the same category -- each returns a different,
+    # partially-overlapping set of player-weeks (e.g. a pure passer with 0
+    # carries never appears in /stats/rushing), but every returned row already
+    # carries the player's FULL combined stat line (pass+rush+rec together, 0
+    # where not applicable). So a player who appears in more than one of the
+    # three lists (e.g. a rushing QB) shows the *same* complete line each
+    # time -- we overwrite by key, we never sum across these three fetches.
+    #
+    # The NGS endpoints are the opposite: each one only carries that single
+    # category's fields (verified against the live API), so a dual-threat
+    # player's rushing and receiving lines arrive as two separate records
+    # that must be added together to get their full game total.
 
     @staticmethod
-    def _fantasy_points(stat, position, source):
-        """Full-PPR: pass yd/25, pass TD*4, INT*-2, rush/rec yd/10, rush/rec TD*6, rec*1.
-        Matches this project's redraft-1qb-12t-ppr1 market data convention.
-        NOTE: the NGS receiving endpoint's yardage field is 'yards', not 'rec_yards'."""
-        if source == "standard" and stat.get("fantasy_points") is not None:
-            return stat["fantasy_points"]
+    def _extract_standard(stat):
+        return dict(
+            pass_yards=stat.get("passing_yards") or 0,
+            pass_tds=stat.get("passing_tds") or 0,
+            interceptions=stat.get("interceptions") or 0,
+            rush_yards=stat.get("rushing_yards") or 0,
+            rush_tds=stat.get("rushing_tds") or 0,
+            rec_yards=stat.get("receiving_yards") or 0,
+            rec_tds=stat.get("receiving_tds") or 0,
+            receptions=stat.get("receptions") or 0,
+        )
 
-        fp = 0.0
-        if position == "passing":
-            fp += (stat.get("pass_yards") or 0) / 25
-            fp += (stat.get("pass_touchdowns") or 0) * 4
-            fp -= (stat.get("interceptions") or 0) * 2
-        elif position == "rushing":
-            fp += (stat.get("rush_yards") or 0) / 10
-            fp += (stat.get("rush_touchdowns") or 0) * 6
-        elif position == "receiving":
-            fp += (stat.get("yards") or 0) / 10
-            fp += (stat.get("rec_touchdowns") or 0) * 6
-            fp += (stat.get("receptions") or 0) * 1.0
-        return fp
+    @staticmethod
+    def _infer_position_from_standard(stat):
+        """The standard endpoint has no position field. Infer one from which
+        category the player was most active in -- position doesn't affect
+        scoring, this is just for a readable table."""
+        if (stat.get("attempts") or 0) > 0:
+            return "QB"
+        if (stat.get("carries") or 0) > 0 and (stat.get("carries") or 0) >= (stat.get("targets") or 0):
+            return "RB"
+        if (stat.get("targets") or 0) > 0:
+            return "WR"
+        return "UNK"
+
+    @staticmethod
+    def _extract_ngs(stat, category):
+        raw = dict(_EMPTY_RAW)
+        if category == "passing":
+            raw["pass_yards"] = stat.get("pass_yards") or 0
+            raw["pass_tds"] = stat.get("pass_touchdowns") or 0
+            raw["interceptions"] = stat.get("interceptions") or 0
+        elif category == "rushing":
+            raw["rush_yards"] = stat.get("rush_yards") or 0
+            raw["rush_tds"] = stat.get("rush_touchdowns") or 0
+        elif category == "receiving":
+            raw["rec_yards"] = stat.get("yards") or 0  # NOT 'rec_yards' -- verified against the live API
+            raw["rec_tds"] = stat.get("rec_touchdowns") or 0
+            raw["receptions"] = stat.get("receptions") or 0
+        return raw
+
+    # ---- combine -------------------------------------------------------------
+
+    def _new_entry(self, gid, week, player_name, position, team, maps):
+        opponent_map, home_away_map, _, game_date_map = maps
+        return {
+            "stat_key": f"{gid}_{player_name.strip().lower()}_{position.strip().lower()}",
+            "game_id": gid,
+            "season": self.season,
+            "week": week,
+            "game_date": game_date_map.get((team, week)),
+            "player_name": player_name,
+            "position": position,
+            "team": team,
+            "opponent": opponent_map.get((team, week)),
+            "is_home": home_away_map.get((team, week)),
+            "_raw": dict(_EMPTY_RAW),
+        }
 
     def build_stats_dataframe(self):
         completed_games = self.fetch_completed_games()
@@ -117,54 +179,64 @@ class Stats2026Updater:
             print(f"No completed games yet for season {self.season}.")
             return pd.DataFrame()
 
-        opponent_map, home_away_map, game_id_map, game_date_map = self._build_game_maps(completed_games)
+        maps = self._build_game_maps(completed_games)
+        opponent_map, home_away_map, game_id_map, game_date_map = maps
         print(f"{len(completed_games)} completed game(s) found for season {self.season}.")
 
-        rows = []
-        for position in self.POSITIONS:
-            stats, source = self.fetch_stats_for_position(position)
-            print(f"  {position}: {len(stats)} records ({source})")
+        combined = {}
 
-            for stat in stats:
-                if source == "ngs":
+        standard_rows = []
+        for endpoint in self.STANDARD_ENDPOINTS:
+            standard_rows.extend(self._fetch_paginated(endpoint))
+            time.sleep(0.3)
+
+        if standard_rows:
+            print(f"  standard: {len(standard_rows)} rows across passing/receiving/rushing listings")
+            for stat in standard_rows:
+                player_name, team, week = stat.get("player_name", ""), stat.get("recent_team", ""), stat.get("week")
+                if not player_name or not team or week is None:
+                    continue
+                gid = game_id_map.get((team, week))
+                if gid is None:
+                    continue
+                position = self._infer_position_from_standard(stat)
+                entry = combined.setdefault(
+                    f"{gid}_{player_name.strip().lower()}_{position.strip().lower()}",
+                    self._new_entry(gid, week, player_name, position, team, maps),
+                )
+                entry["_raw"] = self._extract_standard(stat)  # each row is already the full combined line
+        else:
+            for category, endpoint in self.NGS_ENDPOINTS.items():
+                records = self._fetch_paginated(endpoint)
+                print(f"  {category} (ngs): {len(records)} records")
+                for stat in records:
                     player_name = stat.get("player_display_name", "")
                     team = stat.get("team_abbr", "")
                     week = stat.get("week")
-                    pos = stat.get("player_position") or position[:3].upper()
-                else:
-                    player_name = stat.get("player_name", "")
-                    team = stat.get("recent_team", "")
-                    week = stat.get("week")
-                    pos = stat.get("position") or position[:3].upper()
+                    position = stat.get("player_position") or category[:3].upper()
+                    if not player_name or not team or week is None:
+                        continue
+                    gid = game_id_map.get((team, week))
+                    if gid is None:
+                        continue
+                    entry = combined.setdefault(
+                        f"{gid}_{player_name.strip().lower()}_{position.strip().lower()}",
+                        self._new_entry(gid, week, player_name, position, team, maps),
+                    )
+                    raw = self._extract_ngs(stat, category)
+                    for k, v in raw.items():
+                        entry["_raw"][k] += v
+                time.sleep(0.3)
 
-                if not player_name or not team or week is None:
-                    continue
+        now = datetime.now(timezone.utc).isoformat()
+        rows = []
+        for entry in combined.values():
+            raw = entry.pop("_raw")
+            entry["fantasy_points"] = self.scoring.score(**raw)
+            entry["updated_at"] = now
+            rows.append(entry)
 
-                gid = game_id_map.get((team, week))
-                if gid is None:
-                    continue  # stat row for a game not in our completed set -- skip
-
-                conformed_id = f"{player_name.strip().lower()}_{pos.strip().lower()}"
-                rows.append({
-                    "stat_key": f"{gid}_{conformed_id}",
-                    "game_id": gid,
-                    "season": self.season,
-                    "week": week,
-                    "game_date": game_date_map.get((team, week)),
-                    "player_name": player_name,
-                    "position": pos,
-                    "team": team,
-                    "opponent": opponent_map.get((team, week)),
-                    "is_home": home_away_map.get((team, week)),
-                    "fantasy_points": float(self._fantasy_points(stat, position, source)),
-                    "updated_at": datetime.now(timezone.utc).isoformat(),
-                })
-            time.sleep(0.3)  # rate limiting between position endpoints
-
-        df = pd.DataFrame(rows)
-        if not df.empty:
-            df = df.drop_duplicates(subset="stat_key", keep="last")
-        return df
+        return pd.DataFrame(rows)
 
     # ---- upsert ------------------------------------------------------------
 
@@ -196,7 +268,7 @@ class Stats2026Updater:
         return {"fetched": len(pdf), "action": action, "table_rows": table_rows}
 
     def run(self):
-        print(f"Updating {self.full_table} for season {self.season}...")
+        print(f"Updating {self.full_table} for season {self.season} (scoring: {self.scoring})...")
         pdf = self.build_stats_dataframe()
         summary = self.upsert(pdf)
         if summary["table_rows"] is not None:

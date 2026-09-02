@@ -11,6 +11,12 @@
 # MAGIC `game_id + player + position`, so newly completed games are added and
 # MAGIC already-seen games are refreshed in place, with no duplicate rows.
 # MAGIC
+# MAGIC fantasy_points is computed from raw yards/TDs/receptions using the
+# MAGIC scoring system in `src/scoring.py` (defaults to FantasyData's standard
+# MAGIC PPR values), not read from the API's own precomputed field -- so
+# MAGIC changing `scoring` below and rerunning will rescore every stored row,
+# MAGIC not just new ones.
+# MAGIC
 # MAGIC Run `00_setup` first if this is a fresh cluster session (needs `requests`
 # MAGIC installed and `src` on the path).
 
@@ -25,8 +31,11 @@ if repo_root not in sys.path:
 # COMMAND ----------
 
 from src.stats_updater import Stats2026Updater
+from src.scoring import FULL_PPR, HALF_PPR, STANDARD, ScoringSystem
 
-updater = Stats2026Updater(spark)
+# Swap in HALF_PPR, STANDARD, or a custom ScoringSystem(...) to change how
+# fantasy_points is calculated -- see src/scoring.py for every point value.
+updater = Stats2026Updater(spark, scoring=FULL_PPR)
 summary = updater.run()
 
 # COMMAND ----------
