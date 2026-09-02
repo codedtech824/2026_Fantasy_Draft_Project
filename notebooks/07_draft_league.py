@@ -60,15 +60,11 @@ for team, r in rosters.items():
 
 # COMMAND ----------
 
-# Save locally (handy within this session) and as Delta tables (durable --
-# 08 reads the roster table, not the /tmp JSON, so it survives a cluster
-# restart/detach between running 07 and 08).
-os.makedirs(_PROC, exist_ok=True)
-with open(f"{_PROC}/fantasy_rosters_2026.json", "w") as f:
-    json.dump(rosters, f, indent=2)
-
+# Delta tables first -- these are the durable output (08 reads the roster
+# table, not the /tmp JSON, so it survives a cluster restart/detach between
+# running 07 and 08). The /tmp copies are just within-session convenience,
+# so a problem writing them doesn't cost the actual result.
 picks_df = pd.DataFrame(pick_log)
-picks_df.to_parquet(f"{_PROC}/draft_picks_2026.parquet", index=False)
 
 # Flatten the nested {team: {slot: [player, ...]}} roster dict into one row
 # per roster spot -- a real table, not a JSON blob, so it's directly queryable.
@@ -88,6 +84,11 @@ spark.createDataFrame(rosters_df).write.mode("overwrite").saveAsTable("nfl_predi
 print("\nTables saved:")
 print("  nfl_prediction_engine.draft_picks_2026")
 print("  nfl_prediction_engine.fantasy_rosters_2026")
+
+os.makedirs(_PROC, exist_ok=True)
+with open(f"{_PROC}/fantasy_rosters_2026.json", "w") as f:
+    json.dump(rosters, f, indent=2)
+picks_df.to_parquet(f"{_PROC}/draft_picks_2026.parquet", index=False)
 
 # COMMAND ----------
 

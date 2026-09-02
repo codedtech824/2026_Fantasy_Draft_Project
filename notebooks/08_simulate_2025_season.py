@@ -105,12 +105,17 @@ print(standings.to_string())
 
 # COMMAND ----------
 
-season.to_parquet(f"{_PROC}/fantasy_season_2025.parquet", index=False)
-standings.to_parquet(f"{_PROC}/fantasy_standings_2025.parquet", index=False)
-
+# Delta tables first -- these are the durable output. The /tmp parquet
+# copies are just within-session convenience, so a problem writing them
+# (e.g. this cluster session never created /tmp/.../data/processed) doesn't
+# cost the actual result if it happens after the tables are already saved.
 spark.sql("CREATE DATABASE IF NOT EXISTS nfl_prediction_engine")
 spark.createDataFrame(season).write.mode("overwrite").saveAsTable("nfl_prediction_engine.fantasy_season_2025")
 spark.createDataFrame(standings).write.mode("overwrite").saveAsTable("nfl_prediction_engine.fantasy_standings_2025")
+
+os.makedirs(_PROC, exist_ok=True)
+season.to_parquet(f"{_PROC}/fantasy_season_2025.parquet", index=False)
+standings.to_parquet(f"{_PROC}/fantasy_standings_2025.parquet", index=False)
 
 print("Tables saved:")
 print("  nfl_prediction_engine.fantasy_season_2025    (one row per team per week -- for a weekly-trend chart)")
