@@ -41,6 +41,32 @@ def generate_round_robin(teams, weeks=None):
     return schedule
 
 
+def completed_weeks_for_season(season, max_week=None, session=None):
+    """
+    The set of real NFL week numbers that have at least one completed game
+    (both scores populated) for `season`, capped at `max_week` (the fantasy
+    schedule's length -- no point knowing about NFL weeks past that). Used
+    to figure out how much of the fantasy schedule has actually happened
+    yet, e.g. for the live 2026 season -- empty early in/before the season,
+    growing by one week roughly every Tuesday.
+    """
+    session = session or requests.Session()
+    session.headers.setdefault("User-Agent", "NFL-Fantasy-Pipeline/1.0")
+    resp = session.get(
+        "https://api.nfldata.org/v1/games",
+        params={"season": season, "game_type": "REG", "limit": 500},
+    )
+    resp.raise_for_status()
+    games = resp.json().get("data", [])
+    weeks = {
+        g["week"] for g in games
+        if g.get("home_score") is not None and g.get("away_score") is not None
+    }
+    if max_week is not None:
+        weeks = {w for w in weeks if w <= max_week}
+    return weeks
+
+
 def fetch_weekly_offense(season, scoring=None):
     """QB/RB/WR/TE real per-week fantasy points, reusing the same fetch this
     project already uses for the in-season 2026 updater -- it's already
