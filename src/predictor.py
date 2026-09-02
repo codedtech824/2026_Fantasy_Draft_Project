@@ -75,6 +75,13 @@ class NFLPredictor:
             'conformed_id': df['conformed_id'],
             'ml_projected_points': final_predictions
         })
+        # Carry schedule metadata through for display -- both are already
+        # used as model inputs above via X, this just makes the *reasoning*
+        # (which week is the bye, how tough the schedule looked) visible on
+        # the output too, not just baked invisibly into the point total.
+        for col in ('bye_week', 'schedule_modifier'):
+            if col in df.columns:
+                results[col] = df[col].values
 
         output_path = os.path.join(self.processed_dir, "final_predictions.parquet")
         results.to_parquet(output_path, index=False)

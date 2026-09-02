@@ -110,13 +110,69 @@ class SilverToGold:
         player_df['injury_multiplier'] = risk_scores
         return player_df
 
-    def apply_matchup_engine(self, player_df, schedule_df):
+    def apply_matchup_engine(self, player_df, schedule_df, dst_df, players_master,
+                              weight_map={2025: 1.0, 2024: 0.7, 2023: 0.5, 2022: 0.3}):
         """
-        Adjusts projections based on the 2026 schedule.
+        Adjusts projections using the real 2026 schedule instead of random
+        noise. Two things come out of this:
+
+        - schedule_modifier: the average strength of the defenses a player's
+          team actually faces in 2026, where "strength" is each opponent's
+          own EWMA-weighted historical D/ST fantasy scoring (same time-decay
+          as offensive players, so a defense that's been tough recently
+          counts more than one that was tough three years ago). Clipped to
+          [0.85, 1.15] -- a modest adjustment, not a projection-dominating
+          swing.
+        - bye_week: looked up directly, not folded into points at all --
+          it's schedule metadata a real draft would want to see, not
+          something that should change how good a player is projected to be.
         """
-        print("Applying 2026 Matchup Engine modifiers...")
+        print("Applying 2026 Matchup Engine (real schedule + opponent strength)...")
         player_df = player_df.copy()
-        player_df['schedule_modifier'] = np.random.uniform(0.9, 1.1, len(player_df))
+
+        if schedule_df is None or schedule_df.empty or dst_df is None or dst_df.empty or players_master is None:
+            print("  Missing schedule/D-ST/roster data -- using a neutral modifier.")
+            player_df['schedule_modifier'] = 1.0
+            player_df['bye_week'] = None
+            return player_df
+
+        # Defensive strength per team, normalized so the league average = 1.0
+        dst_df = dst_df.copy()
+        dst_df['season'] = pd.to_numeric(dst_df['season'], errors='coerce')
+        dst_df['weight'] = dst_df['season'].map(weight_map).fillna(0.1)
+        team_strength = dst_df.groupby('team').apply(
+            lambda g: (g['fantasy_points'] * g['weight']).sum() / g['weight'].sum()
+        )
+        league_avg = team_strength.mean()
+        if league_avg:
+            team_strength = team_strength / league_avg
+
+        # Bye week = the regular-season week number absent from a team's rows
+        all_weeks = set(schedule_df['week'].unique())
+        bye_week = {}
+        for team, g in schedule_df.groupby('team'):
+            missing = sorted(all_weeks - set(g['week']))
+            bye_week[team] = missing[0] if missing else None
+
+        team_lookup = players_master.drop_duplicates('conformed_id').set_index('conformed_id')['team'].to_dict()
+
+        def compute(conformed_id):
+            if conformed_id.endswith('_dst'):
+                team = conformed_id[:-4].upper()
+            else:
+                team = team_lookup.get(conformed_id)
+            if not team:
+                return 1.0, None
+            opponents = schedule_df.loc[schedule_df['team'] == team, 'opponent']
+            if opponents.empty:
+                return 1.0, bye_week.get(team)
+            avg_opp_strength = opponents.map(team_strength).fillna(1.0).mean()
+            modifier = float(np.clip(2 - avg_opp_strength, 0.85, 1.15))
+            return modifier, bye_week.get(team)
+
+        computed = player_df['conformed_id'].map(compute)
+        player_df['schedule_modifier'] = computed.map(lambda x: x[0])
+        player_df['bye_week'] = computed.map(lambda x: x[1])
         return player_df
 
     def run_pipeline(self):
@@ -124,6 +180,8 @@ class SilverToGold:
         game_logs = self._load_silver("game_logs.parquet")
         injuries = self._load_silver("injury_logs.parquet")
         players = self._load_silver("players_master.parquet")
+        schedule = self._load_silver("schedule_2026.parquet")
+        dst_logs = self._load_silver("dst_logs.parquet")
 
         if game_logs is None:
             print("No Silver game logs found. Run bronze_to_silver.py first.")
@@ -139,12 +197,13 @@ class SilverToGold:
         gold_df = self.calculate_injury_risk(injuries, gold_df)
 
         # 4. Matchup Engine
-        dummy_schedule = pd.DataFrame()
-        gold_df = self.apply_matchup_engine(gold_df, dummy_schedule)
+        gold_df = self.apply_matchup_engine(gold_df, schedule, dst_logs, players)
 
         # Final Projection Formula
         # Calculate 'points' based on the available numeric stats
-        numeric_cols = gold_df.select_dtypes(include=[np.number]).columns.drop(['injury_multiplier', 'schedule_modifier'], errors='ignore')
+        numeric_cols = gold_df.select_dtypes(include=[np.number]).columns.drop(
+            ['injury_multiplier', 'schedule_modifier', 'bye_week'], errors='ignore'
+        )
         if not numeric_cols.empty:
             gold_df['points'] = gold_df[numeric_cols].mean(axis=1)
         else:

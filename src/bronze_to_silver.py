@@ -217,6 +217,48 @@ class BronzeToSilver:
         print(f"Saved cleaned injury logs to {output_path}")
         return df
 
+    def process_schedule(self, season=2026):
+        """
+        Cleans the raw schedule into one row per team per week it plays
+        (each game produces two rows: home and away). Bye weeks aren't
+        computed here -- they're just the week numbers absent for a team --
+        that derivation belongs in Gold since it's the first place this
+        table's rows turn into a business fact ("player X is on bye").
+        """
+        print("Processing Bronze Schedule -> Silver...")
+        path = os.path.join(self.bronze_dir, "nfl_stats", f"schedule_{season}.json")
+        if not os.path.exists(path):
+            print("No schedule data found in Bronze. Skipping...")
+            return None
+
+        with open(path, "r", encoding="utf-8") as f:
+            games = json.load(f).get("data", [])
+        if not games:
+            print("Schedule file has no games. Skipping...")
+            return None
+
+        # nfldata.org uses "WSH" for Washington; nflverse (players_master's
+        # source) uses "WAS". Conform to nflverse's convention here so a
+        # team abbreviation means the same thing in every Silver/Gold table.
+        team_aliases = {"WSH": "WAS"}
+
+        rows = []
+        for g in games:
+            week, home, away, gid = g.get("week"), g.get("home_team"), g.get("away_team"), g.get("game_id")
+            if not (week and home and away):
+                continue
+            home, away = team_aliases.get(home, home), team_aliases.get(away, away)
+            rows.append({"season": season, "week": week, "team": home, "opponent": away,
+                         "is_home": True, "game_id": gid})
+            rows.append({"season": season, "week": week, "team": away, "opponent": home,
+                         "is_home": False, "game_id": gid})
+
+        df = pd.DataFrame(rows)
+        output_path = os.path.join(self.silver_dir, f"schedule_{season}.parquet")
+        df.to_parquet(output_path, index=False)
+        print(f"Saved cleaned schedule to {output_path} ({df['team'].nunique()} teams, {df['week'].max()} weeks)")
+        return df
+
     def create_players_master(self, stats_df):
         """
         Creates a master lookup table for all players.
@@ -348,6 +390,7 @@ class BronzeToSilver:
             stats_df = combined
 
         self.process_injuries()
+        self.process_schedule()
         self.create_players_master(stats_df)
         print("Silver transformation complete.")
 

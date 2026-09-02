@@ -57,6 +57,25 @@ class NFLDataFetcher:
         except Exception as e:
             print(f"Error fetching nflverse roster for {season}: {e}")
 
+    def fetch_schedule(self, season=2026):
+        """
+        Pulls the full regular-season schedule for a season -- feeds the
+        Gold-layer matchup engine (real bye weeks and opponent strength,
+        replacing the random schedule_modifier placeholder).
+        """
+        print(f"Fetching {season} regular-season schedule...")
+        base_url = "https://api.nfldata.org/v1"
+        try:
+            resp = self.session.get(
+                f"{base_url}/games", params={"season": season, "game_type": "REG", "limit": 500}
+            )
+            resp.raise_for_status()
+            data = resp.json()
+            self._save_raw(data, "nfl_stats", f"schedule_{season}.json")
+            print(f"  {season}: {len(data.get('data', []))} games")
+        except Exception as e:
+            print(f"Error fetching {season} schedule: {e}")
+
     def fetch_league_logs_data(self):
         """
         Pulls market values and player metadata from LeagueLogs.
@@ -129,6 +148,10 @@ class NFLDataFetcher:
         """
         print("Building team defense (D/ST) stats from player + game data...")
         base_url = "https://api.nfldata.org/v1"
+        # nfldata.org uses "WSH" for Washington; nflverse (players_master's
+        # source) uses "WAS". Conform here too, so a team defense's rows
+        # here join correctly against the schedule/roster elsewhere.
+        team_aliases = {"WSH": "WAS"}
 
         for season in seasons:
             try:
@@ -139,7 +162,8 @@ class NFLDataFetcher:
                 for g in games:
                     if g.get("home_score") is None or g.get("away_score") is None:
                         continue
-                    home, away = g.get("home_team"), g.get("away_team")
+                    home = team_aliases.get(g.get("home_team"), g.get("home_team"))
+                    away = team_aliases.get(g.get("away_team"), g.get("away_team"))
                     points_allowed.setdefault(home, []).append(g["away_score"])
                     points_allowed.setdefault(away, []).append(g["home_score"])
 
@@ -153,7 +177,7 @@ class NFLDataFetcher:
                 def_fields = ["def_sacks", "def_interceptions", "def_tds", "def_safeties"]
                 team_totals = {}
                 for p in players:
-                    team = p.get("recent_team")
+                    team = team_aliases.get(p.get("recent_team"), p.get("recent_team"))
                     if not team:
                         continue
                     t = team_totals.setdefault(team, {k: 0 for k in def_fields} | {"fumble_recoveries": 0})
@@ -264,6 +288,7 @@ class NFLDataFetcher:
         """Runs the corrected bronze ingestion pipeline."""
         self.fetch_league_logs_data()
         self.fetch_nflverse_roster()
+        self.fetch_schedule()
         self.fetch_nfl_data_stats()
         self.fetch_dst_stats()
         self.fetch_muffed_metrics()
