@@ -142,3 +142,20 @@ available = [c for c in cols if c in board.columns]
 print(f"Pipeline complete. Draft board: {len(board)} players\n")
 print("=== 2026 FINAL DRAFT BOARD (Top 30) ===")
 print(board[available].head(30).to_string(index=False))
+
+# COMMAND ----------
+
+# MAGIC %md
+# MAGIC ## Register as Databricks Tables
+
+# COMMAND ----------
+
+# Makes the outputs queryable with %sql instead of only via pd.read_parquet
+spark.sql("CREATE DATABASE IF NOT EXISTS nfl_prediction_engine")
+
+spark.createDataFrame(results).write.mode("overwrite").saveAsTable("nfl_prediction_engine.final_predictions")
+spark.createDataFrame(board).write.mode("overwrite").saveAsTable("nfl_prediction_engine.draft_board_2026")
+
+print("Tables saved:")
+print("  nfl_prediction_engine.final_predictions")
+print("  nfl_prediction_engine.draft_board_2026")

@@ -72,3 +72,10 @@ results.to_parquet(out, index=False)
 print(f"Saved {len(results)} predictions to {out}")
 print("\nTop 10 projected players:")
 print(results.nlargest(10, "ml_projected_points").to_string(index=False))
+
+# COMMAND ----------
+
+# Register as a Databricks table so it's queryable with %sql
+spark.sql("CREATE DATABASE IF NOT EXISTS nfl_prediction_engine")
+spark.createDataFrame(results).write.mode("overwrite").saveAsTable("nfl_prediction_engine.final_predictions")
+print("Table saved: nfl_prediction_engine.final_predictions")

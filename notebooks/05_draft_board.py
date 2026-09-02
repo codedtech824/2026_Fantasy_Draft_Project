@@ -41,5 +41,10 @@ if os.path.exists(board_path):
 
     print("=== 2026 FINAL DRAFT BOARD (Top 30) ===")
     print(board[available].head(30).to_string(index=False))
+
+    # Register as a Databricks table so it's queryable with %sql
+    spark.sql("CREATE DATABASE IF NOT EXISTS nfl_prediction_engine")
+    spark.createDataFrame(board).write.mode("overwrite").saveAsTable("nfl_prediction_engine.draft_board_2026")
+    print("\nTable saved: nfl_prediction_engine.draft_board_2026")
 else:
     print("Draft board not found. Check that 04_predict ran successfully.")
