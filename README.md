@@ -78,14 +78,25 @@ not just an invisible multiplier.
 5. For dashboard-ready data before the 2026 season has enough completed
    games of its own: `notebooks/07_draft_league.py` runs a 13-team, 15-round
    snake draft against the current board (`src/league.py`, fixed seed —
-   reproducible, not reshuffled every run), then
-   `notebooks/08_simulate_2025_season.py` backtests those same rosters
-   week-by-week against the real, completed 2025 season. Produces three
-   Delta tables: `draft_picks_2026`, `fantasy_season_2025` (one row per
-   team per week — a weekly trend chart), and `fantasy_standings_2025` (one
-   row per team — a standings table). See that notebook's header for the
-   data-coverage gaps this backtest carries (D/ST and K weekly scoring in
-   particular).
+   reproducible, not reshuffled every run, and following a round-based
+   drafting strategy — RB/WR early, QB mid-draft, K/DST last — rather than
+   pure best-value), then `notebooks/08_simulate_2025_season.py` backtests
+   those same rosters week-by-week against the real, completed 2025 season.
+   Offense, D/ST (full formula — sacks/INTs/fumbles/def TDs/safeties +
+   tiered points-allowed), and K (real FG-distance-bucket + PAT scoring)
+   are all real per-week numbers from nflverse, not approximations.
+   Produces three Delta tables: `draft_picks_2026`, `fantasy_season_2025`
+   (one row per team per week — a weekly trend chart), and
+   `fantasy_standings_2025` (one row per team — a standings table).
+
+6. Once the real 2026 season is underway, `notebooks/09_update_2026_season.py`
+   is the live counterpart to `08` — scores the same drafted rosters against
+   whatever 2026 games have actually completed so far (same round-robin
+   schedule), producing `fantasy_season_2026` and `fantasy_standings_2026`.
+   Safe to re-run anytime, e.g. weekly alongside `06`: it always recomputes
+   the season-to-date from scratch, so a stat correction on a past week
+   shows up immediately. Before Week 1 finishes it finds nothing completed
+   and skips writing rather than create an empty table.
 
 ## Running locally
 
