@@ -43,26 +43,47 @@ class NFLDrafter:
         else:
             df = preds.copy()
 
-        # Fall back to game_logs for player metadata when master match rate is low
-        if 'position' not in df.columns or df['position'].isna().sum() > len(df) * 0.5:
+        # Fall back to game_logs for player metadata on a per-row basis, for
+        # whichever rows didn't match players_master -- e.g. nflverse groups
+        # defensive/O-line positions more broadly (DB/OL/DL) than game_logs'
+        # granular labels (CB/SAF/OT/DT), so those rows won't match on
+        # conformed_id even though the player is real and current. This
+        # doesn't affect roster_status filtering below: unmatched rows simply
+        # have no roster_status, which is the right outcome for the fantasy
+        # positions we actually care about (QB/RB/WR/TE/K), where the match
+        # rate against players_master is high.
+        if 'position' not in df.columns or df['position'].isna().any():
             game_logs_path = os.path.join(self.silver_dir, "game_logs.parquet")
             if os.path.exists(game_logs_path):
-                print("Low match rate with players_master — using game_logs for player metadata.")
                 logs = pd.read_parquet(game_logs_path)
                 meta_cols = [c for c in ['conformed_id', 'player_name', 'position', 'team'] if c in logs.columns]
-                player_meta = logs[meta_cols].drop_duplicates('conformed_id')
-                df = preds.merge(player_meta, on='conformed_id', how='left')
+                player_meta = logs[meta_cols].drop_duplicates('conformed_id').set_index('conformed_id')
+                missing = df['position'].isna() if 'position' in df.columns else pd.Series(True, index=df.index)
+                unmatched_count = int(missing.sum())
+                for col in ['player_name', 'position', 'team']:
+                    if col in player_meta.columns:
+                        if col not in df.columns:
+                            df[col] = pd.NA
+                        df.loc[missing, col] = df.loc[missing, 'conformed_id'].map(player_meta[col])
+                print(f"Filled {unmatched_count} rows unmatched in players_master from game_logs metadata.")
 
-        # 0. Exclude known-retired players who still have historical stats in
-        # the training data (e.g. Tom Brady's final 2022 season) and would
-        # otherwise get projected forward. This is a manual list, not an
-        # automated filter, because the roster snapshot's own status/team
-        # fields aren't reliable enough to detect retirement (they mark
-        # Brady "active" with no team, but also show no team for plenty of
-        # players who definitely are active, like Tyreek Hill) -- verified
-        # against nfldata.org/players_master during development.
-        RETIRED_PLAYER_IDS = {"t.brady_qb"}
-        if "conformed_id" in df.columns:
+        # 0. Exclude players not on a current active NFL roster (e.g. Tom
+        # Brady's final 2022 season is still in the training data and would
+        # otherwise get projected forward as a startable QB). Uses the
+        # nflverse roster_status column (ACT/CUT/DEV/RES/RET/EXE) when
+        # available -- it's reliable, unlike the old LeagueLogs/Sleeper
+        # roster snapshot, whose status field marks Brady "active" with no
+        # team while also showing no team for plenty of players who
+        # definitely are active (e.g. Tyreek Hill). D/ST rows are exempt --
+        # they're team defenses, not individual players, so they never match
+        # a roster row. Falls back to a small manual list if nflverse data
+        # wasn't fetched (roster_status column absent).
+        if "roster_status" in df.columns:
+            is_dst = df.get("position", "") == "DST"
+            is_active = df["roster_status"] == "ACT"
+            df = df[is_dst | is_active]
+        elif "conformed_id" in df.columns:
+            RETIRED_PLAYER_IDS = {"t.brady_qb"}
             df = df[~df["conformed_id"].isin(RETIRED_PLAYER_IDS)]
 
         # 1. Define Replacement Level (Baseline) per position.

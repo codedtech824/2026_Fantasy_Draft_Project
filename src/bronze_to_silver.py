@@ -220,11 +220,43 @@ class BronzeToSilver:
     def create_players_master(self, stats_df):
         """
         Creates a master lookup table for all players.
-        Incorporates data from players_master_raw.json if available.
+        Prefers the nflverse roster (real current team assignments + a
+        reliable ACT/CUT/DEV/RES/RET/EXE status), falling back to
+        players_master_raw.json (LeagueLogs/Sleeper) if nflverse wasn't
+        fetched, and finally to stats_df if neither is available.
         """
         print("Creating Players Master table...")
 
-        # Try to load the dedicated players master file from Bronze
+        # Preferred: nflverse roster -- see fetcher.fetch_nflverse_roster for
+        # why this replaces the LeagueLogs/Sleeper source as the source of
+        # truth for team assignment and active/retired status.
+        nflverse_path = os.path.join(self.bronze_dir, "nfl_stats", "nflverse_roster_2026.csv")
+        if os.path.exists(nflverse_path):
+            master = pd.read_csv(nflverse_path)
+            master = master.dropna(subset=["full_name", "team", "position"])
+            # Multiple rows per player across weeks -- keep the latest
+            master = master.sort_values("week").drop_duplicates(subset="full_name", keep="last")
+
+            # Build player_name in the same "F.Last" abbreviated format used
+            # everywhere else in this pipeline (nfldata.org's player_name /
+            # player_display_name fields), so conformed_id joins correctly
+            # against game_logs and the draft board.
+            master["player_name"] = master["first_name"].str[0] + "." + master["last_name"]
+            master["conformed_id"] = (
+                master["player_name"].str.lower().str.strip() + "_" +
+                master["position"].str.lower().str.strip()
+            )
+            master = master.rename(columns={"status": "roster_status"})
+            keep_cols = ["conformed_id", "player_name", "full_name", "position", "team",
+                         "roster_status", "years_exp", "college"]
+            master = master[[c for c in keep_cols if c in master.columns]]
+
+            output_path = os.path.join(self.silver_dir, "players_master.parquet")
+            master.to_parquet(output_path, index=False)
+            print(f"Saved players master to {output_path} ({len(master)} players from nflverse)")
+            return
+
+        # Fall back: try to load the dedicated players master file from Bronze
         path = os.path.join(self.bronze_dir, "nfl_stats", "players_master_raw.json")
         if os.path.exists(path):
             with open(path, 'r', encoding='utf-8') as f:

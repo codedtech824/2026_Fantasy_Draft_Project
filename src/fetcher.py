@@ -31,6 +31,32 @@ class NFLDataFetcher:
         print(f"Saved raw data to {full_path}")
         return full_path
 
+    def fetch_nflverse_roster(self, season=2026):
+        """
+        Pulls the current-season roster from nflverse -- the authoritative,
+        community-maintained source for real team assignments, sourced from
+        official transaction data and refreshed regularly. This replaces the
+        Sleeper-derived players_master_raw.json as the source of truth for
+        "is this player actually on a 2026 roster": Sleeper's player index
+        never prunes retired players (Tom Brady still shows status='active'
+        with no team years after retiring), while nflverse's status field
+        (ACT/CUT/DEV/RES/RET/EXE) is reliable and Brady doesn't even appear
+        in it. Same fix already validated in the cfb-stats-pipeline repo.
+        """
+        print(f"Fetching {season} roster from nflverse...")
+        url = f"https://github.com/nflverse/nflverse-data/releases/download/rosters/roster_{season}.csv"
+        try:
+            resp = self.session.get(url, timeout=30)
+            resp.raise_for_status()
+            path = os.path.join(self.base_dir, "nfl_stats")
+            os.makedirs(path, exist_ok=True)
+            full_path = os.path.join(path, f"nflverse_roster_{season}.csv")
+            with open(full_path, "w", encoding="utf-8") as f:
+                f.write(resp.text)
+            print(f"Saved raw data to {full_path}")
+        except Exception as e:
+            print(f"Error fetching nflverse roster for {season}: {e}")
+
     def fetch_league_logs_data(self):
         """
         Pulls market values and player metadata from LeagueLogs.
@@ -237,6 +263,7 @@ class NFLDataFetcher:
     def run_all(self):
         """Runs the corrected bronze ingestion pipeline."""
         self.fetch_league_logs_data()
+        self.fetch_nflverse_roster()
         self.fetch_nfl_data_stats()
         self.fetch_dst_stats()
         self.fetch_muffed_metrics()
