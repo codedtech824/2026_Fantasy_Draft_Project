@@ -35,7 +35,36 @@ def _empty_roster():
     return {pos: [] for pos in list(STARTER_SLOTS) + ["BN"]}
 
 
-def run_draft(board_df, snake_order, starter_slots=STARTER_SLOTS, bench_slots=BENCH_SLOTS):
+def standard_strategy(round_num):
+    """
+    Default round-based drafting strategy -- a preference, not a hard rule
+    (run_draft always falls back to filling a genuine roster need even if
+    it means going off-strategy, so this can never cause a slot to go
+    unfilled). Reflects common real-draft wisdom:
+
+    - Rounds 1-5 (anchor talent): RB/WR/TE only. RBs and WRs are the
+      scarcest, highest-variance-in-value positions, so lock those in first;
+      an elite TE is worth taking here too since the drop-off after the top
+      few is steep. QB is intentionally excluded -- a startable QB is
+      findable much later, so spending an early pick there is a real
+      opportunity cost. (The usual exception is an elite dual-threat QB
+      worth a rare early reach -- not modeled here, since this board's own
+      QB-vs-other-positions value scale isn't reliable enough to detect
+      "elite" from, and a blanket allowance would reopen the exact
+      round-1-QB problem this strategy exists to fix.)
+    - Rounds 6-13 (core, flex, bench upside): QB opens up here (the
+      "wait til the middle rounds" window), alongside continued RB/WR/TE.
+    - Rounds 14-15 (end game): K and DST only -- late-round streamers,
+      never worth an earlier pick over a skill-position player.
+    """
+    if round_num <= 5:
+        return {"RB", "WR", "TE"}
+    if round_num <= 13:
+        return {"QB", "RB", "WR", "TE"}
+    return {"K", "DST"}
+
+
+def run_draft(board_df, snake_order, starter_slots=STARTER_SLOTS, bench_slots=BENCH_SLOTS, strategy=standard_strategy):
     """
     Greedy autodraft: at each pick, the team takes the highest-ranked
     remaining player (board_df must already be sorted descending by
@@ -45,6 +74,14 @@ def run_draft(board_df, snake_order, starter_slots=STARTER_SLOTS, bench_slots=BE
     specifically-needed position has no supply left in the pool, the team
     doesn't get stuck -- it falls through to bench for that pick instead
     (matters for scarce positions like DST/K/TE).
+
+    `strategy(round_num) -> set of positions` layers a round-based
+    preference on top of pure best-value-available (default:
+    standard_strategy -- pass None to disable and draft purely by value,
+    the old behavior). It's a soft preference: if nothing both fills a
+    genuine roster need AND matches the strategy's preferred positions this
+    round, the pick falls back to whatever fills the need regardless of
+    strategy, so a real need is never left unfilled just to stay on-plan.
 
     board_df: DataFrame with at least conformed_id, player_name, position,
     team, bye_week columns, one row per draftable player/DST unit.
@@ -87,9 +124,20 @@ def run_draft(board_df, snake_order, starter_slots=STARTER_SLOTS, bench_slots=BE
             continue
 
         available_positions = {pl["position"] for pl in available}
-        needed = open_starter_positions(team) & available_positions
-        if not needed:
-            needed = available_positions  # starters unfillable from remaining pool -- take best for bench
+        starter_needed = open_starter_positions(team) & available_positions
+        preferred = strategy(p["round"]) if strategy else None
+
+        # Priority: (1) a strategy-preferred position that also fills a real
+        # starter need, (2) any strategy-preferred position at all -- lets a
+        # team take a bench-quality skill player instead of being forced
+        # into an early K/DST just because that's its only open *starter*
+        # slot left, (3) a real starter need regardless of strategy -- only
+        # reached if the preferred positions are completely gone from the
+        # pool, (4) anything at all, for bench.
+        if preferred:
+            needed = (starter_needed & preferred) or (preferred & available_positions) or starter_needed or available_positions
+        else:
+            needed = starter_needed or available_positions
 
         idx = next((i for i, pl in enumerate(available) if pl["position"] in needed), None)
         if idx is None:
