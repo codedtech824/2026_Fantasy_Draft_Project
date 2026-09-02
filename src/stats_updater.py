@@ -13,6 +13,18 @@ _EMPTY_RAW = dict(
 )
 
 
+def _abbreviate_name(full_name):
+    """'Christian McCaffrey' -> 'C.McCaffrey' -- the "F.Last" format used
+    everywhere else in this pipeline (game_logs, players_master, the draft
+    board). Handles multi-word surnames ('Amon-Ra St. Brown' -> 'A.St.
+    Brown') by taking the first token as the given name and joining
+    everything else as the surname."""
+    parts = full_name.strip().split(" ", 1)
+    if len(parts) < 2 or not parts[0]:
+        return full_name.strip()
+    return f"{parts[0][0]}.{parts[1]}"
+
+
 class Stats2026Updater:
     """
     Fetches player stats for completed 2026-season games from nfldata.org and
@@ -196,6 +208,7 @@ class Stats2026Updater:
                 player_name, team, week = stat.get("player_name", ""), stat.get("recent_team", ""), stat.get("week")
                 if not player_name or not team or week is None:
                     continue
+                player_name = _abbreviate_name(player_name)
                 gid = game_id_map.get((team, week))
                 if gid is None:
                     continue
@@ -210,7 +223,11 @@ class Stats2026Updater:
                 records = self._fetch_paginated(endpoint)
                 print(f"  {category} (ngs): {len(records)} records")
                 for stat in records:
-                    player_name = stat.get("player_display_name", "")
+                    first, last = stat.get("player_first_name"), stat.get("player_last_name")
+                    if first and last:
+                        player_name = f"{first[0]}.{last}"
+                    else:
+                        player_name = _abbreviate_name(stat.get("player_display_name", ""))
                     team = stat.get("team_abbr", "")
                     week = stat.get("week")
                     position = stat.get("player_position") or category[:3].upper()
