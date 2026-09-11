@@ -44,11 +44,22 @@ def generate_round_robin(teams, weeks=None):
 def completed_weeks_for_season(season, max_week=None, session=None):
     """
     The set of real NFL week numbers that have at least one completed game
-    (both scores populated) for `season`, capped at `max_week` (the fantasy
-    schedule's length -- no point knowing about NFL weeks past that). Used
-    to figure out how much of the fantasy schedule has actually happened
-    yet, e.g. for the live 2026 season -- empty early in/before the season,
-    growing by one week roughly every Tuesday.
+    for `season`, capped at `max_week` (the fantasy schedule's length -- no
+    point knowing about NFL weeks past that). Used to figure out how much
+    of the fantasy schedule has actually happened yet, e.g. for the live
+    2026 season -- empty early in/before the season, growing by one week
+    roughly every Tuesday.
+
+    A week counts as completed if EITHER of two independent sources agrees:
+    nfldata.org's game scores (home_score/away_score both populated), or
+    nflverse's weekly player stats file having any rows for that week.
+    nfldata.org has shown real multi-day lag posting final scores after
+    games actually happen (confirmed directly: two real Week 1 2026 games
+    with known final scores from NFL.com still showed null scores there
+    days later), while nflverse -- already the source this module uses for
+    offense/D/ST/kicker scoring elsewhere -- updates faster. Checking both
+    means this doesn't stay wrongly stuck on "nothing completed" just
+    because one of the two sources is slow that week.
     """
     session = session or requests.Session()
     session.headers.setdefault("User-Agent", "NFL-Fantasy-Pipeline/1.0")
@@ -62,6 +73,18 @@ def completed_weeks_for_season(season, max_week=None, session=None):
         g["week"] for g in games
         if g.get("home_score") is not None and g.get("away_score") is not None
     }
+
+    try:
+        nflverse_resp = session.get(
+            f"https://github.com/nflverse/nflverse-data/releases/download/stats_player/stats_player_week_{season}.csv"
+        )
+        if nflverse_resp.status_code == 200 and nflverse_resp.content:
+            df = pd.read_csv(io.BytesIO(nflverse_resp.content), low_memory=False)
+            if "week" in df.columns and len(df):
+                weeks |= {int(w) for w in df["week"].unique()}
+    except Exception:
+        pass  # best-effort secondary signal -- nfldata.org's result alone still stands if this fails
+
     if max_week is not None:
         weeks = {w for w in weeks if w <= max_week}
     return weeks
@@ -145,7 +168,11 @@ def fetch_weekly_dst_scores(season, session=None):
         away = _TEAM_ALIASES.get(g.get("away_team"), g.get("away_team"))
         pa_rows.append({"team": home, "week": week, "points_allowed": g["away_score"]})
         pa_rows.append({"team": away, "week": week, "points_allowed": g["home_score"]})
-    pa_df = pd.DataFrame(pa_rows)
+    # explicit columns: pd.DataFrame([]) has none at all, which breaks the
+    # merge below with KeyError('team') whenever nfldata.org hasn't posted
+    # scores yet for a week nflverse already has stats for (a real gap --
+    # see completed_weeks_for_season's docstring)
+    pa_df = pd.DataFrame(pa_rows, columns=["team", "week", "points_allowed"])
 
     merged = counting.merge(pa_df, on=["team", "week"], how="left")
     merged["fantasy_points"] = (

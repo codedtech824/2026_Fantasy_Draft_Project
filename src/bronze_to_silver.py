@@ -106,7 +106,12 @@ class BronzeToSilver:
     @staticmethod
     def _points_allowed_tier(points_per_game):
         """Standard D/ST points-allowed scoring tier."""
-        if points_per_game is None:
+        # pd.isna catches NaN/NaT too -- a missing real Python None was the
+        # only case handled before, but a merge against not-yet-available
+        # data (see fetch_weekly_dst_scores) produces NaN, not None, and
+        # NaN <= 0 etc. are all False, silently falling through to the
+        # worst tier (-4) instead of the intended neutral "unknown" value.
+        if points_per_game is None or pd.isna(points_per_game):
             return 0
         if points_per_game <= 0:
             return 10

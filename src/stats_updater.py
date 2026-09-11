@@ -50,11 +50,45 @@ class Stats2026Updater:
     # ---- games / completion --------------------------------------------
 
     def fetch_completed_games(self):
-        """Games for self.season where both scores are populated (i.e. played)."""
+        """
+        Games for self.season considered played -- either nfldata.org has
+        posted both scores, or nflverse's weekly stats file already has
+        rows for that team+week. nfldata.org's own score field has shown
+        real multi-day lag behind when games actually happen (confirmed
+        directly against known real results), while nflverse -- the
+        source fetch_weekly_stats() pulls player stats from anyway --
+        updates faster. Score-based filtering alone was silently dropping
+        every real stat row for a week nflverse already had, since
+        build_stats_dataframe() only keeps rows whose (team, week) shows
+        up in the map built from this method's return value.
+        nfldata.org's schedule/game_id info is present for every game
+        regardless of score status, so this only loosens which games
+        count as "played," not where the schedule metadata comes from.
+        """
         resp = self.session.get(self.GAMES_URL, params={"season": self.season, "limit": 500}, timeout=30)
         resp.raise_for_status()
         games = resp.json().get("data", [])
-        return [g for g in games if g.get("home_score") is not None and g.get("away_score") is not None]
+
+        scored_teams_by_week = set()
+        try:
+            nflverse_resp = self.session.get(self.NFLVERSE_WEEKLY_URL.format(season=self.season))
+            if nflverse_resp.status_code == 200 and nflverse_resp.content:
+                df = pd.read_csv(io.BytesIO(nflverse_resp.content), low_memory=False)
+                if "team" in df.columns and "week" in df.columns:
+                    df["team"] = df["team"].replace(_TEAM_ALIASES)
+                    scored_teams_by_week = set(zip(df["team"], df["week"]))
+        except Exception:
+            pass  # best-effort secondary signal -- nfldata.org's own scores still apply either way
+
+        def is_played(g):
+            if g.get("home_score") is not None and g.get("away_score") is not None:
+                return True
+            week = g.get("week")
+            home = _TEAM_ALIASES.get(g.get("home_team"), g.get("home_team"))
+            away = _TEAM_ALIASES.get(g.get("away_team"), g.get("away_team"))
+            return (home, week) in scored_teams_by_week or (away, week) in scored_teams_by_week
+
+        return [g for g in games if is_played(g)]
 
     @staticmethod
     def _build_game_maps(completed_games):
