@@ -5,6 +5,7 @@ import pandas as pd
 import requests
 
 from src.scoring import FULL_PPR
+from src.http_utils import get_with_retries
 
 _TEAM_ALIASES = {"WSH": "WAS"}  # nfldata.org uses WSH, nflverse uses WAS
 
@@ -65,13 +66,13 @@ class Stats2026Updater:
         regardless of score status, so this only loosens which games
         count as "played," not where the schedule metadata comes from.
         """
-        resp = self.session.get(self.GAMES_URL, params={"season": self.season, "limit": 500}, timeout=30)
+        resp = get_with_retries(self.session, self.GAMES_URL, params={"season": self.season, "limit": 500}, timeout=30)
         resp.raise_for_status()
         games = resp.json().get("data", [])
 
         scored_teams_by_week = set()
         try:
-            nflverse_resp = self.session.get(self.NFLVERSE_WEEKLY_URL.format(season=self.season))
+            nflverse_resp = get_with_retries(self.session, self.NFLVERSE_WEEKLY_URL.format(season=self.season))
             if nflverse_resp.status_code == 200 and nflverse_resp.content:
                 df = pd.read_csv(io.BytesIO(nflverse_resp.content), low_memory=False)
                 if "team" in df.columns and "week" in df.columns:
@@ -122,7 +123,7 @@ class Stats2026Updater:
         there yet.
         """
         url = self.NFLVERSE_WEEKLY_URL.format(season=self.season)
-        resp = self.session.get(url)
+        resp = get_with_retries(self.session, url)
         if resp.status_code == 404:
             return None
         resp.raise_for_status()

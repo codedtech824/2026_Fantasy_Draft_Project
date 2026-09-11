@@ -5,6 +5,7 @@ import pandas as pd
 
 from src.bronze_to_silver import BronzeToSilver
 from src.stats_updater import Stats2026Updater
+from src.http_utils import get_with_retries
 
 STARTER_SLOT_ORDER = ["QB", "RB", "WR", "TE", "FLEX", "DST", "K"]
 
@@ -63,7 +64,8 @@ def completed_weeks_for_season(season, max_week=None, session=None):
     """
     session = session or requests.Session()
     session.headers.setdefault("User-Agent", "NFL-Fantasy-Pipeline/1.0")
-    resp = session.get(
+    resp = get_with_retries(
+        session,
         "https://api.nfldata.org/v1/games",
         params={"season": season, "game_type": "REG", "limit": 500},
     )
@@ -75,7 +77,8 @@ def completed_weeks_for_season(season, max_week=None, session=None):
     }
 
     try:
-        nflverse_resp = session.get(
+        nflverse_resp = get_with_retries(
+            session,
             f"https://github.com/nflverse/nflverse-data/releases/download/stats_player/stats_player_week_{season}.csv"
         )
         if nflverse_resp.status_code == 200 and nflverse_resp.content:
@@ -106,7 +109,7 @@ def _fetch_nflverse_weekly_raw(season, session=None):
     session = session or requests.Session()
     session.headers.setdefault("User-Agent", "NFL-Fantasy-Pipeline/1.0")
     url = f"https://github.com/nflverse/nflverse-data/releases/download/stats_player/stats_player_week_{season}.csv"
-    resp = session.get(url)
+    resp = get_with_retries(session, url)
     resp.raise_for_status()
     df = pd.read_csv(io.StringIO(resp.text), low_memory=False)
     df["team"] = df["team"].replace(_TEAM_ALIASES)
@@ -153,7 +156,8 @@ def fetch_weekly_dst_scores(season, session=None):
         def_safeties=("def_safeties", "sum"),
     ).reset_index()
 
-    resp = session.get(
+    resp = get_with_retries(
+        session,
         "https://api.nfldata.org/v1/games",
         params={"season": season, "game_type": "REG", "limit": 500},
     )
@@ -430,7 +434,8 @@ def fetch_nfl_games(season, game_type="REG", session=None):
     away_score}, team codes normalized the same way as everywhere else."""
     session = session or requests.Session()
     session.headers.setdefault("User-Agent", "NFL-Fantasy-Pipeline/1.0")
-    resp = session.get(
+    resp = get_with_retries(
+        session,
         "https://api.nfldata.org/v1/games",
         params={"season": season, "game_type": game_type, "limit": 500},
     )
@@ -454,7 +459,7 @@ def fetch_weekly_injuries(season, session=None):
     session = session or requests.Session()
     session.headers.setdefault("User-Agent", "NFL-Fantasy-Pipeline/1.0")
     url = f"https://github.com/nflverse/nflverse-data/releases/download/injuries/injuries_{season}.csv"
-    resp = session.get(url)
+    resp = get_with_retries(session, url)
     if resp.status_code == 404:
         return {}
     resp.raise_for_status()
