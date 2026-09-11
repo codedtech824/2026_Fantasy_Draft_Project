@@ -161,7 +161,7 @@
               "widgetType": "line",
               "encodings": {
                 "x": {"fieldName": "week", "displayName": "Week", "scale": {"type": "categorical"}},
-                "y": {"fieldName": "sum(points_for)", "scale": {"type": "quantitative"}},
+                "y": {"fieldName": "sum(points_for)", "displayName": "Points", "scale": {"type": "quantitative"}},
                 "color": {"fieldName": "team", "scale": {"type": "categorical"}}
               },
               "data": {"queryName": "main_query"}
