@@ -466,23 +466,34 @@ HOME_FIELD_BONUS_PCT = 0.03  # see predict_nfl_games docstring -- backtested as 
 
 def predict_nfl_games(board, games, injuries_by_week=None):
     """
-    One predicted row per real NFL game: predicted_home_score/
-    predicted_away_score are an offense-minus-opponent-defense proxy, not a
-    real predicted point total -- whichever side is higher is
-    predicted_winner. board: a draft-board-shaped DataFrame with team,
-    position, ml_projected_points (e.g. final_draft_board.parquet).
-    games: from fetch_nfl_games(). injuries_by_week (from
-    fetch_weekly_injuries(), optional): excludes that week's "Out" players
-    from the offense sum -- validated against the real 2025 season at
-    +1.5 points of accuracy (59.9% -> 61.4%) even with an imperfect
-    cross-season player match, so worth passing when you have it.
+    One predicted row per real NFL game. board: a draft-board-shaped
+    DataFrame with team, position, ml_projected_points (e.g.
+    final_draft_board.parquet). games: from fetch_nfl_games().
+    injuries_by_week (from fetch_weekly_injuries(), optional): excludes
+    that week's "Out" players from the offense sum -- validated against
+    the real 2025 season at +1.5 points of accuracy (59.9% -> 61.4%) even
+    with an imperfect cross-season player match, so worth passing when
+    you have it.
 
-    The home team's offense also gets a flat HOME_FIELD_BONUS_PCT boost.
-    Honesty check: this was backtested against the real 2025 season across
-    bonus sizes from 2% to 10% and never beat the baseline by more than 1
-    game out of 272 at any size -- it's here for real-world modeling
-    completeness (home-field advantage is real), not because the backtest
-    proved it helps this particular model.
+    When a game's `spread_line`/`total_line` (from fetch_nfl_games -- the
+    real Vegas line, posted as kickoff approaches, not months out) are
+    both available, predicted_home_score/predicted_away_score/
+    predicted_winner are derived directly from them: home = (total +
+    spread) / 2, away = (total - spread) / 2, winner = whichever side the
+    spread favors. Validated against the real 2025 season at 65.1%
+    accuracy (177/272) -- a real, meaningful jump over the 61.8% the
+    roster-based proxy gets on its own, for data that was already being
+    fetched. Falls back to the roster-based proxy (offense-minus-defense,
+    with the home-field bonus below) for any game without a line posted
+    yet. `prediction_source` on each row says which was used ("vegas" or
+    "roster").
+
+    The roster-based fallback's home team also gets a flat
+    HOME_FIELD_BONUS_PCT boost. Honesty check: this was backtested against
+    the real 2025 season across bonus sizes from 2% to 10% and never beat
+    the baseline by more than 1 game out of 272 at any size -- it's here
+    for real-world modeling completeness (home-field advantage is real),
+    not because the backtest proved it helps this particular model.
     """
     rows = []
     for g in games:
@@ -491,13 +502,28 @@ def predict_nfl_games(board, games, injuries_by_week=None):
         off_home = _team_offense_strength(board, home, excluded) * (1 + HOME_FIELD_BONUS_PCT)
         off_away = _team_offense_strength(board, away, excluded)
         def_home, def_away = _team_defense_strength(board, home), _team_defense_strength(board, away)
-        pred_home = round(off_home - def_away, 2)
-        pred_away = round(off_away - def_home, 2)
+        pred_home_roster = round(off_home - def_away, 2)
+        pred_away_roster = round(off_away - def_home, 2)
+
+        spread, total = g.get("spread_line"), g.get("total_line")
+        if spread is not None and total is not None:
+            pred_home = round((total + spread) / 2, 2)
+            pred_away = round((total - spread) / 2, 2)
+            if spread != 0:
+                winner = home if spread > 0 else away
+            else:
+                winner = home if pred_home_roster >= pred_away_roster else away
+            source = "vegas"
+        else:
+            pred_home, pred_away = pred_home_roster, pred_away_roster
+            winner = home if pred_home_roster >= pred_away_roster else away
+            source = "roster"
+
         rows.append({
             "game_id": g["game_id"], "season": g["season"], "week": g["week"],
             "home_team": home, "away_team": away,
             "predicted_home_score": pred_home, "predicted_away_score": pred_away,
-            "predicted_winner": home if pred_home >= pred_away else away,
+            "predicted_winner": winner, "prediction_source": source,
         })
     return pd.DataFrame(rows)
 
@@ -565,14 +591,16 @@ def decompose_score(points):
 
 def add_realistic_scores(predictions_df, target_min=10, target_max=34):
     """
-    predicted_home_score/predicted_away_score are an abstract comparison
-    number (offense minus opponent defense, both season-long
-    ml_projected_points sums) -- useful for picking a winner, not anything
-    resembling a real final score (values run into the hundreds or more).
-    This rescales them into a realistic NFL point range using the min/max
-    across every predicted score in the DataFrame (so a team's *relative*
-    strength is preserved -- the best predicted offense still lands the
-    highest realistic score), then decomposes each side's realistic score
+    Rows where prediction_source == "vegas" already carry a real point
+    value in predicted_home_score/predicted_away_score (derived from the
+    actual total_line/spread_line in predict_nfl_games) -- those pass
+    through untouched. Everything else (prediction_source == "roster", or
+    no prediction_source column at all) is still the abstract offense-
+    minus-defense comparison number (values run into the hundreds or
+    more), so it gets rescaled into a realistic NFL point range using the
+    min/max across only *that* subset (so a team's relative strength is
+    preserved without vegas rows' real-but-differently-scaled values
+    distorting the rescale, or vice versa). Every row then gets decomposed
     into touchdowns/PATs/2pt conversions/field goals via decompose_score().
 
     Adds, per side (home/away): *_realistic_score and the
@@ -580,15 +608,21 @@ def add_realistic_scores(predictions_df, target_min=10, target_max=34):
     *_missed_extra_points/*_field_goals columns from decompose_score().
     """
     df = predictions_df.copy()
-    all_scores = pd.concat([df["predicted_home_score"], df["predicted_away_score"]])
-    lo, hi = all_scores.min(), all_scores.max()
-    span = hi - lo if hi > lo else 1
+    is_roster = df["prediction_source"] == "roster" if "prediction_source" in df.columns else pd.Series(True, index=df.index)
+
+    roster_scores = pd.concat([df.loc[is_roster, "predicted_home_score"], df.loc[is_roster, "predicted_away_score"]])
+    if len(roster_scores):
+        lo, hi = roster_scores.min(), roster_scores.max()
+        span = hi - lo if hi > lo else 1
 
     def rescale(raw):
         return target_min + (raw - lo) / span * (target_max - target_min)
 
     for side in ("home", "away"):
-        realistic = df[f"predicted_{side}_score"].apply(rescale)
+        raw = df[f"predicted_{side}_score"]
+        realistic = raw.copy()
+        if is_roster.any():
+            realistic.loc[is_roster] = raw.loc[is_roster].apply(rescale)
         df[f"{side}_realistic_score"] = realistic.round().astype(int)
         parts = df[f"{side}_realistic_score"].apply(decompose_score)
         for key in ("touchdowns", "extra_points", "two_point_conversions", "missed_extra_points", "field_goals"):

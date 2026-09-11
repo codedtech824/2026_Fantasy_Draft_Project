@@ -9,39 +9,45 @@
 # MAGIC NFL games (Chiefs @ Broncos, etc.) and grades those predictions against
 # MAGIC actual results, same spirit, separate tables.
 # MAGIC
-# MAGIC It's a simple baseline, not a real point-spread model: predicted score
-# MAGIC for each side is that team's rostered QB/RB/WR/TE `ml_projected_points`
-# MAGIC summed (offense), minus the opponent's D/ST `ml_projected_points`
-# MAGIC (defense) -- both numbers already sitting in the draft board, no new
-# MAGIC modeling. Any player nflverse's weekly injury report has marked "Out"
-# MAGIC for that week is excluded from their team's offense sum first -- a
-# MAGIC benched starter shouldn't count. Validated against the real,
-# MAGIC fully-resolved 2025 season: 59.9% accuracy without the injury filter,
-# MAGIC 61.4% with it (163 -> 167 of 272 games) -- meaningfully better than a
-# MAGIC coin flip, well below what a real spread model would do, exactly what
-# MAGIC you'd expect from a deliberately simple baseline. A flat home-field-
-# MAGIC advantage boost (`HOME_FIELD_BONUS_PCT` in season_simulator.py) is also
-# MAGIC applied to the home team's offense -- honestly, this was backtested
-# MAGIC across bonus sizes from 2% to 10% and never beat the baseline by more
-# MAGIC than 1 game out of 272, so it's here for real-world modeling
-# MAGIC completeness (home-field advantage is real), not because the backtest
-# MAGIC proved it helps this particular model.
+# MAGIC Whenever nfldata.org has a real Vegas line for a game (`spread_line`/
+# MAGIC `total_line` -- posted as kickoff approaches, not months in advance),
+# MAGIC that's what's used: predicted_home_score/predicted_away_score come
+# MAGIC straight from the line (home = (total+spread)/2, away = (total-spread)/2),
+# MAGIC and predicted_winner is whichever side the spread favors. Validated
+# MAGIC against the real, fully-resolved 2025 season at 65.1% accuracy
+# MAGIC (177/272) -- a meaningful jump over building our own model, for data
+# MAGIC that was already sitting in the API response.
+# MAGIC
+# MAGIC For any game without a line posted yet, it falls back to the original
+# MAGIC simple baseline: that team's rostered QB/RB/WR/TE `ml_projected_points`
+# MAGIC summed (offense) minus the opponent's D/ST `ml_projected_points`
+# MAGIC (defense), with nflverse's weekly injury report excluding anyone
+# MAGIC marked "Out" from the offense sum, plus a flat home-field-advantage
+# MAGIC boost (`HOME_FIELD_BONUS_PCT` in season_simulator.py -- backtested as
+# MAGIC roughly accuracy-neutral on its own, kept for real-world modeling
+# MAGIC completeness). That fallback alone scores 61.8% on the 2025 backtest --
+# MAGIC still meaningfully better than a coin flip, just not as good as using
+# MAGIC the real line once one exists. Each row's `prediction_source` column
+# MAGIC says which method produced it ("vegas" or "roster").
 # MAGIC
 # MAGIC Only depends on the draft board (`run_pipeline.py`), not the fantasy
 # MAGIC rosters from `07` -- these are real NFL team predictions, unrelated to
 # MAGIC who drafted which player onto a fantasy roster.
 # MAGIC
-# MAGIC Safe to re-run any time: predictions are static for the season (same
-# MAGIC board every time), the graded/accuracy table always recomputes from
-# MAGIC whatever's actually been played so far.
+# MAGIC Safe to re-run any time: as the season progresses, more games flip from
+# MAGIC "roster" to "vegas" as their lines get posted, and vegas-sourced rows
+# MAGIC pick up line movement on each re-run since the line is refetched fresh
+# MAGIC every time -- so, unlike before, predictions aren't fully static across
+# MAGIC reruns for games without a final result yet. The graded/accuracy table
+# MAGIC always recomputes from whatever's actually been played so far.
 # MAGIC
-# MAGIC `predicted_home_score`/`predicted_away_score` are the raw offense-minus-
-# MAGIC defense proxy (useful for picking a winner, not realistic point totals --
-# MAGIC they run into the hundreds). `*_realistic_score` rescales that into a
-# MAGIC real NFL point range using the min/max across every prediction (so
-# MAGIC relative team strength is preserved), then breaks it into a plausible
-# MAGIC touchdowns/PATs/2pt-conversions/field-goals combination -- one specific
-# MAGIC way a real game could reach that total, not the only way.
+# MAGIC `*_realistic_score` is the real point value directly for vegas-sourced
+# MAGIC rows; for roster-sourced rows it's the offense-minus-defense proxy
+# MAGIC rescaled into a realistic NFL point range (min/max across that subset
+# MAGIC only, so it isn't distorted by vegas rows' different scale). Either
+# MAGIC way it's then broken into a plausible touchdowns/PATs/2pt-conversions/
+# MAGIC field-goals combination -- one specific way a real game could reach
+# MAGIC that total, not the only way.
 
 # COMMAND ----------
 
@@ -90,7 +96,10 @@ else:
 predictions = predict_nfl_games(board, games, injuries_by_week)
 predictions = add_realistic_scores(predictions)
 
-score_cols = ["home_team", "away_team", "predicted_winner",
+source_counts = predictions["prediction_source"].value_counts().to_dict()
+print(f"Prediction source: {source_counts.get('vegas', 0)} game(s) using the real Vegas line, {source_counts.get('roster', 0)} using the roster-based fallback (no line posted yet)")
+
+score_cols = ["home_team", "away_team", "predicted_winner", "prediction_source",
               "home_realistic_score", "home_touchdowns", "home_extra_points",
               "home_two_point_conversions", "home_field_goals",
               "away_realistic_score", "away_touchdowns", "away_extra_points",
@@ -106,7 +115,9 @@ if graded.empty:
 else:
     accuracy = graded["correct"].mean()
     print(f"Accuracy so far: {accuracy:.1%} ({graded['correct'].sum()}/{len(graded)})")
-    compare_cols = ["home_team", "away_team", "home_realistic_score", "away_realistic_score",
+    print("By prediction source:")
+    print(graded.groupby("prediction_source")["correct"].agg(["mean", "sum", "count"]))
+    compare_cols = ["home_team", "away_team", "prediction_source", "home_realistic_score", "away_realistic_score",
                     "actual_home_score", "actual_away_score", "predicted_winner", "actual_winner", "correct"]
     print(graded[compare_cols].to_string(index=False))
 

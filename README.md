@@ -113,16 +113,22 @@ not just an invisible multiplier.
    nothing completed and skips writing rather than create empty tables.
 
 7. `notebooks/10_predict_nfl_games.py` is a different prediction target --
-   real NFL games (Chiefs @ Broncos, etc.), not fantasy matchups. Simple
-   baseline, no new modeling: predicted score is a team's rostered
-   QB/RB/WR/TE `ml_projected_points` summed, minus the opponent's D/ST
-   `ml_projected_points`. Validated at 59.9% accuracy against the real,
-   fully-resolved 2025 season (272 games). Only depends on the draft board
-   (`run_pipeline.py`), not `07`'s fantasy rosters. Produces
-   `nfl_game_predictions_2026` (every game, played or not) and
+   real NFL games (Chiefs @ Broncos, etc.), not fantasy matchups. When a
+   game has a real Vegas line posted (`spread_line`/`total_line`, fills in
+   as kickoff approaches), predictions are derived directly from it --
+   65.1% accuracy against the real, fully-resolved 2025 season (272
+   games). Otherwise falls back to a simple no-new-modeling baseline:
+   predicted score is a team's rostered QB/RB/WR/TE `ml_projected_points`
+   summed, minus the opponent's D/ST `ml_projected_points`, plus a
+   home-field-advantage boost and nflverse's weekly injury report
+   excluding "Out" players -- 61.8% on the same backtest on its own. Each
+   row's `prediction_source` column says which was used. Only depends on
+   the draft board (`run_pipeline.py`), not `07`'s fantasy rosters.
+   Produces `nfl_game_predictions_2026` (every game, played or not) and
    `nfl_game_predictions_graded_2026` (completed games only, with
    accuracy) -- safe to re-run anytime, e.g. on the same schedule as `06`
-   and `09`.
+   and `09`; more games flip from the fallback to the real Vegas line as
+   their kickoff approaches.
 
 ## Running locally
 
