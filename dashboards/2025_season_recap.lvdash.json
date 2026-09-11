@@ -1,0 +1,318 @@
+{
+  "datasets": [
+    {
+      "name": "ds_standings",
+      "displayName": "Final Standings",
+      "query": "SELECT team, wins, losses, ties, ROUND(points_for, 1) AS points_for, ROUND(points_against, 1) AS points_against, ROUND(points_for - points_against, 1) AS point_diff FROM nfl_prediction_engine.fantasy_standings_2025 ORDER BY wins DESC, points_for DESC"
+    },
+    {
+      "name": "ds_wins_by_team",
+      "displayName": "Wins by Team",
+      "query": "SELECT team, wins, losses FROM nfl_prediction_engine.fantasy_standings_2025 ORDER BY wins DESC"
+    },
+    {
+      "name": "ds_weekly_trend",
+      "displayName": "Weekly Points Trend",
+      "query": "SELECT team, week, points_for FROM nfl_prediction_engine.fantasy_season_2025 WHERE result != 'BYE' ORDER BY team, week"
+    },
+    {
+      "name": "ds_accuracy_counter",
+      "displayName": "Matchup Prediction Accuracy",
+      "query": "SELECT ROUND(100.0 * SUM(CASE WHEN correct THEN 1 ELSE 0 END) / COUNT(*), 1) AS accuracy_pct, SUM(CASE WHEN correct THEN 1 ELSE 0 END) AS correct_predictions, COUNT(*) AS total_predictions FROM nfl_prediction_engine.fantasy_predictions_2025"
+    },
+    {
+      "name": "ds_accuracy_by_week",
+      "displayName": "Accuracy by Week",
+      "query": "SELECT week, ROUND(100.0 * SUM(CASE WHEN correct THEN 1 ELSE 0 END) / COUNT(*), 1) AS accuracy_pct, COUNT(*) AS games FROM nfl_prediction_engine.fantasy_predictions_2025 GROUP BY week ORDER BY week"
+    },
+    {
+      "name": "ds_matchup_detail",
+      "displayName": "Predicted vs Actual Matchup Detail",
+      "query": "SELECT team, week, opponent, ROUND(predicted_points_for, 1) AS predicted_points_for, ROUND(actual_points_for, 1) AS actual_points_for, predicted_result, actual_result, correct FROM nfl_prediction_engine.fantasy_predictions_2025 ORDER BY week, team"
+    },
+    {
+      "name": "ds_bracket",
+      "displayName": "Playoff Bracket",
+      "query": "SELECT scenario, round, week, team_a, ROUND(score_a, 1) AS score_a, team_b, ROUND(score_b, 1) AS score_b, winner FROM nfl_prediction_engine.fantasy_bracket_2025 ORDER BY scenario, CASE round WHEN 'Round 1' THEN 1 WHEN 'Semifinal' THEN 2 WHEN 'Championship' THEN 3 END"
+    },
+    {
+      "name": "ds_champion",
+      "displayName": "Predicted vs Actual Champion",
+      "query": "SELECT scenario, winner AS champion FROM nfl_prediction_engine.fantasy_bracket_2025 WHERE round = 'Championship'"
+    }
+  ],
+  "pages": [
+    {
+      "name": "page_2025_recap",
+      "displayName": "2025 Season Recap",
+      "layout": [
+        {
+          "widget": {
+            "name": "widget_standings",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "ds_standings",
+                  "fields": [
+                    {"name": "team", "expression": "`team`"},
+                    {"name": "wins", "expression": "`wins`"},
+                    {"name": "losses", "expression": "`losses`"},
+                    {"name": "ties", "expression": "`ties`"},
+                    {"name": "points_for", "expression": "`points_for`"},
+                    {"name": "points_against", "expression": "`points_against`"},
+                    {"name": "point_diff", "expression": "`point_diff`"}
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "widgetType": "table",
+              "encodings": {
+                "columns": [
+                  {"fieldName": "team", "title": "Team", "type": "string"},
+                  {"fieldName": "wins", "title": "Wins", "type": "integer"},
+                  {"fieldName": "losses", "title": "Losses", "type": "integer"},
+                  {"fieldName": "ties", "title": "Ties", "type": "integer"},
+                  {"fieldName": "points_for", "title": "Points For", "type": "float"},
+                  {"fieldName": "points_against", "title": "Points Against", "type": "float"},
+                  {"fieldName": "point_diff", "title": "Point Diff", "type": "float"}
+                ]
+              },
+              "frame": {"title": "Final Standings", "showTitle": true}
+            }
+          },
+          "position": {"x": 0, "y": 0, "width": 3, "height": 6}
+        },
+        {
+          "widget": {
+            "name": "widget_wins_by_team",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "ds_wins_by_team",
+                  "fields": [
+                    {"name": "team", "expression": "`team`"},
+                    {"name": "wins", "expression": "`wins`"}
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "widgetType": "bar",
+              "encodings": {
+                "x": {"fieldName": "team", "scale": {"type": "categorical"}, "displayName": "Team"},
+                "y": {"fieldName": "wins", "scale": {"type": "quantitative"}, "displayName": "Wins"}
+              },
+              "frame": {"title": "Wins by Team", "showTitle": true}
+            }
+          },
+          "position": {"x": 3, "y": 0, "width": 3, "height": 6}
+        },
+        {
+          "widget": {
+            "name": "widget_weekly_trend",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "ds_weekly_trend",
+                  "fields": [
+                    {"name": "team", "expression": "`team`"},
+                    {"name": "week", "expression": "`week`"},
+                    {"name": "points_for", "expression": "`points_for`"}
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "widgetType": "line",
+              "encodings": {
+                "x": {"fieldName": "week", "scale": {"type": "quantitative"}, "displayName": "Week"},
+                "y": {"fieldName": "points_for", "scale": {"type": "quantitative"}, "displayName": "Points For"},
+                "color": {"fieldName": "team", "scale": {"type": "categorical"}, "displayName": "Team"}
+              },
+              "frame": {"title": "Weekly Points Trend", "showTitle": true}
+            }
+          },
+          "position": {"x": 0, "y": 6, "width": 6, "height": 6}
+        },
+        {
+          "widget": {
+            "name": "widget_accuracy_counter",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "ds_accuracy_counter",
+                  "fields": [
+                    {"name": "accuracy_pct", "expression": "`accuracy_pct`"}
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "widgetType": "counter",
+              "encodings": {
+                "value": {"fieldName": "accuracy_pct", "displayName": "Matchup Prediction Accuracy (%)"}
+              },
+              "frame": {"title": "Matchup Prediction Accuracy", "showTitle": true}
+            }
+          },
+          "position": {"x": 6, "y": 0, "width": 2, "height": 3}
+        },
+        {
+          "widget": {
+            "name": "widget_champion",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "ds_champion",
+                  "fields": [
+                    {"name": "scenario", "expression": "`scenario`"},
+                    {"name": "champion", "expression": "`champion`"}
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "widgetType": "table",
+              "encodings": {
+                "columns": [
+                  {"fieldName": "scenario", "title": "Scenario", "type": "string"},
+                  {"fieldName": "champion", "title": "Champion", "type": "string"}
+                ]
+              },
+              "frame": {"title": "Predicted vs Actual Champion", "showTitle": true}
+            }
+          },
+          "position": {"x": 6, "y": 3, "width": 2, "height": 3}
+        },
+        {
+          "widget": {
+            "name": "widget_accuracy_by_week",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "ds_accuracy_by_week",
+                  "fields": [
+                    {"name": "week", "expression": "`week`"},
+                    {"name": "accuracy_pct", "expression": "`accuracy_pct`"}
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "widgetType": "bar",
+              "encodings": {
+                "x": {"fieldName": "week", "scale": {"type": "categorical"}, "displayName": "Week"},
+                "y": {"fieldName": "accuracy_pct", "scale": {"type": "quantitative"}, "displayName": "Accuracy %"}
+              },
+              "frame": {"title": "Prediction Accuracy by Week", "showTitle": true}
+            }
+          },
+          "position": {"x": 0, "y": 12, "width": 4, "height": 6}
+        },
+        {
+          "widget": {
+            "name": "widget_matchup_detail",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "ds_matchup_detail",
+                  "fields": [
+                    {"name": "team", "expression": "`team`"},
+                    {"name": "week", "expression": "`week`"},
+                    {"name": "opponent", "expression": "`opponent`"},
+                    {"name": "predicted_points_for", "expression": "`predicted_points_for`"},
+                    {"name": "actual_points_for", "expression": "`actual_points_for`"},
+                    {"name": "predicted_result", "expression": "`predicted_result`"},
+                    {"name": "actual_result", "expression": "`actual_result`"},
+                    {"name": "correct", "expression": "`correct`"}
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "widgetType": "table",
+              "encodings": {
+                "columns": [
+                  {"fieldName": "team", "title": "Team", "type": "string"},
+                  {"fieldName": "week", "title": "Week", "type": "integer"},
+                  {"fieldName": "opponent", "title": "Opponent", "type": "string"},
+                  {"fieldName": "predicted_points_for", "title": "Predicted Points", "type": "float"},
+                  {"fieldName": "actual_points_for", "title": "Actual Points", "type": "float"},
+                  {"fieldName": "predicted_result", "title": "Predicted Result", "type": "string"},
+                  {"fieldName": "actual_result", "title": "Actual Result", "type": "string"},
+                  {"fieldName": "correct", "title": "Correct", "type": "boolean"}
+                ]
+              },
+              "frame": {"title": "Predicted vs Actual Matchup Detail", "showTitle": true}
+            }
+          },
+          "position": {"x": 4, "y": 12, "width": 4, "height": 8}
+        },
+        {
+          "widget": {
+            "name": "widget_bracket",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "ds_bracket",
+                  "fields": [
+                    {"name": "scenario", "expression": "`scenario`"},
+                    {"name": "round", "expression": "`round`"},
+                    {"name": "week", "expression": "`week`"},
+                    {"name": "team_a", "expression": "`team_a`"},
+                    {"name": "score_a", "expression": "`score_a`"},
+                    {"name": "team_b", "expression": "`team_b`"},
+                    {"name": "score_b", "expression": "`score_b`"},
+                    {"name": "winner", "expression": "`winner`"}
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "widgetType": "table",
+              "encodings": {
+                "columns": [
+                  {"fieldName": "scenario", "title": "Scenario", "type": "string"},
+                  {"fieldName": "round", "title": "Round", "type": "string"},
+                  {"fieldName": "week", "title": "Week", "type": "integer"},
+                  {"fieldName": "team_a", "title": "Team A", "type": "string"},
+                  {"fieldName": "score_a", "title": "Score A", "type": "float"},
+                  {"fieldName": "team_b", "title": "Team B", "type": "string"},
+                  {"fieldName": "score_b", "title": "Score B", "type": "float"},
+                  {"fieldName": "winner", "title": "Winner", "type": "string"}
+                ]
+              },
+              "frame": {"title": "Playoff Bracket: Predicted vs Actual", "showTitle": true}
+            }
+          },
+          "position": {"x": 0, "y": 20, "width": 8, "height": 8}
+        }
+      ]
+    }
+  ]
+}
